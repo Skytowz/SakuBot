@@ -11,17 +11,6 @@
   },
   "author": "Skytowz",
   "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Skytowz/NotifOnePiece.git"
-  },
-  "keywords": [
-    "heroku"
-  ],
-  "bugs": {
-    "url": "https://github.com/Skytowz/NotifOnePiece/issues"
-  },
-  "homepage": "https://github.com/Skytowz/NotifOnePiece#readme",
   "dependencies": {
     "discord-api-types": "^0.23.1",
     "discord.js": "^13.2.0",
