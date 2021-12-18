@@ -1,0 +1,11 @@
+const Discord = require("discord.js");
+module.exports.run = async(client, message, args) =>{        
+     
+    await message.channel.send("yo")
+
+};
+module.exports.help = {
+    name:"name",
+    cmd:";name",
+    help:"aide moi"
+}
