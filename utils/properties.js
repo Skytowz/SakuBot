@@ -1,1 +1,1 @@
-module.exports.prefix = "&";
+module.exports.prefix = ".";
