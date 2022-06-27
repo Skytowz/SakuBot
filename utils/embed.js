@@ -7,6 +7,7 @@ module.exports = class Embed{
     fields=[];
     thumbnail;
     footer;
+    image;
 
     setTitle(title){
         this.title=title;
@@ -35,6 +36,15 @@ module.exports = class Embed{
 
     setFooter(text){
         this.footer = {text:text};
+        return this;
+    }
+
+    setImage(url,height = 100,width = 100){
+        this.image = {
+            url:url,
+            height:height,
+            width:width
+        };
         return this;
     }
 
