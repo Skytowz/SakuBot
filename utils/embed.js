@@ -8,6 +8,7 @@ module.exports = class Embed{
     thumbnail;
     footer;
     image;
+    author;
 
     setTitle(title){
         this.title=title;
@@ -45,6 +46,22 @@ module.exports = class Embed{
             height:height,
             width:width
         };
+        return this;
+    }
+    setVideo(url,height = 100,width = 100){
+        this.video = {
+            url:url,
+            height:height,
+            width:width
+        };
+        return this;
+    }
+
+    setAuthor(user){
+        this.author = {
+            name: user.username,
+            iconURL: user.avatarURL(),
+        }
         return this;
     }
 
