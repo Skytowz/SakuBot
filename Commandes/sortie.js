@@ -6,6 +6,6 @@ module.exports.run = async(client, message, args) =>{
 };
 module.exports.help = {
     name:"sortie",
-    cmd:"> sortie",
-    help:"Dis quand sort le prochain chapitre de Kaguya"
+    cmd:"sortie",
+    help:"> Dis quand sort le prochain chapitre de Kaguya"
 }
