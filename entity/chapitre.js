@@ -15,7 +15,7 @@ module.exports = class Chapitre{
         this.titre = titre;
         this.nbPages = nbPages;
         this.hash = hash;
-        this.url = "https://mangadex.org/chapter/"+idChap;
+        this.url = `https://mangadex.org/chapter/${idChap}`;
     }
 
     getEmbedList(){
@@ -23,7 +23,7 @@ module.exports = class Chapitre{
             return new Embed()
                 .setImage(`https://uploads.mangadex.org/data-saver/${this.hash}/${element}`)
                 .setTitle(this.titre)
-                .setDescription(`[Lien](${this.url}) | Ch: ${this.numero} | ${index+1}/${this.nbPages}`)
+                .setDescription(`[Lien](${this.url}/${index+1}) | Ch: ${this.numero} | ${index+1}/${this.nbPages}`)
                 .setColor("RED");
         });
         return new embedList(embeds,embeds.length,0);
