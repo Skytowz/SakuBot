@@ -21,7 +21,7 @@ module.exports = class Chapitre{
     getEmbedList(){
         const embeds = this.pages.map((element,index) => {
             return new Embed()
-                .setImage(`https://uploads.mangadex.org/data/${this.hash}/${element}`)
+                .setImage(`https://uploads.mangadex.org/data-saver/${this.hash}/${element}`)
                 .setTitle(this.titre)
                 .setDescription(`[Lien](${this.url}) | Ch: ${this.numero} | ${index+1}/${this.nbPages}`)
                 .setColor("RED");
