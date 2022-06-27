@@ -24,7 +24,6 @@ module.exports.run = async(client, message, args) =>{
         const interact = msg.createMessageComponentCollector({time:180000});
 
         interact.on("collect",async i =>{
-            console.log(i);
             if(i.customId === "before"){
                 embedList.left(i);
             }else if(i.customId === "next"){
