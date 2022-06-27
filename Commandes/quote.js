@@ -2,7 +2,10 @@ const { getDateFromTimeStamp } = require("../utils/dateUtils");
 const Embed = require("../utils/embed");
 
 module.exports.run = async(client, message, args) =>{
-    if(args.length != 2 || !args[1].includes("-") || args[1].split(/-/).length > 2) return message.channel.send("Erreur, veuillez donnez l'id sous la forme <id-channel>-<id-message>")      
+    if(args.length != 2) return message.channel.send("Erreur, veuillez donnez l'id sous la forme <id-channel>-<id-message>");
+    if(!args[1].includes("-")){
+        args[1] = message.channel.id+"-"+args[1];
+    } else if (args[1].split(/-/).length > 2) return message.channel.send("Erreur, veuillez donnez l'id sous la forme <id-channel>-<id-message>");
     const ids =  args[1].split(/-/);
     const channel = await client.channels.fetch(ids[0]).catch(() => "ERROR");
     if(channel == "ERROR") return message.channel.send("Channel innexistant")
@@ -22,6 +25,6 @@ module.exports.run = async(client, message, args) =>{
 module.exports.help = {
     name:"q",
     help:"> Renvoie le contenu d'un message",
-    cmd:"q <id-channel>-<id-message>",
+    cmd:"q [<id-channel>-]<id-message>",
     commandeReste: true,
 }
