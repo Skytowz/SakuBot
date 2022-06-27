@@ -1,10 +1,15 @@
-const { Client, Intents, Collection } = require('discord.js');
-const client = new Client({ intents: ["GUILDS","DIRECT_MESSAGES","GUILD_MESSAGES"]});
+const { Client, Collection } = require('discord.js');
+const fs = require('fs');
 require('dotenv').config();
 
-client.login(process.env.TOKEN);
+const client = new Client({ intents: ["GUILDS","DIRECT_MESSAGES","GUILD_MESSAGES","GUILD_EMOJIS_AND_STICKERS","GUILD_MESSAGE_REACTIONS"]});
 
-const fs = require('fs');
+
+if(process.env.ENV == "DEV"){
+    client.login(process.env.TOKEN_DEV);
+}else if(process.env.ENV == "PROD"){
+    client.login(process.env.TOKEN);
+}
 
 client.commands = new Collection();
 
@@ -29,7 +34,8 @@ fs.readdir("./Events/", (error, f) => {
     f.forEach((f) =>{
         const events = require(`./Events/${f}`);
         const event = f.split(".")[0];
-        client.on(event, events.bind(null, client));
+
+    client.on(event, events.bind(null, client));
     })
 })
 
