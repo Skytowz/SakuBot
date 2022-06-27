@@ -12,7 +12,7 @@ module.exports = async(client, message) => {
     
     if(!cmd) return;
 
-    message.delete();
+    if(!commandeReste) message.delete();
     cmd.run(client, message, args);
 };
 
