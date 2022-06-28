@@ -4,6 +4,9 @@ require('dotenv').config();
 
 const client = new Client({ intents: ["GUILDS","DIRECT_MESSAGES","GUILD_MESSAGES","GUILD_EMOJIS_AND_STICKERS","GUILD_MESSAGE_REACTIONS"]});
 
+Array.prototype.sample = function(){
+    return this[Math.floor(Math.random()*this.length)];
+}
 
 if(process.env.ENV == "DEV"){
     client.login(process.env.TOKEN_DEV);
