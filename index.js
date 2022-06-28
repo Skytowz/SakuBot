@@ -22,8 +22,9 @@ fs.readdir("./Commandes/",(error,f) => {
     commandes.forEach((f) => {
         let commande = require(`./Commandes/${f}`);
         console.log(`${f} commandes chargée`);
-
-    client.commands.set(commande.help.name, commande);
+        
+        if(typeof commande.help.name == "object") commande.help.name.forEach((name) => client.commands.set(name,commande));
+        else client.commands.set(commande.help.name, commande);
     });
 });
 

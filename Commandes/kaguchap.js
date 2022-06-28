@@ -12,11 +12,15 @@ module.exports.run = async(client, message, args) =>{
         new MessageButton()
             .setCustomId('before')
             .setLabel("<")
-            .setStyle("PRIMARY"),
+            .setStyle("SECONDARY"),
         new MessageButton()
             .setCustomId("next")
             .setLabel(">")
-            .setStyle("PRIMARY"),
+            .setStyle("SECONDARY"),
+        new MessageButton()
+            .setCustomId("lock")
+            .setLabel("🔒")
+            .setStyle("SECONDARY"),
     )
     const msg = await message.channel.send({embeds:[embedList.get()],components:[row]});
 
@@ -28,6 +32,8 @@ module.exports.run = async(client, message, args) =>{
                 embedList.left(i);
             }else if(i.customId === "next"){
                 embedList.right(i);
+            }else if(i.customId === "lock"){
+                interact.stop();
             }
         })
 
@@ -37,8 +43,8 @@ module.exports.run = async(client, message, args) =>{
     }
 };
 module.exports.help = {
-    name:"kaguchap",
+    name:["kaguchap","kc","kchap"],
     help:"> Affiche une page d'un chapitre de Kaguya Sama",
-    cmd:"kaguchap <chap> [page]",
+    cmd:"kaguchap/kc/kchap <chap> [page]",
     commandeReste : true,
 }

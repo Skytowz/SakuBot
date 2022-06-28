@@ -23,8 +23,8 @@ module.exports.run = async(client, message, args) =>{
 
 };
 module.exports.help = {
-    name:"q",
+    name:["quote","q"],
     help:"> Renvoie le contenu d'un message",
-    cmd:"q [<id-channel>-]<id-message>",
+    cmd:"q/quote [<id-channel>-]<id-message>",
     commandeReste: true,
 }
