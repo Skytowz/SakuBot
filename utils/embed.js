@@ -95,9 +95,10 @@ module.exports = class Embed{
             }
             return json;
         },{});
+        console.log(props.cover)
         const embed =  new Embed()
         .setTitle(props.infos[1])
-        .setThumbnail('https://www.nautiljon.com'+props.cover)
+        .setThumbnail('https://www.nautiljon.com'+props.cover[1])
         .addField("Name",`[${props.infos[2]}](${link})`);
         if(datas.Auteur) embed.addField("Auteur",datas.Auteur);
         if(datas.Origine && props.infos == "Mangas") embed.addField("Origine",datas.Origine);

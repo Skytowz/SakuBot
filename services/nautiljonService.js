@@ -4,8 +4,8 @@ const Embed = require("../utils/embed");
 module.exports.getNautiljonPageEmbed = async (username,link) => {
     let embed;
     await htmlToJson.request(link, {
-        'cover': ['.image_fiche a', ($img) => {
-            return $img.attr('href');
+        'cover': ['.image_fiche a img', ($img) => {
+            return $img.attr('src');
         }],
         'infos':['#crumbs li a', ($res) => {
             return $res.attr("title");
