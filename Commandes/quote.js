@@ -24,7 +24,11 @@ module.exports.run = async(client, message, args) =>{
         if(msg == "ERROR") return message.channel.send({embeds:[embed]});
         msg.reply({embeds:[embed],allowedMentions:{repliedUser: false}});
     }else{
-        message.channel.send({embeds:[embed]})
+        const embeds = [embed];
+        if(messageFetch.embeds && messageFetch.embeds.length > 0 && !(messageFetch.author.bot && messageFetch.embeds[0].title == null)){
+            embeds.push(...messageFetch.embeds);
+        }
+        message.channel.send({embeds:embeds})
     }
 
 };
