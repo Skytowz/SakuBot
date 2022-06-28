@@ -98,7 +98,7 @@ module.exports = class Embed{
         const embed =  new Embed()
         .setTitle(props.infos[1])
         .setThumbnail('https://www.nautiljon.com'+props.cover[1])
-        .addField("Name",`[${props.infos[2]}](${link})`);
+        .addField("Nom",`[${props.infos[2]}](${link})`);
         if(datas.Auteur) embed.addField("Auteur",datas.Auteur);
         if(datas.Origine && props.infos == "Mangas") embed.addField("Origine",datas.Origine);
         if(otherData[0]){

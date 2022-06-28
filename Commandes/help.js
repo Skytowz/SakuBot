@@ -12,7 +12,7 @@ module.exports.run = async(client, message, args) =>{
         fun.forEach(v => {
             const commande = require(`./${v}`);
             if(!commande.help.noHelp && (!commande.help.server || commande.help.server == message.guildId)  ){
-                help.addField(prefix+commande.help.cmd,commande.help.help);
+                help.addField(prefix+commande.help.cmd,commande.help.help+".");
             }
         })
         message.channel.send({embeds:[help]});

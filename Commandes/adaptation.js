@@ -5,7 +5,7 @@ module.exports.run = async(client, message, args) =>{
 };
 module.exports.help = {
     name:"adaptation",
-    help:"> Envoie le fichier excel des chapitres adapté en anime",
+    help:"> Envoie le fichier excel des chapitres adaptés en anime",
     cmd:"adaptation",
     commandeReste:true
 }

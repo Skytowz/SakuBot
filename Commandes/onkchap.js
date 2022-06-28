@@ -46,7 +46,7 @@ module.exports.run = async(client, message, args) =>{
 };
 module.exports.help = {
     name:["onkchap","oc","oshichap"],
-    help:"> Affiche une page d'un chapitre de Oshi no Ko",
+    help:"> Affiche une page d'un chapitre d'Oshi no Ko",
     cmd:"onkchap/oc/oshichap <chap> [page]",
     commandeReste : true,
 }

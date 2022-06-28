@@ -47,7 +47,7 @@ module.exports.run = async(client, message, args) =>{
 };
 module.exports.help = {
     name:["kaguchap","kc","kchap"],
-    help:"> Affiche une page d'un chapitre de Kaguya Sama",
+    help:"> Affiche une page d'un chapitre de Kaguya-sama",
     cmd:"kaguchap/kc/kchap <chap> [page]",
     commandeReste : true,
 }

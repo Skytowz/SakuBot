@@ -47,7 +47,7 @@ module.exports.run = async(client, message, args) =>{
 };
 module.exports.help = {
     name:["crocochap","cc"],
-    help:"> Affiche une page d'un chapitre de Kaguya Sama",
+    help:"> Affiche une page d'un chapitre de Croco",
     cmd:"crocochap/cc <chap> [page]",
     commandeReste : true,
 }
