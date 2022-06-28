@@ -24,7 +24,7 @@ module.exports = class Chapitre{
                 .setImage(`https://uploads.mangadex.org/data-saver/${this.hash}/${element}`)
                 .setTitle(this.titre)
                 .setDescription(`[Lien](${this.url}/${index+1}) | Ch: ${this.numero} | ${index+1}/${this.nbPages}`)
-                .setColor("RED");
+                .setColor("BLACK");
         });
         return new embedList(embeds,embeds.length,0);
     }
