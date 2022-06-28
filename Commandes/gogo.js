@@ -7,7 +7,7 @@ const quote = [
 ]
 module.exports.run = async(client, message, args) =>{     
 
-    await message.channel.send(message.member.displayName+'\n'+quote.sample());
+    await message.channel.send({content:message.member.displayName,files:[quote.sample()]});
 
 };
 module.exports.help = {
