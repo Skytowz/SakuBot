@@ -95,7 +95,6 @@ module.exports = class Embed{
             }
             return json;
         },{});
-        console.log(props.cover)
         const embed =  new Embed()
         .setTitle(props.infos[1])
         .setThumbnail('https://www.nautiljon.com'+props.cover[1])
