@@ -16,5 +16,6 @@ module.exports.run = async(client, message, args) =>{
 module.exports.help = {
     name:"ask",
     cmd:'ask [question]',
-    help:"> Répond à une question"
+    help:"> Répond à une question",
+    commandeReste:true
 }
