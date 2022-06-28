@@ -8,6 +8,7 @@ module.exports.run = async(client, message, args) =>{
     if(typeof chapitre == "string") return message.channel.send(chapitre);
     const embedList = chapitre.getEmbedList();
     if(numero && numero!="" && !Number.isNaN(numero) && numero <= chapitre.nbPages && numero>0) embedList.index = numero-1;
+    const content = {embeds:[embedList.get()]};
     if(chapitre.nbPages > 1){
         const row =new MessageActionRow().addComponents(
             new MessageButton()
