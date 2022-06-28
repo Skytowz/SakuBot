@@ -6,22 +6,22 @@ module.exports = class Chapitre{
     numero;
     titre;
     nbPages;
-    hash;
+    baseImage;
     url;
 
-    constructor(page,numero,titre,nbPages,hash,idChap){
+    constructor(page,numero,titre,nbPages,baseImage,url){
         this.pages = page;
         this.numero = numero;
         this.titre = titre;
         this.nbPages = nbPages;
-        this.hash = hash;
-        this.url = `https://mangadex.org/chapter/${idChap}`;
+        this.baseImage = baseImage;
+        this.url = url;
     }
 
     getEmbedList(){
         const embeds = this.pages.map((element,index) => {
             return new Embed()
-                .setImage(`https://uploads.mangadex.org/data-saver/${this.hash}/${element}`)
+                .setImage(this.baseImage(element))
                 .setTitle(this.titre)
                 .setDescription(`[Lien](${this.url}/${index+1}) | Ch: ${this.numero} | ${index+1}/${this.nbPages}`)
                 .setColor("BLACK");

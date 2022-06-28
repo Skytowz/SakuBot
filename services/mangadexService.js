@@ -10,5 +10,5 @@ module.exports.getChapitre = async (manga,numero) => {
 
 module.exports.getChapitreById = async (chapitre) => {
     const data = await axios.get(`https://api.mangadex.org/at-home/server/${chapitre.id}/`).then(res => res.data.chapter);
-    return new Chapitre(data.dataSaver,chapitre.attributes.chapter,chapitre.attributes.title,chapitre.attributes.pages,data.hash,chapitre.id);
+    return new Chapitre(data.dataSaver,chapitre.attributes.chapter,chapitre.attributes.title,chapitre.attributes.pages,(num)=>`https://uploads.mangadex.org/data-saver/${data.hash}/${num}`,`https://mangadex.org/chapter/${chapitre.id}`);
 }
