@@ -10,7 +10,7 @@ const quote = [
 ]
 module.exports.run = async(client, message, args) =>{        
      
-    await message.channel.send(quote.sample());
+    await message.reply({content:quote.sample(),allowedMentions:{repliedUser: false}});
 
 };
 module.exports.help = {

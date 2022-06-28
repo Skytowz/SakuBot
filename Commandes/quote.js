@@ -19,7 +19,13 @@ module.exports.run = async(client, message, args) =>{
     if(messageFetch.attachments.size != 0){
         if(messageFetch.attachments.first().contentType.startsWith("image")) embed.setImage(messageFetch.attachments.first().proxyURL);
     }
-    await message.channel.send({embeds:[embed]})
+    if(message.type == "REPLY"){
+        const msg = await channel.messages.fetch(message.reference.messageId).catch("ERROR");
+        if(msg == "ERROR") return message.channel.send({embeds:[embed]});
+        msg.reply({embeds:[embed],allowedMentions:{repliedUser: false}});
+    }else{
+        message.channel.send({embeds:[embed]})
+    }
 
 };
 module.exports.help = {
