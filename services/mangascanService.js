@@ -12,7 +12,7 @@ module.exports.getChapitre = async (manga,numero) => {
             console.error(err);
             res =  "Il y a eu problème";
         }else if(result.pages.length == 0) res = "Numéro de chapitre invalide";
-        else res = new Chapitre(result.pages,numero,`Chapitre N°${numero}`,result.pages.length,(num) => `https://scansmangas.ws/scans/${manga}/${numero}/${num}.jpg`,`https://mangascan.cc/manga/${manga}/manga/${numero}`);
+        else res = new Chapitre(result.pages,numero,`Chapitre N°${numero}`,result.pages.length,(num) => `https://scansmangas.ws/scans/${manga}/${numero}/${num}.jpg`,`https://mangascan.cc/manga/${manga}/${numero}`);
     });
     return res;
 }
