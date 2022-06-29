@@ -8,15 +8,15 @@ Array.prototype.sample = function(){
     return this[Math.floor(Math.random()*this.length)];
 }
 
+client.on("rateLimit", data => {
+    if (data.timeout > 1000) process.kill(1)
+  })
+
 if(process.env.ENV == "DEV"){
     client.login(process.env.TOKEN_DEV);
 }else if(process.env.ENV == "PROD"){
     client.login(process.env.TOKEN);
 }
-
-client.on("rateLimit", data => {
-    if (data.timeout > 1000) process.kill(1)
-  })
 
 client.commands = new Collection();
 
