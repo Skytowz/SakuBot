@@ -14,6 +14,10 @@ if(process.env.ENV == "DEV"){
     client.login(process.env.TOKEN);
 }
 
+client.on("rateLimit", data => {
+    if (data.timeout > 1000) process.kill(1)
+  })
+
 client.commands = new Collection();
 
 fs.readdir("./Commandes/",(error,f) => {
