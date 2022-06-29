@@ -1,7 +1,7 @@
 const { getChapitre } = require("../services/mangascanService");
 const { send } = require("../utils/mangaUtils");
 module.exports.run = async(client, message, args) =>{        
-    send(message,args,"296cbc31-af1a-4b5b-a34b-fee2b4cad542","oshi-no-ko");
+    send(message,args,"296cbc31-af1a-4b5b-a34b-fee2b4cad542","oshi-no-ko",true);
 };
 module.exports.help = {
     name:["onkchap","oc","oshichap"],

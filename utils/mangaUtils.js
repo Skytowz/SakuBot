@@ -10,7 +10,7 @@ const { getChapitre:getChapitreMangaScan } = require("../services/mangascanServi
  * @param {string} [slug] 
  * @returns 
  */
-module.exports.send = async (message,args,research,slug) => {
+module.exports.send = async (message,args,research,slug,blueSoloEd) => {
     const [chap,numero] = [args[1],args[3]];
     if(!chap || chap == "" || Number.isNaN(chap)) return message.channel.send("Veuillez rentrer un numéro de chapitre valide");
     let chapitre = await getChapitre(research,chap);
@@ -19,8 +19,8 @@ module.exports.send = async (message,args,research,slug) => {
             chapitre = await getChapitreMangaScan(slug,chap);
             if(typeof chapitre == "string") return message.channel.send(chapitre);
         }else return message.channel.send(chapitre);
-    } 
-    const embedList = chapitre.getEmbedList();
+    }else blueSoloEd = false; 
+    const embedList = chapitre.getEmbedList(blueSoloEd);
     if(numero && numero!="" && !Number.isNaN(numero) && numero <= chapitre.nbPages && numero>0) embedList.index = numero-1;
     const content = {embeds:[embedList.get()]};
     if(chapitre.nbPages > 1){
