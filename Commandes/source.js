@@ -1,7 +1,8 @@
 const Discord = require("discord.js");
+const { send } = require("../utils/messageUtils");
 module.exports.run = async(client, message, args) =>{        
      
-    await message.channel.send("https://github.com/Skytowz/SakuBot")
+    await send(message,"https://github.com/Skytowz/SakuBot");
 
 };
 module.exports.help = {

@@ -1,6 +1,8 @@
+const { send } = require("../utils/messageUtils");
+
 module.exports.run = async(client, message, args) =>{        
      
-    await message.channel.send("https://docs.google.com/spreadsheets/d/1AmXILgVd1BFfOfxQn8OJrgMQCzWbBMBRQoD9o_OHTNw")
+    await send(message,"https://docs.google.com/spreadsheets/d/1AmXILgVd1BFfOfxQn8OJrgMQCzWbBMBRQoD9o_OHTNw")
 
 };
 module.exports.help = {

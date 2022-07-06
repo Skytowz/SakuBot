@@ -1,7 +1,8 @@
 const Discord = require("discord.js");
+const { send } = require("../utils/messageUtils");
 module.exports.run = async(client, message, args) =>{        
      
-    await message.channel.send("Le prochain chapitre sortira entre vendredi et samedi")
+    await send(message,"Le prochain chapitre sortira entre vendredi et samedi")
 
 };
 module.exports.help = {
