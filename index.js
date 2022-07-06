@@ -1,6 +1,15 @@
 const { Client, Collection } = require('discord.js');
+const nodemailer = require('nodemailer');
 const fs = require('fs');
 require('dotenv').config();
+
+const  transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'skytowz359@gmail.com',
+    pass: process.env.PASSWORD
+  }
+});
 
 const client = new Client({ intents: ["GUILDS","DIRECT_MESSAGES","GUILD_MESSAGES","GUILD_EMOJIS_AND_STICKERS","GUILD_MESSAGE_REACTIONS"]});
 
@@ -9,14 +18,31 @@ Array.prototype.sample = function(){
 }
 
 client.on("rateLimit", data => {
-    if (data.timeout > 1000) process.kill(1)
+    if (data.timeout > 10000){
+			const  mailOptions = {
+			  from: 'skytowz359@gmail.com',
+			  to: 'lucashottin359@gmail.com',
+			  subject: 'Rate Limite Atteinte',
+			  text: 'ATTENTION LA RATE LIMITE EST ATTEINTE'
+			};
+			transporter.sendMail(mailOptions, (error, info) => {
+			  if (error) {
+			    console.log(error);
+			  } else {
+			    console.log('Email sent: ' + info.response);
+			  }
+			});
+			process.kill(1)
+		}
   })
+
 
 if(process.env.ENV == "DEV"){
     client.login(process.env.TOKEN_DEV);
 }else if(process.env.ENV == "PROD"){
     client.login(process.env.TOKEN);
 }
+
 
 client.commands = new Collection();
 
@@ -46,6 +72,8 @@ fs.readdir("./Events/", (error, f) => {
     client.on(event, events.bind(null, client));
     })
 })
+
+
 
 var http = require('http');  
 http.createServer(function (req, res) {   
