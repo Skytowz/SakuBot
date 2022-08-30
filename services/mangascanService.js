@@ -1,17 +1,21 @@
+const got = require("got");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 const Chapitre = require("../entity/chapitre");
 
 module.exports.getChapitre = async (manga,numero) => {
     let res;
-    // await htmlToJson.request(`https://mangascan.cc/manga/${manga}/${numero}`, {
-    //     'pages': ['#page-list option', ($numero) => {
-    //         return $numero.attr('value');
-    //     }]
-    // }, (err,result) => {
-    //     if(err){
-    //         console.error(err);
-    //         res =  "Il y a eu problème";
-    //     }else if(result.pages.length == 0) res = "Numéro de chapitre invalide";
-    //     else res = new Chapitre(result.pages,numero,`Chapitre N°${numero}`,result.pages.length,(num) => `https://scansmangas.ws/scans/${manga}/${numero}/${num}.jpg`,`https://mangascan.cc/manga/${manga}/${numero}`);
-    // });
+    if(numero.includes(".")){
+        numero = numero.replace(".","-");
+    }
+    await got(`https://mangas-origines.fr/catalogues/${manga}/chapitre-${numero}?style=list`).then(response => {
+        const document = new JSDOM(response.body).window.document;
+        const page = Array.from(document.querySelectorAll('.reading-content .page-break img')).map((element) => 1+Number.parseInt(element.id.substring("image-".length)))
+        if(page.length == 0) res = "Numéro de chapitre invalide";
+        else res = new Chapitre(page,numero,`Chapitre N°${numero}`,page.length,(num) => `https://scansmangas.ws/scans/${manga}/${numero}/${num}.jpg`,`https://mangas-origines.fr/catalogues/${manga}/chapitre-${numero}?style=list`);
+    }).catch(err => {
+        console.log(err);
+        return "Il y a eu problème";
+    });
     return res;
 }
