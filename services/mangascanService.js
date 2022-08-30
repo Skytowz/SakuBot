@@ -14,8 +14,8 @@ module.exports.getChapitre = async (manga,numero) => {
         if(page.length == 0) res = "Numéro de chapitre invalide";
         else res = new Chapitre(page,numero,`Chapitre N°${numero}`,page.length,(num) => `https://scansmangas.ws/scans/${manga}/${numero}/${num}.jpg`,`https://mangas-origines.fr/catalogues/${manga}/chapitre-${numero}?style=list`);
     }).catch(err => {
-        console.log(err);
-        return "Il y a eu problème";
+        console.log(`https://mangas-origines.fr/catalogues/${manga}/chapitre-${numero}?style=list\n`,err);
+        res =  "Il y a eu problème";
     });
     return res;
 }
