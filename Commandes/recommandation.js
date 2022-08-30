@@ -1,3 +1,4 @@
+const TypeHelp = require("../entity/typeHelp");
 const { getNautiljonPageEmbed } = require("../services/nautiljonService");
 module.exports.run = async(client, message, args) =>{  
     var urlR = /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/gm;
@@ -11,5 +12,6 @@ module.exports.run = async(client, message, args) =>{
 module.exports.help = {
     name:"reco",
     help:"> Recommande un manga/anime",
+    type: TypeHelp.Utils,
     cmd:"reco <link-nautiljon>"
 }

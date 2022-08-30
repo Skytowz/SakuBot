@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const TypeHelp = require("../entity/typeHelp");
 const { send } = require("../utils/messageUtils");
 module.exports.run = async(client, message, args) =>{        
      
@@ -8,5 +9,6 @@ module.exports.run = async(client, message, args) =>{
 module.exports.help = {
     name:["pause","pauses"],
     cmd:"pause/pauses",
+    type: TypeHelp.ScanR,
     help:"> Envoie le lien du calendrier de pause"
 }

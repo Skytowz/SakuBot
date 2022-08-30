@@ -1,3 +1,5 @@
+const { Colors } = require("discord.js");
+const TypeHelp = require("../entity/typeHelp");
 const { getDateFromTimeStamp } = require("../utils/dateUtils");
 const Embed = require("../utils/embed");
 
@@ -12,7 +14,7 @@ module.exports.run = async(client, message, args) =>{
     const messageFetch = await channel.messages.fetch(ids[1]).catch(() => "ERROR" );
     if(messageFetch == "ERROR") return message.channel.send("Message innexistant")
     const embed = new Embed()
-                    .setColor("FUCHSIA")
+                    .setColor(Colors.Fuchsia)
                     .setDescription(messageFetch.content+`\n\n[Aller au message](${messageFetch.url})`)
                     .setAuthor(messageFetch.author)
                     .setFooter("#" + channel.name + " | " + getDateFromTimeStamp(messageFetch.createdTimestamp))
@@ -36,5 +38,6 @@ module.exports.help = {
     name:["quote","q"],
     help:"> Renvoie le contenu d'un message",
     cmd:"q/quote [<id-channel>-]<id-message>",
+    type:TypeHelp.Utils,
     commandeReste: true,
 }

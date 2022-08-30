@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageButton, Message } = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, Message, ButtonStyle } = require("discord.js");
 const { getChapitre } = require("../services/mangadexService");
 const { getChapitre:getChapitreMangaScan } = require("../services/mangascanService");
 
@@ -24,19 +24,19 @@ module.exports.send = async (message,args,research,slug,blueSoloEd) => {
     if(numero && numero!="" && !Number.isNaN(numero) && numero <= chapitre.nbPages && numero>0) embedList.index = numero-1;
     const content = {embeds:[embedList.get()]};
     if(chapitre.nbPages > 1){
-        const row =new MessageActionRow().addComponents(
-            new MessageButton()
+        const row =new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
                 .setCustomId('before')
                 .setLabel("<")
-                .setStyle("SECONDARY"),
-            new MessageButton()
+                .setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder()
                 .setCustomId("next")
                 .setLabel(">")
-                .setStyle("SECONDARY"),
-            new MessageButton()
+                .setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder()
                 .setCustomId("lock")
                 .setLabel("🔒")
-                .setStyle("SECONDARY"),
+                .setStyle(ButtonStyle.Secondary),
         );
         content.components = [row];
     }

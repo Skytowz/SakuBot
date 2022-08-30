@@ -1,4 +1,4 @@
-const { cp } = require("fs");
+const { Colors } = require("discord.js");
 
 module.exports = class Embed{
 
@@ -29,6 +29,11 @@ module.exports = class Embed{
     
     addField(title,description){
         this.fields.push({name:title,value:description,inline:false});
+        return this;
+    }
+
+    addFields(values){
+        this.fields.push(...values);
         return this;
     }
     
@@ -122,22 +127,22 @@ module.exports = class Embed{
         embed.setFooter("Recommandation par "+username);
         switch(props.infos[1]){
             case "Mangas": 
-                embed.setColor("BLACK");
+                embed.setColor(Colors.DarkButNotBlack);
                 break;
             case "Animes":
-                embed.setColor("ORANGE");
+                embed.setColor(Colors.Orange);
                 break;
             case "Light novels":
-                embed.setColor("BLUE");
+                embed.setColor(Colors.Blue);
                 break;
             case "Jeux vidéo":
-                embed.setColor("RED");
+                embed.setColor(Colors.Red);
                 break;
             case "Personnalités":
-                embed.setColor("GREEN");
+                embed.setColor(Colors.Green);
                 break;
             default:
-                embed.setColor('DEFAULT');
+                embed.setColor(Colors.Default);
                 break;
         }
         return embed;

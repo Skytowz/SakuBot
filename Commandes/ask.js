@@ -1,3 +1,5 @@
+const TypeHelp = require("../entity/typeHelp");
+
 const quote = [
     "Je réponds pas à un Mikodog", //Negatif  
     "Quand Maki aura un copain", //Negatif
@@ -21,8 +23,8 @@ const quote = [
     "Je sais pas, mais sinon, elle est où Jeanne?", //Tkt
     "Vas y pose une question encore plus conne pour voir?", //Tkt
 ]
-module.exports.run = async(client, message, args) =>{        
-     
+module.exports.run = async(client, message, args) =>{   
+         
     await message.reply({content:quote.sample(),allowedMentions:{repliedUser: false}});
 
 };
@@ -30,5 +32,6 @@ module.exports.help = {
     name:"ask",
     cmd:'ask [question]',
     help:"> Répond à une question",
+    type: TypeHelp.Autre,
     commandeReste:true
 }

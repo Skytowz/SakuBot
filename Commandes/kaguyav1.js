@@ -1,3 +1,4 @@
+const TypeHelp = require("../entity/typeHelp");
 const { send } = require("../utils/messageUtils");
 
 module.exports.run = async(client, message, args) =>{        
@@ -8,5 +9,6 @@ module.exports.run = async(client, message, args) =>{
 module.exports.help = {
     name:"kaguyav1",
     help:"> Explique ce qu'est la v1 des chapitres de Kaguya",
+    type: TypeHelp.ScanR,
     cmd:"kaguyav1"
 }

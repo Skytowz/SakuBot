@@ -1,3 +1,4 @@
+const { Colors } = require("discord.js");
 const Embed = require("../utils/embed");
 const embedList = require("../utils/embedList");
 
@@ -25,7 +26,7 @@ module.exports = class Chapitre{
                 .setImage(this.baseImage(element))
                 .setTitle(this.titre)
                 .setDescription(`${!blueSoloEd ? `[Lien](${this.url}/${index+1}) | ` : ""}Ch: ${this.numero} | ${index+1}/${this.nbPages}`)
-                .setColor("BLACK");
+                .setColor(Colors.DarkButNotBlack);
         });
         return new embedList(embeds,embeds.length,0);
     }

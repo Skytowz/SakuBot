@@ -4,7 +4,10 @@ module.exports.run = async(client, message, args) =>{
 
 };
 module.exports.help = {
-    name:"name",
+    name:["name"],
     help:"> message",
-    cmd:"cmd"
+    type: TypeHelp.ViewManga,
+    cmd:"cmd",
+    commandeReste: false,
+    noHelp: false
 }

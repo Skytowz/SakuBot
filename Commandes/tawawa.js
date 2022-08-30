@@ -1,3 +1,4 @@
+const TypeHelp = require("../entity/typeHelp");
 const { getChapitre } = require("../services/mangascanService");
 const { send } = require("../utils/mangaUtils");
 module.exports.run = async(client, message, args) =>{        
@@ -7,5 +8,6 @@ module.exports.help = {
     name:["tc","tawawachap","tchap"],
     help:"> Affiche une page d'un chapitre de Tawawa",
     cmd:"tc/tawawachap/tchap <chap> [page]",
+    type: TypeHelp.ViewManga,
     commandeReste : true,
 }
