@@ -25,6 +25,16 @@
     "jsdom": "^20.0.0"
   },
   "devDependencies": {
+    "node": "^16.17.0",
     "prettier": "2.2.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Skytowz/SakuBot.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Skytowz/SakuBot/issues"
+  },
+  "homepage": "https://github.com/Skytowz/SakuBot#readme"
 }

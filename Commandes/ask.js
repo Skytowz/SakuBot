@@ -20,8 +20,8 @@ const quote = [
     "C'est vraiment une question de dingue ça", //Tkt
     `La réponse est la même que pour la quetion "Sakushi est-il le meilleur ?"`, //Positif
     "Aussi vrai que Aka est un crack", //Positif
-    "Je sais pas, mais sinon, elle est où Jeanne?", //Tkt
-    "Vas y pose une question encore plus conne pour voir?", //Tkt
+    "Je sais pas, mais sinon, elle est où Jeanne ?", //Tkt
+    "Vas-y pose une question encore plus conne pour voir ?", //Tkt
 ]
 module.exports.run = async(client, message, args) =>{   
          
