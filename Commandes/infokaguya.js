@@ -1,16 +1,15 @@
 const { Colors } = require("discord.js");
 const TypeHelp = require("../entity/typeHelp");
 const Embed = require("../utils/embed");
-const { send } = require("../utils/messageUtils");
 
-module.exports.run = async(client, message, args) =>{        
+module.exports.run = async(client, interaction, args) =>{        
     const embed = new Embed().setImage("https://cdn.discordapp.com/attachments/695043638706700398/1016219698926460960/infokaguya.jpg").setColor(Colors.LuminousVividPink);
-    await send(message,{embeds:[embed]})
+    await interaction.reply({embeds:[embed]})
 
 };
 module.exports.help = {
     name:["infokaguya","infokagu","info"],
-    help:"> Envoie un schéma sur le fonctionnement du scantrad Kaguya-sama",
+    help:"Envoie un schéma sur le fonctionnement du scantrad Kaguya-sama",
     cmd:"infokaguya",
     type: TypeHelp.Autre,
     commandeReste: true

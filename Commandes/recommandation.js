@@ -1,18 +1,17 @@
+const { ApplicationCommandOptionType } = require("discord.js");
 const TypeHelp = require("../entity/typeHelp");
-const { getNautiljonPageEmbed } = require("../services/nautiljonService");
-module.exports.run = async(client, message, args) =>{  
-    // var urlR = /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/gm;
-    // if(!args[1] || !args[1].match(urlR)) return message.channel.send("Il faut rentrer une URL Nautiljon");
-    // const embed = await getNautiljonPageEmbed(message.author.username,args[1]);
-    // if(typeof embed == "string") message.channel.send(embed);
-    // else message.channel.send({embeds : [embed]});    
-    message.channel.send("Cette commande n'est plus disponible pour le moment du à un changement de version de plugin")
+const SlashOption = require("../utils/slashOption");
+module.exports.run = async(client, interaction, args) =>{    
+    interaction.reply("Cette commande n'est plus disponible pour le moment du à un changement de version de plugin")
 };
 
 
 module.exports.help = {
     name:"reco",
-    help:"> Recommande un manga/anime",
+    help:"Recommande un manga/anime",
     type: TypeHelp.Utils,
-    cmd:"reco <link-nautiljon>"
+    cmd:"reco <link-nautiljon>",
+    args:[
+        new SlashOption().setName("lien").setDescription("Lien de la page nautiljon").setRequired(true)
+    ]
 }

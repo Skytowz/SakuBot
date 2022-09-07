@@ -1,4 +1,3 @@
-const { RIGHT } = require("./properties");
 const { mod } = require("./number");
 module.exports = class embedList{
     embeds = [];
@@ -12,12 +11,6 @@ module.exports = class embedList{
 
     setEmbedList(embeds){
         this.embeds = embeds
-    }
-
-    leftOrRight(msg,emoji){
-        if(emoji === RIGHT) this.index = mod(this.index+1,this.length);
-        else this.index = mod(this.index-1,this.length);
-        this.turnPage(msg);
     }
 
     right(msg){

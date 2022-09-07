@@ -1,0 +1,50 @@
+{
+    "4koma":{
+        "name":["4komachap","4kc","4kchap"],
+        "help":"Affiche une page d'un chapitre du 4koma de Kaguya-sama",
+        "cmd":"4komachap/4kc/4kchap <chap> [page]",
+        "id":"de4b3c43-5243-4399-9fc3-68a3c0747138"
+    },
+    "croco":{
+        "name":["crocochap","cc"],
+        "help":"Affiche une page d'un chapitre de Croco",
+        "cmd":"crocochap/cc <chap> [page]",
+        "id":"3395f559-5f90-4049-9dae-75b8918cadb9"
+    },
+    "doujin-kaguya":{
+        "name":["dkaguchap","dkc","dkchap"],
+        "help":"Affiche une page d'un chapitre de Kaguya-sama",
+        "cmd":"dkaguchap/dkc/dkchap <chap> [page]",
+        "id":"a84264f6-a979-4573-89b3-09dd5c050c2b"
+    },
+    "kaguya":{
+        "name":["kaguchap","kc","kchap"],
+        "help":"Affiche une page d'un chapitre de Kaguya-sama",
+        "cmd":"kaguchap/kc/kchap <chap> [page]",
+        "id":"37f5cce0-8070-4ada-96e5-fa24b1bd4ff9"
+    },
+    "onk":{
+        "name":["onkchap","oc","oshichap"],
+        "help":"Affiche une page d'un chapitre d'Oshi no Ko",
+        "cmd":"onkchap/oc/oshichap <chap> [page]",
+        "id":"296cbc31-af1a-4b5b-a34b-fee2b4cad542"
+    },
+    "sentai":{
+        "name":["sentaichap","stchap","stc"],
+        "help":"Affiche une page d'un chapitre de Sentai Daishikkaku",
+        "cmd":"sentaichap/stchap/stc <chap> [page]",
+        "id":"7878c129-a33d-4bf9-b5d2-ff98cbe85bd6"
+    },
+    "tawawa":{
+        "name":["tc","tawawachap","tchap"],
+        "help":"Affiche une page d'un chapitre de Tawawa",
+        "cmd":"tc/tawawachap/tchap <chap> [page]",
+        "id":"6b27cbd8-4cc6-40ca-b010-928da4540be8"
+    },
+    "uma":{
+        "name":["umachap","uc"],
+        "help":"Affiche une page d'un chapitre de Uma Musume",
+        "cmd":"umachap/uc <chap> [page]",
+        "id":"a9dd451c-3c45-4d66-a818-4e1b78855838"
+    }
+}

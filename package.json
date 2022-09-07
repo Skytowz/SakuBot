@@ -1,11 +1,11 @@
 {
-  "name": "bot-sound-video-box",
-  "version": "0.0.0",
-  "description": "Sound and video box",
+  "name": "saku-bot",
+  "version": "1.0.0",
+  "description": "Bot pour le server ScanR",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "node index.js",
+    "dev": "nodemon index.js",
     "forever": "forever -w index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,6 +25,7 @@
     "jsdom": "^20.0.0"
   },
   "devDependencies": {
+    "nodemon": "^2.0.19",
     "node": "^16.17.0",
     "prettier": "2.2.1"
   },

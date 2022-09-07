@@ -12,4 +12,8 @@ module.exports = class TypeHelp{
     static getValues() {
         return Object.keys(TypeHelp).map(value => [value,TypeHelp[value].name,TypeHelp[value].description]);
     }
+
+    static getValue(value) {
+        return TypeHelp[value] ?? null;
+    }
 }

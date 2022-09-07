@@ -1,4 +1,5 @@
 const TypeHelp = require("../entity/typeHelp");
+const SlashOption = require("../utils/slashOption");
 
 const quote = [
     "Je réponds pas à un Mikodog", //Negatif  
@@ -23,15 +24,19 @@ const quote = [
     "Je sais pas, mais sinon, elle est où Jeanne ?", //Tkt
     "Vas-y pose une question encore plus conne pour voir ?", //Tkt
 ]
-module.exports.run = async(client, message, args) =>{   
-         
-    await message.reply({content:quote.sample(),allowedMentions:{repliedUser: false}});
+module.exports.run = async(client, interaction, args) =>{   
+    const question = interaction.options.getString("question")
+    const content = (question ? `> **${question}** \n` : "")+ `*${quote.sample()}*`
+    await interaction.reply({content:content});
 
 };
 module.exports.help = {
     name:"ask",
     cmd:'ask [question]',
-    help:"> Répond à une question",
+    help:"Répond à une question",
     type: TypeHelp.Autre,
-    commandeReste:true
+    commandeReste:true,
+    args:[
+        new SlashOption("question","Question a posé")
+    ]
 }

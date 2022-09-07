@@ -1,0 +1,89 @@
+{
+    "adaptation":{
+        "name":["adaptation"],
+        "help":"Envoie le fichier excel des chapitres adaptés en anime",
+        "cmd":"adaptation",
+        "type": "ScanR",
+        "send":"https://docs.google.com/spreadsheets/d/1AmXILgVd1BFfOfxQn8OJrgMQCzWbBMBRQoD9o_OHTNw"
+    },
+    "frictus":{
+        "name":["frictus"],
+        "help":"Commande speciale pour Frictus",
+        "cmd":"frictus",
+        "type":"Autre",
+        "send":"Réel, au dessus de ça il y a la douceur, l'amabilité, la forme, la gentillesse et la bonté et tant d'autre. Ce que je veux dire c'est qu'il y a pas besoin que ce soir énorme pour passer un merveilleux moment d'ailleurs je trouve ça plus minion quand c'est petit mais aussi plus pratique, ça va peut être plus vite mais c'est une force en soit non ???"
+    },
+    "gogo":{
+        "name":["gogo"],
+        "help":"Commande speciale pour Gogo",
+        "cmd":"gogo",
+        "type":"Autre",
+        "send":"https://media.discordapp.net/attachments/695034616351817828/991292586222432296/aaa.jpg"
+    },
+    "kaguyav1":{
+        "name":["kaguyav1"],
+        "help":"Explique ce qu'est la v1 des chapitres de Kaguya",
+        "cmd":"kaguyav1",
+        "type": "ScanR",
+        "send":"Les chapitres de Kaguya-sama en version V1 sont une version qui sort le mercredi avant la version anglaise. La version finale peut obtenir quelques changements légers de traduction."
+    },
+    "marwane":{
+        "name":["marwane"],
+        "help":"Commande speciale pour Marwane",
+        "cmd":"marwane",
+        "type":"Autre",
+        "send":{
+            "content":"Le meilleur coloriste de la ScanR en fait:\n https://twitter.com/Mahrwane" ,
+            "files":["https://media.discordapp.net/attachments/991387297767510167/1017068716007108618/1HQFxl4h.jpg"]
+        }
+    },
+    "mikodog":{
+        "name":["dog","mikodog"],
+        "help":"La conjecture des mikodogs",
+        "cmd":"dog/mikodog",
+        "type":"Autre",
+        "send":"https://media.discordapp.net/attachments/714214949341102111/991301131290546216/ChartGo.png"
+    },
+    "pause":{
+        "name":["pause","pauses"],
+        "help":"Envoie le lien du calendrier de pause",
+        "cmd":"pause/pauses",
+        "type": "ScanR",
+        "send":"https://docs.google.com/spreadsheets/d/1X1heIh9Y95uxEqVB7wHjSXnwGMJQfWattRuHAP26730/edit?usp=sharing"
+    },
+    "saku":{
+        "name":["saku","sakushi"],
+        "help":"Commande speciale pour Saku",
+        "cmd":"saku/sakushi",
+        "type":"Autre",
+        "send":"https://media.discordapp.net/attachments/714214949341102111/991297071938273300/qq.jpg"
+    },
+    "sortie":{
+        "name":["sortie"],
+        "help":"Dis quand sort le prochain chapitre de Kaguya-sama",
+        "cmd":"sortie",
+        "type": "ScanR",
+        "send":"Le prochain chapitre sortira entre vendredi et samedi."
+    },
+    "source":{
+        "name":["source","git"],
+        "help":"Envoie le lien du github",
+        "cmd":"source/git",
+        "type": "Autre",
+        "send": "https://github.com/Skytowz/SakuBot"
+    },
+    "tierlist":{
+        "name":["tierlist"],
+        "help":"Envoie le lien de la tierlist",
+        "cmd":"tierlist",
+        "type":"Autre",
+        "send": "https://tiermaker.com/create/seanr-tier-list-15178170"
+    },
+    "wiki":{
+        "name":["wiki"],
+        "help":"Envoie le wiki de Kaguya-sama",
+        "cmd":"wiki",
+        "type":"ScanR",
+        "send":"https://kaguyasama-wa-kokurasetai.fandom.com/wiki/Kaguya-sama_wa_Kokurasetai_Wikia"
+    }
+}
