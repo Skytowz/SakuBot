@@ -16,6 +16,7 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.29",
     "axios": "^0.27.2",
     "discord-api-types": "^0.37.5",
     "discord.js": "^14.3.0",
@@ -25,8 +26,8 @@
     "jsdom": "^20.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19",
     "node": "^16.17.0",
+    "nodemon": "^2.0.19",
     "prettier": "2.2.1"
   },
   "repository": {
