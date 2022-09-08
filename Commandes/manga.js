@@ -12,6 +12,6 @@ module.exports.help = {
     noHelp:true,
     args:[
         new SlashOption("chapitre","Numéro du chapitre",ApplicationCommandOptionType.String,true),
-        new SlashOption("page","Numéro de la page",ApplicationCommandOptionType.Integer),
+        new SlashOption("page","Numéro de la page"),
     ]
 }
