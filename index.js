@@ -20,8 +20,7 @@ Array.prototype.sample = function(){
 }
 
 client.on("rateLimit", data => {
-	console.log(data)
-  process.kill(1)
+    if (data.timeout > 1000) process.kill(1)
 })
 
 
@@ -95,3 +94,12 @@ fs.readdir("./Events/", (error, f) => {
     client.on(event, events.bind(null, client));
     })
 })
+
+
+var http = require('http');  
+const SlashCommand = require('./utils/slashCommand');
+const SlashOption = require('./utils/slashOption');
+http.createServer(function (req, res) {   
+  res.write("I'm alive");   
+  res.end(); 
+}).listen(8080);
