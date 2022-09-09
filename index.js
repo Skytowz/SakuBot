@@ -102,4 +102,4 @@ const SlashOption = require('./utils/slashOption');
 http.createServer(function (req, res) {   
   res.write("I'm alive");   
   res.end(); 
-}).listen(8080);
+}).listen(process.env.PORT || 8080);
