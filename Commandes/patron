@@ -1,13 +1,14 @@
-module.exports.run = async(client, message, args) =>{        
+const TypeHelp = require("../entity/typeHelp");
+
+module.exports.run = async(client, interaction) =>{        
      
-    await message.channel.send("yo")
+    await interaction.reply("yo")
 
 };
 module.exports.help = {
     name:["name"],
     help:"> message",
-    type: TypeHelp.ViewManga,
+    type: TypeHelp.Autre,
     cmd:"cmd",
-    commandeReste: false,
     noHelp: false
 }

@@ -1,4 +1,4 @@
-const { Client, Collection, GatewayIntentBits,  REST, Routes } = require('discord.js');
+const { Client, Collection, GatewayIntentBits,  REST, Routes, ApplicationCommand, ContextMenuCommandBuilder, ApplicationCommandType } = require('discord.js');
 const fs = require('fs');
 require('dotenv').config();
 
@@ -33,6 +33,11 @@ if(process.env.ENV == "DEV"){
 client.commands = new Collection();
 
 const commands = [];
+
+// const appCommand = new ContextMenuCommandBuilder().setName('chad').setType(ApplicationCommandType.Message);
+// 
+// commands.push(appCommand);
+
 const addList = (name,commande, help)  => {
     if(!commande.help.noHelp || help) {
         client.commands.set(name, commande);
@@ -73,7 +78,7 @@ const addList = (name,commande, help)  => {
         //Initialisation des commandes dans l'
         try {
             console.log('Started refreshing application (/) commands.');
-            await rest.put(Routes.applicationCommands(process.env.APP_ID), { body: commands });
+            await rest.put(Routes.applicationCommands(process.env.ENV=="DEV"?process.env.APP_ID_DEV:process.env.APP_ID), { body: commands });
             console.log('Successfully reloaded application (/) commands.');
         } catch (error) {
             console.error(error);
