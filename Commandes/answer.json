@@ -58,6 +58,13 @@
         "type":"Autre",
         "send":"https://media.discordapp.net/attachments/714214949341102111/991297071938273300/qq.jpg"
     },
+    "scang":{
+        "name":["scang"],
+        "help":"Envoi le lien du serveur clone maléfique de ScanR, ScanG",
+        "cmd":"scang",
+        "type":"Autre",
+        "send":"https://discord.gg/NYU9wN9KMy"
+    },
     "sortie":{
         "name":["sortie"],
         "help":"Dis quand sort le prochain chapitre de Kaguya-sama",
