@@ -6,7 +6,8 @@ const SlashOption = require("../utils/slashOption");
 module.exports.run = async(client, interaction) =>{        
 
     const user = interaction.options.getMentionable("mention") ?? interaction.user;
-    await interaction.reply(user.avatarURL()+"?size=2048")
+    const url = user.avatarURL() ?? user.user.avatarURL();
+    await interaction.reply(url+"?size=2048")
 
 };
 module.exports.help = {
