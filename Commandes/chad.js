@@ -12,9 +12,9 @@ module.exports.run = async(client, interaction) =>{
     context.drawImage(background,0,0,canvas.width,canvas.height);
     
     const user = interaction.options.getMentionable("mention") ?? interaction.user;
-    const { body } = await request(user.displayAvatarURL({extension:'jpg'}))
-    const avatar = await Canvas.loadImage(await body.arrayBuffer());
-    context.drawImage(avatar,150,60,avatar.width*3,avatar.height*3);
+    const url = user.avatarURL() ?? user.user.avatarURL();
+    const avatar = await Canvas.loadImage(url+"?size=2048");
+    context.drawImage(avatar,150,60,390,390);
     
     const buffer = await canvas.encode('png');
     interaction.reply({files:[buffer]});
