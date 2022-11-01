@@ -23,7 +23,7 @@ module.exports.run = async(client, interaction) =>{
     const background = await Canvas.loadImage("https://media.discordapp.net/attachments/991387297767510167/1017410101574914088/unknown.png?width=498&height=559");
     context.drawImage(background,0,0,canvas.width,canvas.height);
     
-    const url = user.avatarURL() ?? user.user.avatarURL();
+    const url = user.avatarURL() ?? user.user.avatarURL({format:"png"});
     const avatar = await Canvas.loadImage(url+"?size=2048");
     context.drawImage(avatar,150,60,390,390);
     
