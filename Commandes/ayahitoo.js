@@ -17,4 +17,5 @@ module.exports.help = {
     help:"Commande speciale pour Ayahitoo",
     type: TypeHelp.Autre,
     cmd:"cmd",
+    slash:true
 }

@@ -1,5 +1,6 @@
 const { Client, Collection, GatewayIntentBits,  REST, Routes, ApplicationCommand, ContextMenuCommandBuilder, ApplicationCommandType } = require('discord.js');
 const fs = require('fs');
+const SlashCommand = require('./utils/slashCommand');
 require('dotenv').config();
 
 
@@ -40,29 +41,37 @@ const commands = [];
 // 
 // commands.push(appCommand);
 
-const addList = (name,commande, help)  => {
-    if(!commande.help.noHelp || help) {
+const addList = (name,commande, object)  => {
+    if(!commande.help.noHelp || object) {
         client.commands.set(name, commande);
-        commands.push(new SlashCommand()
-            .setName(name)
-            .setDescription(help ?? commande.help.help)
-            .setOption(commande.help.args ?? []))
+        if(commande.help.slash || object.slash){
+            commands.push(new SlashCommand()
+                .setName(name)
+                .setDescription(object?.help ?? commande.help.help)
+                .setOption(commande.help.args ?? []))
+        }
+        if(commande.help.user || object?.user){
+            commands.push( new ContextMenuCommandBuilder()
+                .setName(name)
+                .setType(ApplicationCommandType.User))
+        }
+        if(commande.help.message || object?.message){
+            commands.push( new ContextMenuCommandBuilder()
+                .setName(name)
+                .setType(ApplicationCommandType.Message))
+        }
     }
 }
 (async () => {
     fs.readdir("./Commandes/", async(error,f) => {
-
         //Recupération des commandes classiques
         const commandes = f.filter(f => f.split(".").pop() === "js");
-
         if(commandes.length <= 0) return console.log("Aucune commande classique trouvé");
-    
         commandes.forEach((f) => {
             const commande = require(`./Commandes/${f}`);
             if(typeof commande.help.name == "object") commande.help.name.forEach((name) => addList(name,commande))
             else addList(commande.help.name,commande);    
         });
-
         //recuperation des commandes JSON
         const jsons = f.filter(f => f.split(".").pop() === "json");
 
@@ -72,8 +81,8 @@ const addList = (name,commande, help)  => {
             const json = require(`./Commandes/${f}`)
             const js = require(`./Commandes/${f.split(".").shift()}`)
             Object.values(json).forEach(object => {
-                if(typeof object.name == "object") object.name.forEach((name) => addList(name,js,object.help))
-                else addList(object.name,js,object.help);
+                if(typeof object.name == "object") object.name.forEach((name) => addList(name,js,object))
+                else addList(object.name,js,object);
             })
         })
 
@@ -101,12 +110,3 @@ fs.readdir("./Events/", (error, f) => {
     client.on(event, events.bind(null, client));
     })
 })
-
-
-var http = require('http');  
-const SlashCommand = require('./utils/slashCommand');
-const SlashOption = require('./utils/slashOption');
-http.createServer(function (req, res) {   
-  res.write("I'm alive");   
-  res.end(); 
-}).listen(process.env.PORT || 8080);

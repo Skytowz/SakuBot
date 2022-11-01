@@ -13,5 +13,6 @@ module.exports.help = {
     args:[
         new SlashOption("chapitre","Numéro du chapitre",ApplicationCommandOptionType.String,true),
         new SlashOption("page","Numéro de la page"),
-    ]
+    ],
+    slash:true
 }

@@ -13,5 +13,6 @@ module.exports.help = {
     cmd:"reco <link-nautiljon>",
     args:[
         new SlashOption().setName("lien").setDescription("Lien de la page nautiljon").setRequired(true)
-    ]
+    ],
+    slash:true
 }

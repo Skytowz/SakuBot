@@ -58,5 +58,6 @@ module.exports.help = {
     name:"help",
     cmd:'help',
     type: TypeHelp.Utils,
-    help:"Appelle l'aide"
+    help:"Appelle l'aide",
+    slash:true
 }

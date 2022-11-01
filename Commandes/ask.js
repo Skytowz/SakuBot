@@ -38,5 +38,6 @@ module.exports.help = {
     commandeReste:true,
     args:[
         new SlashOption("question","Question a posé")
-    ]
+    ],
+    slash:true
 }

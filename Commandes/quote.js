@@ -1,12 +1,22 @@
-const { Colors } = require("discord.js");
+const { Colors, CommandInteraction } = require("discord.js");
 const TypeHelp = require("../entity/typeHelp");
 const { getDateFromTimeStamp } = require("../utils/dateUtils");
 const Embed = require("../utils/embed");
 const SlashOption = require("../utils/slashOption");
 
+/**
+ * 
+ * @param {*} client 
+ * @param {CommandInteraction} interaction 
+ * @returns 
+ */
 module.exports.run = async(client, interaction) =>{
-    let id = interaction.options.getString("id");
-
+    let id;
+    if(interaction.isMessageContextMenuCommand()){
+        id = interaction.targetId;
+    }else{
+        id = interaction.options.getString("id");
+    }
     if(!id.includes("-")){
         id = interaction.channel.id+"-"+id;
     } else if (id.split(/-/).length > 2) return interaction.reply({content:"Erreur, veuillez donnez l'id sous la forme <id-channel>-<id-message>",ephemeral:true});
@@ -42,11 +52,13 @@ module.exports.run = async(client, interaction) =>{
 };
 
 module.exports.help = {
-    name:["quote","q"],
+    name:["quote"],
     help:"Renvoie le contenu d'un message",
     cmd:"q/quote [<id-channel>-]<id-message>",
     type:TypeHelp.Utils,
     args:[
         new SlashOption().setName("id").setDescription("ID du message à quote").setRequired(true),
-    ]
+    ],
+    slash:true,
+    message:true
 }

@@ -45,4 +45,5 @@ module.exports.help = {
     help:"Quitter le vocal de manière stylé",
     type: TypeHelp.Autre,
     cmd:"quit",
+    slash:true
 }

@@ -4,7 +4,8 @@
         "help":"Envoie le fichier excel des chapitres adaptés en anime",
         "cmd":"adaptation",
         "type": "ScanR",
-        "send":["https://docs.google.com/spreadsheets/d/1AmXILgVd1BFfOfxQn8OJrgMQCzWbBMBRQoD9o_OHTNw"]
+        "send":["https://docs.google.com/spreadsheets/d/1AmXILgVd1BFfOfxQn8OJrgMQCzWbBMBRQoD9o_OHTNw"],
+        "slash":true
     },
     "aka":{
         "name":"aka",
@@ -22,14 +23,16 @@
                   "width": 100
                 }
               }]}
-        ]
+        ],
+        "slash":true
     },
     "frictus":{
         "name":["frictus"],
         "help":"Commande speciale pour Frictus",
         "cmd":"frictus",
         "type":"Autre",
-        "send":["Réel, au dessus de ça il y a la douceur, l'amabilité, la forme, la gentillesse et la bonté et tant d'autre. Ce que je veux dire c'est qu'il y a pas besoin que ce soir énorme pour passer un merveilleux moment d'ailleurs je trouve ça plus minion quand c'est petit mais aussi plus pratique, ça va peut être plus vite mais c'est une force en soit non ???"]
+        "send":["Réel, au dessus de ça il y a la douceur, l'amabilité, la forme, la gentillesse et la bonté et tant d'autre. Ce que je veux dire c'est qu'il y a pas besoin que ce soir énorme pour passer un merveilleux moment d'ailleurs je trouve ça plus minion quand c'est petit mais aussi plus pratique, ça va peut être plus vite mais c'est une force en soit non ???"],
+        "slash":true
     },
     "gogo":{
         "name":["gogo"],
@@ -39,7 +42,8 @@
         "send":[
             "https://media.discordapp.net/attachments/695034616351817828/991292586222432296/aaa.jpg",
             "https://media.discordapp.net/attachments/991333308988395670/1026931368606830652/Page_1_copie.jpg"
-        ]
+        ],
+        "slash":true
     },
     "hayasaka":{
         "name": "hayasaka",
@@ -87,32 +91,8 @@
             "https://cdn.discordapp.com/attachments/1029828520484012053/1029829590903959612/unknown.png",
             "https://cdn.discordapp.com/attachments/1029828520484012053/1029829735590674492/unknown.png",
             "https://cdn.discordapp.com/attachments/1029828520484012053/1029832206782320690/unknown.png"
-        ]
-    },
-    "infokaguya":{
-        "name":["infokaguya","infokagu","info"],
-        "help":"Envoie un schéma sur le fonctionnement du scantrad Kaguya-sama",
-        "cmd":"infokaguya",
-        "type":"ScanR",
-        "send":[
-            {"embeds":[{
-                "type": "rich",
-                "color": 15277667,
-                "fields": [],
-                "image": {
-                  "url": "https://cdn.discordapp.com/attachments/695043638706700398/1016219698926460960/infokaguya.jpg",
-                  "height": 100,
-                  "width": 100
-                }
-              }]}
-        ]
-    },
-    "kaguyav1":{
-        "name":["kaguyav1"],
-        "help":"Explique ce qu'est la v1 des chapitres de Kaguya",
-        "cmd":"kaguyav1",
-        "type": "ScanR",
-        "send":["Les chapitres de Kaguya-sama en version V1 sont une version qui sort le mercredi avant la version anglaise. La version finale peut obtenir quelques changements légers de traduction."]
+        ],
+        "slash":true
     },
     "marwane":{
         "name":["marwane"],
@@ -122,7 +102,8 @@
         "send":[{
             "content":"Le meilleur coloriste de la ScanR en fait:\n https://twitter.com/Mahrwane" ,
             "files":["https://media.discordapp.net/attachments/991387297767510167/1017068716007108618/1HQFxl4h.jpg"]
-        }]
+        }],
+        "slash":true
     },
     "miko":{
         "name": ["miko"],
@@ -142,62 +123,55 @@
             "https://cdn.discordapp.com/attachments/1020992894787665940/1024345127210188820/Miko_selfie.jpg",
             "https://cdn.discordapp.com/attachments/1020992894787665940/1024345146004877322/MikoMiko.jpg",
             "https://cdn.discordapp.com/attachments/1020992894787665940/1024451733587492905/69009cae843070e1fe65d84b391c4537.jpg"
-        ]
+        ],
+        "slash":true
     },
     "mikodog":{
-        "name":["dog","mikodog"],
+        "name":["dog"],
         "help":"La conjecture des mikodogs",
         "cmd":"dog/mikodog",
         "type":"Autre",
-        "send":["https://media.discordapp.net/attachments/714214949341102111/991301131290546216/ChartGo.png"]
-    },
-    "pause":{
-        "name":["pause","pauses"],
-        "help":"Envoie le lien du calendrier de pause",
-        "cmd":"pause/pauses",
-        "type": "ScanR",
-        "send":["https://docs.google.com/spreadsheets/d/1X1heIh9Y95uxEqVB7wHjSXnwGMJQfWattRuHAP26730/edit?usp=sharing"]
+        "send":["https://media.discordapp.net/attachments/714214949341102111/991301131290546216/ChartGo.png"],
+        "slash":true
     },
     "saku":{
-        "name":["saku","sakushi","roi"],
+        "name":["sakushi"],
         "help":"Commande speciale pour Saku",
         "cmd":"saku/sakushi",
         "type":"Autre",
-        "send":["https://media.discordapp.net/attachments/714214949341102111/991297071938273300/qq.jpg"]
+        "send":["https://media.discordapp.net/attachments/714214949341102111/991297071938273300/qq.jpg"],
+        "slash":true
     },
     "scang":{
         "name":["scang"],
         "help":"Envoi le lien du serveur clone maléfique de ScanR, ScanG",
         "cmd":"scang",
         "type":"Autre",
-        "send":["https://discord.gg/NYU9wN9KMy"]
-    },
-    "sortie":{
-        "name":["sortie"],
-        "help":"Dis quand sort le prochain chapitre de Kaguya-sama",
-        "cmd":"sortie",
-        "type": "ScanR",
-        "send":["Le prochain chapitre sortira entre vendredi et samedi."]
+        "send":["https://discord.gg/NYU9wN9KMy"],
+        "slash":true
     },
     "source":{
         "name":["source","git"],
         "help":"Envoie le lien du github",
         "cmd":"source/git",
         "type": "Autre",
-        "send":[ "https://github.com/Skytowz/SakuBot"]
+        "send":[ "https://github.com/Skytowz/SakuBot"],
+        "slash":true
     },
     "tierlist":{
         "name":["tierlist"],
         "help":"Envoie le lien de la tierlist",
         "cmd":"tierlist",
         "type":"Autre",
-        "send":[ "https://tiermaker.com/create/seanr-tier-list-15178170"]
+        "send":[ "https://tiermaker.com/create/seanr-tier-list-15178170"],
+        "slash":true
     },
     "wiki":{
         "name":["wiki"],
         "help":"Envoie le wiki de Kaguya-sama",
         "cmd":"wiki",
         "type":"ScanR",
-        "send":["https://kaguyasama-wa-kokurasetai.fandom.com/wiki/Kaguya-sama_wa_Kokurasetai_Wikia"]
+        "send":["https://kaguyasama-wa-kokurasetai.fandom.com/wiki/Kaguya-sama_wa_Kokurasetai_Wikia"],
+        "slash":true
     }
 }
