@@ -11,6 +11,7 @@ module.exports = class Embed{
     footer;
     image;
     author;
+    url;
 
     setTitle(title){
         this.title=title;
@@ -71,7 +72,19 @@ module.exports = class Embed{
         }
         return this;
     }
+    
+    setAuthorNameUrl(name,url){
+        this.author = {
+            name:name,
+            url: url,
+        }
+        return this;
+    }
 
+    setUrl(url){
+        this.url = url;
+        return this;
+    }
 
     static getNautiljonEmbed(username,props,link){
         const getDescription = (description) =>{
