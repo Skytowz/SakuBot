@@ -19,17 +19,20 @@ module.exports.run = async(client, interaction) =>{
     };
     image = image.split("?")[0];
     if(!isImgUrl(image)) return interaction.reply({content:"Image ou lien incompatible",ephemeral:true});
-    const {results} =  await fetch(`https://saucenao.com/search.php?db=999&output_type=2&numres=10&api_key=4f94dcf41458ba2601b9d09fe7d4107a7afd9071&url=${image}`).then(async response => await response.json()).catch(() => false);
+    const {results} =  await fetch(`https://saucenao.com/search.php?db=999&output_type=2&numres=50&api_key=4f94dcf41458ba2601b9d09fe7d4107a7afd9071&url=${image}`).then(async response => await response.json()).catch(() => false);
     if(!results){
       return interaction.reply({content:"Image ou lien incompatible",ephemeral:true});
     }
     results.sort((a,b) => b.header.similarity - a.header.similarity)
     const res = results[0];
-    const embed = new Embed().setTitle(res.data.title ?? res.data.source ?? res.header.index_name).setUrl(res.data.ext_urls[0]).setImage(res.header.thumbnail).addField('Similitude',`${res.header.similarity}%`);
+    console.log(res);
+    const embed = new Embed().setTitle(res.data.title ?? res.data.source ?? res.header.index_name).setUrl(res.data.ext_urls ? res.data.ext_urls[0] : res.header.thumbnail).setImage(res.header.thumbnail).addField('Similitude',`${res.header.similarity}%`);
     if(res.data.author_name){
         embed.setAuthorNameUrl(res.data.author_name,res.data.author_url);
     }else if(res.data.twitter_user_handle){
         embed.setAuthorNameUrl(res.data.twitter_user_handle,`https://twitter.com/${res.data.twitter_user_handle}`);
+    }else if(res.data.eng_name){
+        embed.setAuthorNameUrl(res.data.eng_name,res.header.thumbnail);
     }
     interaction.reply({embeds:[embed]});
 
