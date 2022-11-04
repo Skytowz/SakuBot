@@ -11,10 +11,6 @@
   },
   "author": "Skytowz",
   "license": "ISC",
-  "engines": {
-    "npm": ">=7.0.0",
-    "node": ">=16.0.0"
-  },
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
     "@discordjs/voice": "^0.11.0",
@@ -30,7 +26,6 @@
     "libsodium-wrappers": "^0.7.10"
   },
   "devDependencies": {
-    "node": "^16.17.0",
     "nodemon": "^2.0.19",
     "prettier": "2.2.1"
   },
