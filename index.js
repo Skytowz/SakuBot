@@ -44,7 +44,7 @@ const commands = [];
 const addList = (name,commande, object)  => {
     if(!commande.help.noHelp || object) {
         client.commands.set(name, commande);
-        if(commande.help.slash || object.slash){
+        if(commande.help.slash || object?.slash){
             commands.push(new SlashCommand()
                 .setName(name)
                 .setDescription(object?.help ?? commande.help.help)

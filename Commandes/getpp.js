@@ -13,8 +13,9 @@ module.exports.run = async(client, interaction) =>{
     }else{
         user = interaction.user;
     }
-    const url = user.avatarURL() ?? user.user.avatarURL();
-    await interaction.reply(url+"?size=2048")
+    const url = user.avatarURL() ?? user?.user?.avatarURL();
+    if(!url) return interaction.reply({content:"Cet utilisateur n'as pas de photo de profil",ephemeral:true});
+    await interaction.reply(url+"?size=4096")
 
 };
 module.exports.help = {

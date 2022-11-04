@@ -23,8 +23,9 @@ module.exports.run = async(client, interaction) =>{
     const background = await Canvas.loadImage("https://media.discordapp.net/attachments/991387297767510167/1017410101574914088/unknown.png?width=498&height=559");
     context.drawImage(background,0,0,canvas.width,canvas.height);
     
-    const url = user.avatarURL() ?? user.user.avatarURL({format:"png"});
-    const avatar = await Canvas.loadImage(url+"?size=2048");
+    const url = user.avatarURL({format:"png"}) ?? user?.user?.avatarURL({format:"png"});
+    if(!url) return interaction.reply({content:"Cet utilisateur n'as pas de photo de profil",ephemeral:true});
+    const avatar = await Canvas.loadImage(url+"?size=4096");
     context.drawImage(avatar,150,60,390,390);
     
     const buffer = await canvas.encode('png');
