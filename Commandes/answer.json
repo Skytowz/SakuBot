@@ -26,6 +26,14 @@
         ],
         "slash":true
     },
+    "fatigue":{
+        "name":["fatigue"],
+        "help":"Envoie un banger musical",
+        "cmd":"fatigue",
+        "type": "ScanR",
+        "send":["https://music.youtube.com/watch?v=E34mR2hB8_o&feature=share"],
+        "slash":true
+    },
     "frictus":{
         "name":["frictus"],
         "help":"Commande speciale pour Frictus",
