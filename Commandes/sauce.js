@@ -33,8 +33,10 @@ module.exports.run = async(client, interaction) =>{
         embed.setAuthorNameUrl(res.data.twitter_user_handle,`https://twitter.com/${res.data.twitter_user_handle}`);
     }else if(res.data.eng_name){
         embed.setAuthorNameUrl(res.data.eng_name,res.header.thumbnail);
+    }else if(res.data.danbooru_id){
+      embed.setAuthorNameUrl(res.data.creator,res.data.ext_urls[0]).setTitle(res.data.characters);
     }
-    interaction.reply({embeds:[embed]});
+    interaction.reply({embeds:[embed], ephemeral:true});
 
 };
 module.exports.help = {
