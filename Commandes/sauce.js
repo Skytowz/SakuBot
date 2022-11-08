@@ -25,7 +25,6 @@ module.exports.run = async(client, interaction) =>{
     }
     results.sort((a,b) => b.header.similarity - a.header.similarity)
     const res = results[0];
-    console.log(res);
     const embed = new Embed().setTitle(res.data.title ?? res.data.source ?? res.header.index_name).setUrl(res.data.ext_urls ? res.data.ext_urls[0] : res.header.thumbnail).setImage(res.header.thumbnail).addField('Similitude',`${res.header.similarity}%`);
     if(res.data.author_name){
         embed.setAuthorNameUrl(res.data.author_name,res.data.author_url);
