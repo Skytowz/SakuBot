@@ -5,6 +5,12 @@
         "cmd":"4komachap/4kc/4kchap <chap> [page]",
         "id":"de4b3c43-5243-4399-9fc3-68a3c0747138"
     },
+    "bocchi":{
+        "name":["bocchichap","bc","bchap"],
+        "help":"Affiche une page d'un chapitre de Bocchi the Rock!",
+        "cmd":"bocchichap/bc/bchap <chap> [page]",
+        "id":"2e0fdb3b-632c-4f8f-a311-5b56952db647"
+    },
     "croco":{
         "name":["crocochap","cc"],
         "help":"Affiche une page d'un chapitre de Croco",
