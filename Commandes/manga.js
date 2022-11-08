@@ -5,7 +5,7 @@ const mangas = require("./manga.json");
 
 module.exports.run = async(client, interaction) =>{       
     const manga = Object.values(mangas).find(manga =>manga.name.includes(interaction.commandName));
-    send(interaction,[interaction.options.getString("chapitre"),interaction.options.getString("page")],manga.id);
+    send(interaction,[interaction.options.getString("chapitre"),interaction.options.getString("page")],manga.id,manga.blueSoloEd);
 
 };
 module.exports.help = {
