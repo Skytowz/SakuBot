@@ -34,7 +34,8 @@
         "help":"Affiche une page d'un chapitre d'Oshi no Ko",
         "cmd":"onkchap/oc/oshichap <chap> [page]",
         "id":"296cbc31-af1a-4b5b-a34b-fee2b4cad542",
-        "blueSoloEd":true
+        "blueSoloEd":true,
+        "slug":"oshi-no-ko"
     },
     "sentai":{
         "name":["sentaichap","stchap","stc"],

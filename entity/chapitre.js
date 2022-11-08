@@ -20,12 +20,12 @@ module.exports = class Chapitre{
         this.mangaUrl = mangaUrl
     }
 
-    getEmbedList(blueSoloEd){
+    getEmbedList(){
         const embeds = this.pages.map((element,index) => {
             return new Embed()
                 .setImage(this.baseImage(element))
                 .setTitle(this.titre)
-                .setDescription(`${!blueSoloEd ? `[Lien](${this.url}/${index+1}) | ` : ""}Ch: ${this.numero} | ${index+1}/${this.nbPages}`)
+                .setDescription(`[Lien](${this.url}/) | Ch: ${this.numero} | ${index+1}/${this.nbPages}`)
                 .setColor(Colors.DarkButNotBlack);
         });
         return new embedList(embeds,embeds.length,0);
