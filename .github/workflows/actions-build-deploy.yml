@@ -2,18 +2,21 @@ name: Actions - Build / Deployments
 run-name: Build / Deployments
 on: 
   push:
-    branches: [develop, master]
+    branches: 
+      - master
+      - develop
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Init of Context.
-      - run: 
+      - name: 'Init of Context.'
+        run: 
           echo "Branch : ${{ github.ref }}." 
           echo "Repo : ${{ github.repository }}."
           echo "Author : ${{github.actor}}"
-      - name: Check out Repo.
+      - name: 'Check out Repo.'
         uses: actions/checkout@v3
-      - run: 
+      - name: 'Result.'
+        run: 
           echo "The code of "${{ github.repository }}" has been cloned to the runner."
-          echo "Etat '${{ job.status }'}."
+          echo "Etat '${{ job.status }}'."
