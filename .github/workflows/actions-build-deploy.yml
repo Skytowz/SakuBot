@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Init of Context.
-        run: 
+      - run: 
           echo "Branch : ${{ github.ref }}." 
           echo "Repo : ${{ github.repository }}."
           echo "Author : ${{github.actor}}"
       - name: Check out Repo.
         uses: actions/checkout@v3
-        run: 
+      - run: 
           echo "The code of "${{ github.repository }}" has been cloned to the runner."
           echo "Etat '${{ job.status }'}."
