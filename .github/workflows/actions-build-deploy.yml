@@ -13,10 +13,10 @@ jobs:
         run: 
           echo 'Branch : ${{ github.ref }}.'
           echo 'Repo : ${{ github.repository }}.'
-          echo 'Author : ${{github.actor}}'
+          echo 'Author : ${{github.actor}}.'
       - name: 'Check out Repo.'
         uses: actions/checkout@v3
       - name: 'Result.'
         run: 
           echo 'The code of "${{ github.repository }}" has been cloned to the runner.'
-          echo 'Etat : ${{ job.status }}].'
+          echo 'Etat : ${{ job.status }}.'
