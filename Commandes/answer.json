@@ -50,7 +50,8 @@
         "send":[
             "https://media.discordapp.net/attachments/695034616351817828/991292586222432296/aaa.jpg",
             "https://media.discordapp.net/attachments/991333308988395670/1026931368606830652/Page_1_copie.jpg",
-            "https://media.discordapp.net/attachments/991007027067232257/1036029732212457542/Merci_Gogo_V2.jpg"
+            "https://media.discordapp.net/attachments/991007027067232257/1036029732212457542/Merci_Gogo_V2.jpg",
+            "https://media.discordapp.net/attachments/991387297767510167/1044617571833487430/unknown.png"
         ],
         "slash":true
     },
@@ -131,7 +132,16 @@
             "https://cdn.discordapp.com/attachments/1020992894787665940/1024345106318364732/Miko_S3.jpg",
             "https://cdn.discordapp.com/attachments/1020992894787665940/1024345127210188820/Miko_selfie.jpg",
             "https://cdn.discordapp.com/attachments/1020992894787665940/1024345146004877322/MikoMiko.jpg",
-            "https://cdn.discordapp.com/attachments/1020992894787665940/1024451733587492905/69009cae843070e1fe65d84b391c4537.jpg"
+            "https://cdn.discordapp.com/attachments/1020992894787665940/1024451733587492905/69009cae843070e1fe65d84b391c4537.jpg",
+            "https://cdn.discordapp.com/attachments/1020992894787665940/1042218818832973825/Miko_naturelle.jpg",
+            "https://cdn.discordapp.com/attachments/1020992894787665940/1042218805667037235/Miko_poki.jpg",
+            "https://cdn.discordapp.com/attachments/1020992894787665940/1042218779645587476/Miko_tah_incroyable_3.jpg",
+            "https://cdn.discordapp.com/attachments/1020992894787665940/1042218769256304650/Miko_tah_incroyable_4.jpg",
+            "https://cdn.discordapp.com/attachments/1020992894787665940/1042218750151249930/Miko_tenue_legere.jpg",
+            "https://cdn.discordapp.com/attachments/1020992894787665940/1042218719960645703/Miko_Mariee.jpg",
+            "https://cdn.discordapp.com/attachments/1020992894787665940/1042218694459281450/Miko_Noel.jpg",
+            "https://cdn.discordapp.com/attachments/1020992894787665940/1042218567413805088/Miko_nounours.jpg",
+            "https://cdn.discordapp.com/attachments/1020992894787665940/1042218175237996544/Miko_vue_3_quart.jpg"
         ],
         "slash":true
     },
@@ -146,9 +156,17 @@
     "saku":{
         "name":["sakushi"],
         "help":"Commande speciale pour Saku",
-        "cmd":"saku/sakushi",
+        "cmd":"sakushi",
         "type":"Autre",
         "send":["https://media.discordapp.net/attachments/714214949341102111/991297071938273300/qq.jpg"],
+        "slash":true
+    },
+    "seanr":{
+        "name":["seanr"],
+        "help":"Commande speciale pour SeanR",
+        "cmd":"seanr",
+        "type":"Autre",
+        "send":["Aigris moi ? serieusement ^^ haha on me l avait pas sortie celle la depuis loooongtemps 🙂 demande a mes potes si je suis aigris tu vas voir les reponses que tu vas te prendre XD rien que la semaine passee j'étais content donc chuuuuut ferme la aigris de merde car oui toi tu m as tout l air d un bon aigris de merde car souvent vous etes frustrer de ne pas AVOIR RAISON:) ses agreable de se faire comprendre ou entendre par les gens hein? tu peux pas repondre car tu ne sais pas ce que c ou alors tu le sais mais tu as du taper dans ta barre de recherche \"comment se fait comprendre\" ou \"comment se faire entendre\" pour comprendre ce que c etait mdddrrr !! c est grave quoiquil en soit.... pour revenir a moi, je pense que je suis le mec le moins aigris de ma bande de 11 meilleurs amis pas psk j ai eu le plus de bonne réponse mais psk j ai le plus jolie phrasé de mes amis 😄 ses pas moi qui le dit, ses eux qui commente sous mes posts twitter \"trop belle la phrase que tu as poster hier !\" donc apres si tu veux que sa parte plus loi sa peut partir vraiment loi j habite dans la banlieue de niort sa te parle steven sanchez ? ses juste un cousin donc OKLM hahaha on verra si tu parles encore le aigris de merde mdddrrr pk insulter qd on est soi meme aigris tu me feras toujour marrer!!"],
         "slash":true
     },
     "scang":{
