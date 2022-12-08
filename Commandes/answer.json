@@ -104,6 +104,18 @@
         ],
         "slash":true
     },
+    "kaguya":{
+        "name": ["kaguya"],
+	    "help":"Affiche une image random de Kaguya (n'oublions pas la main girl)(et enlève mon warn Childew)",
+        "cmd":"kaguya",
+        "type": "Autre",
+        "send":[
+            "https://media.discordapp.net/attachments/991387297767510167/1050525745161715734/kmo99lljdf4a1.png",
+            "https://media.discordapp.net/attachments/991387297767510167/1050526340908077056/xbhztrkiqh3a1.png",
+            "https://media.discordapp.net/attachments/991387297767510167/1050526518469722122/ar3sam7pw51a1.png"
+        ],
+        "slash":true
+    },
     "marwane":{
         "name":["marwane"],
         "help":"Commande speciale pour Marwane",
