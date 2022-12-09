@@ -106,13 +106,23 @@
     },
     "kaguya":{
         "name": ["kaguya"],
-	    "help":"Affiche une image random de Kaguya (n'oublions pas la main girl)(et enlève mon warn Childew)",
+	    "help":"Affiche une image random de Kaguya (n'oublions pas la main girl)",
         "cmd":"kaguya",
         "type": "Autre",
         "send":[
             "https://media.discordapp.net/attachments/991387297767510167/1050525745161715734/kmo99lljdf4a1.png",
             "https://media.discordapp.net/attachments/991387297767510167/1050526340908077056/xbhztrkiqh3a1.png",
-            "https://media.discordapp.net/attachments/991387297767510167/1050526518469722122/ar3sam7pw51a1.png"
+            "https://media.discordapp.net/attachments/991387297767510167/1050526518469722122/ar3sam7pw51a1.png",
+            "https://media.discordapp.net/attachments/991211270512586842/1050690612099297320/yppt2ogib6m51.png",
+            "https://cdn.discordapp.com/attachments/991211270512586842/1050690653744529448/Shinomiya.png",
+            "https://cdn.discordapp.com/attachments/991211270512586842/1050690688255279134/yande.png",
+            "https://cdn.discordapp.com/attachments/991211270512586842/1050690725706211338/yande.png",
+            "https://cdn.discordapp.com/attachments/991211270512586842/1050690759982055454/yande.png",
+            "https://cdn.discordapp.com/attachments/991211270512586842/1050690793125453824/yande.png",
+            "https://cdn.discordapp.com/attachments/991211270512586842/1050690830383468585/yande.png",
+            "https://cdn.discordapp.com/attachments/991211270512586842/1050690872699789342/yande.png",
+            "https://cdn.discordapp.com/attachments/991211270512586842/1050690915284557834/yande.png",
+            "https://cdn.discordapp.com/attachments/991211270512586842/1050690953884729364/1006398.png"
         ],
         "slash":true
     },
