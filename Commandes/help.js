@@ -12,7 +12,6 @@ module.exports.run = async(client, interaction) =>{
 
     fs.readdir("./Commandes/", async (error,f) =>  {
         if(error) console.log(error);
-        console.log(TypeHelp.getValue("ScanR"));
         const values = f.filter(f => f.split(".").pop() === "js").map(v => require(`./${v}`).help).filter(v => !v.noHelp && v.type);
         const jsons = f.filter(f => f.split(".").pop() === "json").map(v => require(`./${v}`)).flatMap(json => Object.values(json).map(value => {
             value.type = value.id ? TypeHelp.ViewManga : TypeHelp.getValue(value.type);
