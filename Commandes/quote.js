@@ -11,19 +11,30 @@ const SlashOption = require("../utils/slashOption");
  * @returns 
  */
 module.exports.run = async(client, interaction) =>{
-    let id;
+    let message;
     if(interaction.isMessageContextMenuCommand()){
-        id = interaction.targetId;
+        message = interaction.targetId;
     }else{
-        id = interaction.options.getString("id");
+        message = interaction.options.getString("message");
     }
-    if(!id.includes("-")){
-        id = interaction.channel.id+"-"+id;
-    } else if (id.split(/-/).length > 2) return interaction.reply({content:"Erreur, veuillez donnez l'id sous la forme <id-channel>-<id-message>",ephemeral:true});
-    const ids =  id.split(/-/);
+    const ids = [];
+    if(message.startsWith("https://discord.com/channels")){
+        const args = message.split("/");
+        if(args.length != 7){
+            return interaction.reply({content:"Erreur, le lien du message n'est pas valide",ephemeral:true});
+        }else{
+            const idMsg = args.pop();
+            ids.push(args.pop(),idMsg);
+        }
+    }else{
+        if(!message.includes("-")){
+            message = interaction.channel.id+"-"+message;
+        } else if (message.split(/-/).length > 2) return interaction.reply({content:"Erreur, veuillez donnez l'id sous la forme <message-channel>-<message-message> ou le lien du message",ephemeral:true});
+        ids.push(...message.split(/-/));
+    }
 
 
-    const channel = await client.channels.fetch(ids[0]).catch(() => "ERROR");
+    const channel = await client.channels.fetch(ids[0]).catch((e) => {console.log(e);return"ERROR"});
     if(channel == "ERROR") return interaction.reply({content:"Channel innexistant",ephemeral:true})
 
 
@@ -54,10 +65,10 @@ module.exports.run = async(client, interaction) =>{
 module.exports.help = {
     name:["quote"],
     help:"Renvoie le contenu d'un message",
-    cmd:"q/quote [<id-channel>-]<id-message>",
+    cmd:"q/quote ([<id-channel>-]<id-message> | <url-message>)",
     type:TypeHelp.Utils,
     args:[
-        new SlashOption().setName("id").setDescription("ID du message à quote").setRequired(true),
+        new SlashOption().setName("message").setDescription("ID ou lien du message à quote").setRequired(true),
     ],
     slash:true,
     message:true
