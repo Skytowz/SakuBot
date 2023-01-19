@@ -184,7 +184,7 @@
         "slash":true
     },
     "seanr":{
-        "name":["seanr"],
+        "name":["seanr","fifi"],
         "help":"Commande speciale pour SeanR",
         "cmd":"seanr",
         "type":"Autre",
