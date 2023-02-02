@@ -14,7 +14,7 @@ module.exports.getTimeLeft = (date1,date2) => {
     const hours = timeLeft.getUTCHours()-1;
     const minute = timeLeft.getUTCMinutes();
     const second = timeLeft.getUTCSeconds();
-    
+    if(years < 0) return false;
     const res = `${years>0?" "+years + (years>1?" années":" année") : ""}`
         +`${months>0?" "+months + " mois" : ""}`
         +`${days>0?" "+days + (days>1?" jours":" jour") : ""}`
