@@ -37,6 +37,12 @@
         "blueSoloEd":true,
         "slug":"oshi-no-ko"
     },
+    "sbr":{
+        "name":["sbrchap","sbrc"],
+        "help":"Affiche une page d'un chapitre de Jojo's Steel Ball Run",
+        "cmd":"sbrchap/sbc <chap> [page]",
+        "id":"1044287a-73df-48d0-b0b2-5327f32dd651"
+    },
     "sentai":{
         "name":["sentaichap","stchap","stc"],
         "help":"Affiche une page d'un chapitre de Sentai Daishikkaku",
