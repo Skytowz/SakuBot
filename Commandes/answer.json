@@ -199,6 +199,14 @@
         "send":["https://discord.gg/NYU9wN9KMy"],
         "slash":true
     },
+    "scanr":{
+        "name":["scanr"],
+        "help":"Envoi le lien du serveur ScanR",
+        "cmd":"scanr",
+        "type":"ScanR",
+        "send":["https://discord.gg/Dw9VVZFaR6"],
+        "slash":true
+    },
     "source":{
         "name":["source","git"],
         "help":"Envoie le lien du github",
