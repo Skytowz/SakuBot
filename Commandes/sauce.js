@@ -1,4 +1,4 @@
-const { CommandInteraction, Collection } = require("discord.js");
+const { CommandInteraction, Collection, ButtonStyle, ButtonBuilder, ActionRow, ActionRowBuilder } = require("discord.js");
 const { request, fetch } = require("undici");
 const TypeHelp = require("../entity/typeHelp");
 const Embed = require("../utils/embed");
@@ -35,7 +35,28 @@ module.exports.run = async(client, interaction) =>{
     }else if(res.data.danbooru_id){
       embed.setAuthorNameUrl(res.data.creator,res.data.ext_urls[0]).setTitle(res.data.characters);
     }
-    interaction.reply({embeds:[embed], ephemeral:true});
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setLabel('Voir')
+        .setURL(res.data.ext_urls ? res.data.ext_urls[0] : res.header.thumbnail)
+        .setStyle(ButtonStyle.Link),
+      new ButtonBuilder()
+          .setCustomId('show')
+          .setEmoji("👁")
+          .setLabel("Afficher")
+          .setStyle(ButtonStyle.Secondary)
+    )
+    interaction.reply({embeds:[embed], ephemeral:true, components:[row]});
+    const msg = await interaction.fetchReply();
+    const interact = msg.createMessageComponentCollector({time:180000});
+
+    interact.on("collect",async i =>{
+        if(i.customId === "show"){
+          row.components.pop()
+          i.update({content:"-",embeds:[],components:[]});
+          interaction.targetMessage.reply({embeds:[embed],components:[row],allowedMentions:{repliedUser:false}});
+        }
+    })
 
 };
 module.exports.help = {
