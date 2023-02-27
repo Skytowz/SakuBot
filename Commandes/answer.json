@@ -126,6 +126,14 @@
         ],
         "slash":true
     },
+    "loggedoff":{
+        "name":["loggedoff"],
+        "help":"Montre la vérité",
+        "cmd":"loggedoff",
+        "type": "Autre",
+        "send":["https://cdn.discordapp.com/attachments/992534223397335113/1079552602838155384/ezgif.com-optimize.gif"],
+        "slash":true
+    },
     "marwane":{
         "name":["marwane"],
         "help":"Commande speciale pour Marwane",
