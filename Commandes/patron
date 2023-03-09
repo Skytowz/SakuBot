@@ -1,5 +1,11 @@
+const { Client, CommandInteraction } = require("discord.js");
 const TypeHelp = require("../entity/typeHelp");
 
+/**
+ * 
+ * @param {Client} client 
+ * @param {CommandInteraction} interaction 
+ */
 module.exports.run = async(client, interaction) =>{        
      
     await interaction.reply("yo")

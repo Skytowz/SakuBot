@@ -7,11 +7,12 @@ module.exports = class SlashOption{
     type;
     required;
 
-    constructor(name,description,type = ApplicationCommandOptionType.String,required = false){
+    constructor(name,description,type = ApplicationCommandOptionType.String,required = false,choices){
         this.name = name;
         this.description = description;
         this.type = type;
         this.required = required;
+        if(choices) this.choices = choices;
     }
 
     setName(name){

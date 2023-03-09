@@ -1,4 +1,4 @@
-const { Colors, CommandInteraction } = require("discord.js");
+const { Colors, CommandInteraction, Client } = require("discord.js");
 const TypeHelp = require("../entity/typeHelp");
 const { getDateFromTimeStamp } = require("../utils/dateUtils");
 const Embed = require("../utils/embed");
@@ -6,7 +6,7 @@ const SlashOption = require("../utils/slashOption");
 
 /**
  * 
- * @param {*} client 
+ * @param {Client} client 
  * @param {CommandInteraction} interaction 
  * @returns 
  */
@@ -49,17 +49,16 @@ module.exports.run = async(client, interaction) =>{
                     .setFooter("#" + channel.name + " | " + getDateFromTimeStamp(messageFetch.createdTimestamp))
 
 
+    const msg = {}
+    // msg.embeds = [embed];
+    // if(messageFetch.embeds && messageFetch.embeds.length > 0 && !(messageFetch.author.bot && messageFetch.embeds[0].title == null)){
+    //     msg.embeds.push(...messageFetch.embeds);
+    // }
     if(messageFetch.attachments.size != 0){
-        if(messageFetch.attachments.first().contentType.startsWith("image")) embed.setImage(messageFetch.attachments.first().proxyURL);
+        msg.files = messageFetch.attachments.filter(e => e.contentType.match("(image|video)(\/.*)") && e.size < 8000000 ).map((v,k)=> {return {name:v.name,attachment:v.attachment}});
     }
-
-
-    const embeds = [embed];
-
-    if(messageFetch.embeds && messageFetch.embeds.length > 0 && !(messageFetch.author.bot && messageFetch.embeds[0].title == null)){
-        embeds.push(...messageFetch.embeds);
-    }
-    interaction.reply({embeds:embeds})
+    console.log(msg);
+    interaction.reply(msg)
 };
 
 module.exports.help = {

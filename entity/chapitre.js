@@ -25,7 +25,7 @@ module.exports = class Chapitre{
             return new Embed()
                 .setImage(this.baseImage(element))
                 .setTitle(this.titre)
-                .setDescription(`[Lien](${this.url}/) | Ch: ${this.numero} | ${index+1}/${this.nbPages}`)
+                .setDescription(`[Lien](${this.url}/) |${ this.numero ?` Ch: ${this.numero} |`:""} ${index+1}/${this.nbPages}`)
                 .setColor(Colors.DarkButNotBlack);
         });
         return new embedList(embeds,embeds.length,0);

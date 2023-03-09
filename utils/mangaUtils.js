@@ -1,5 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction } = require("discord.js");
-const { getChapitre } = require("../services/mangadexService");
+const { getChapitre, getChapitreById, getChapitreInfoById } = require("../services/mangadexService");
 const { getChapitre:getChapitreMangaScan } = require("../services/mangascanService");
 
 /**
@@ -10,14 +10,21 @@ const { getChapitre:getChapitreMangaScan } = require("../services/mangascanServi
  * @param {string} [slug] 
  * @returns 
  */
-module.exports.send = async (interaction,chap,numero,{id:research,blueSoloEd = false,slug}) => {
-    if(!chap || chap == "" || Number.isNaN(chap)) return interaction.reply({content:"Veuillez rentrer un numéro de chapitre valide",ephemeral:true});
-    let chapitre = await getChapitre(research,chap,blueSoloEd);
-    if(typeof chapitre == "string"){
-        if(slug){
-            chapitre = await getChapitreMangaScan(slug,chap);
-            if(typeof chapitre == "string") return interaction.reply({content:chapitre,ephemeral:true});
-        }else return interaction.reply({content:chapitre,ephemeral:true});
+module.exports.send = async (interaction,chap,numero,{id:research,blueSoloEd = false,slug,langue,idChap}) => {
+    let chapitre;
+    if(idChap){
+        let data = await getChapitreInfoById(idChap);
+        chapitre = await getChapitreById(data);
+        if(typeof chapitre == "string") return interaction.reply({content:chapitre,ephemeral:true});
+    }else{
+        if(!chap || chap == "" || Number.isNaN(chap)) return interaction.reply({content:"Veuillez rentrer un numéro de chapitre valide",ephemeral:true});
+        chapitre = await getChapitre(research,chap,blueSoloEd,langue);
+        if(typeof chapitre == "string"){
+            if(slug){
+                chapitre = await getChapitreMangaScan(slug,chap);
+                if(typeof chapitre == "string") return interaction.reply({content:chapitre,ephemeral:true});
+            }else return interaction.reply({content:chapitre,ephemeral:true});
+        }
     }
     const embedList = chapitre.getEmbedList();
     if(numero && numero!="" && !Number.isNaN(numero) && numero <= chapitre.nbPages && numero>0) embedList.index = numero-1;

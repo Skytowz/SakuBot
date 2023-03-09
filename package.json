@@ -16,7 +16,6 @@
     "@discordjs/voice": "^0.11.0",
     "@napi-rs/canvas": "^0.1.29",
     "@napi-rs/image": "^1.4.1",
-    "axios": "^0.27.2",
     "discord-api-types": "^0.37.5",
     "discord.js": "^14.6.0",
     "dotenv": "^10.0.0",
@@ -25,6 +24,7 @@
     "got": "^11.8.3",
     "jsdom": "^20.0.0",
     "libsodium-wrappers": "^0.7.10",
+    "superagent": "^8.0.9",
     "undici": "^5.12.0"
   },
   "devDependencies": {
