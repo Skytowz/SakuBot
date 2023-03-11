@@ -49,16 +49,30 @@ module.exports.run = async(client, interaction) =>{
                     .setFooter("#" + channel.name + " | " + getDateFromTimeStamp(messageFetch.createdTimestamp))
 
 
-    const msg = {}
-    // msg.embeds = [embed];
-    // if(messageFetch.embeds && messageFetch.embeds.length > 0 && !(messageFetch.author.bot && messageFetch.embeds[0].title == null)){
-    //     msg.embeds.push(...messageFetch.embeds);
-    // }
     if(messageFetch.attachments.size != 0){
-        msg.files = messageFetch.attachments.filter(e => e.contentType.match("(image|video)(\/.*)") && e.size < 8000000 ).map((v,k)=> {return {name:v.name,attachment:v.attachment}});
+        if(messageFetch.attachments.first().contentType.startsWith("image")) embed.setImage(messageFetch.attachments.first().proxyURL);
     }
-    console.log(msg);
-    interaction.reply(msg)
+
+
+    const embeds = [embed];
+
+    if(messageFetch.embeds && messageFetch.embeds.length > 0 && !(messageFetch.author.bot && messageFetch.embeds[0].title == null)){
+        embeds.push(...messageFetch.embeds);
+    }
+    interaction.reply({embeds:embeds})
+// 
+//     if(messageFetch.attachments.size != 0){
+//         if(messageFetch.attachments.first().contentType.startsWith("image")) embed.setImage(messageFetch.attachments.first().proxyURL);
+//     }
+// 
+// 
+//     const embeds = [embed];
+// 
+//     if(messageFetch.embeds && messageFetch.embeds.length > 0 && !(messageFetch.author.bot && messageFetch.embeds[0].title == null)){
+//         embeds.push(...messageFetch.embeds);
+//     }
+//     interaction.reply({embeds:embeds})
+// };
 };
 
 module.exports.help = {
