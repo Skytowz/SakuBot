@@ -29,6 +29,13 @@
         "cmd":"kaguchap/kc/kchap <chap> [page]",
         "id":"37f5cce0-8070-4ada-96e5-fa24b1bd4ff9"
     },
+    "magus":{
+        "name":["maguschap","magusc","mc"],
+        "help":"Affiche une page d'un chapitre de Magus of the library",
+        "cmd":"maguschap/magusc/mc <chap> [page]",
+        "id":"661",
+        "mangaReader":true
+    },
     "onk":{
         "name":["onkchap","oc","oshichap"],
         "help":"Affiche une page d'un chapitre d'Oshi no Ko",
