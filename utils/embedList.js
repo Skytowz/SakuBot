@@ -3,10 +3,12 @@ module.exports = class embedList{
     embeds = [];
     index = 0;
     length = 0;
-    constructor(list,length,index){
+    files;
+    constructor(list,length,index,files){
         this.embeds = list;
         this.length = length;
         this.index = index;
+        this.files = files
     }
 
     setEmbedList(embeds){
@@ -23,10 +25,18 @@ module.exports = class embedList{
     }
     
     turnPage(msg){
-        msg.update({embeds:[this.get()]})
+        msg.update(this.getContent())
     }
     
     get(){
         return this.embeds[this.index];
+    }
+
+    getContent(){
+        const message = {embeds:[this.get()]};
+        if(this.files){
+            message.files = [this.files[this.index]];
+        }
+        return message;
     }
 }

@@ -23,11 +23,25 @@
         "cmd":"dkaguchap/dkc/dkchap <chap> [page]",
         "id":"a84264f6-a979-4573-89b3-09dd5c050c2b"
     },
+    "hdwr":{
+        "name":["hdwrchap","hdwrc"],
+        "help":"Affiche une page d'un chapitre de How do we relationship",
+        "cmd":"hdwrchap/hdwrc <chap> [page]",
+        "id":"1783",
+        "mangaReader":true
+    },
     "kaguya":{
         "name":["kaguchap","kc","kchap"],
         "help":"Affiche une page d'un chapitre de Kaguya-sama",
         "cmd":"kaguchap/kc/kchap <chap> [page]",
         "id":"37f5cce0-8070-4ada-96e5-fa24b1bd4ff9"
+    },
+    "magus":{
+        "name":["maguschap","magusc","mc"],
+        "help":"Affiche une page d'un chapitre de Magus of the library",
+        "cmd":"maguschap/magusc/mc <chap> [page]",
+        "id":"661",
+        "mangaReader":true
     },
     "onk":{
         "name":["onkchap","oc","oshichap"],
