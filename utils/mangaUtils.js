@@ -23,7 +23,7 @@ module.exports.send = async (interaction,chap,numero,{id:research,blueSoloEd = f
         if(mangaReader){
             interaction.deferReply();
             defer = true;
-            chapitre = await getChapitreMangaReader(research,chap,interaction);
+            chapitre = await getChapitreMangaReader(research,chap);
         }else{
             chapitre = await getChapitre(research,chap,blueSoloEd,langue);
         }
@@ -46,8 +46,11 @@ module.exports.send = async (interaction,chap,numero,{id:research,blueSoloEd = f
         
     }
     const embedList = chapitre.getEmbedList();
+
     if(numero && numero!="" && !Number.isNaN(numero) && numero <= chapitre.nbPages && numero>0) embedList.index = numero-1;
-    const content = {embeds:[embedList.get()]};
+    
+    const content = embedList.getContent();
+
     if(chapitre.nbPages > 1){
         const row =new ActionRowBuilder().addComponents(
             new ButtonBuilder()
