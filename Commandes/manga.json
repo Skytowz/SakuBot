@@ -23,6 +23,13 @@
         "cmd":"dkaguchap/dkc/dkchap <chap> [page]",
         "id":"a84264f6-a979-4573-89b3-09dd5c050c2b"
     },
+    "hdwr":{
+        "name":["hdwrchap","hdwrc"],
+        "help":"Affiche une page d'un chapitre de How do we relationship",
+        "cmd":"hdwrchap/hdwrc <chap> [page]",
+        "id":"1783",
+        "mangaReader":true
+    },
     "kaguya":{
         "name":["kaguchap","kc","kchap"],
         "help":"Affiche une page d'un chapitre de Kaguya-sama",
