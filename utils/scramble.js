@@ -1,9 +1,8 @@
 const Canvas = require("@napi-rs/canvas");
-const { Attachment, AttachmentBuilder } = require("discord.js");
+const { AttachmentBuilder } = require("discord.js");
 const shuffleSeed = require('shuffle-seed');
 const PIECE_SIZE = 200
 const memo = {};
-let bot;
 
 module.exports.unscramble = async (imageSrc,iteration) => {
     const image = await Canvas.loadImage(imageSrc);
@@ -50,7 +49,7 @@ module.exports.unscramble = async (imageSrc,iteration) => {
         })
     }
     const name = `image_${iteration}.jpeg`;
-    const res = new AttachmentBuilder(await final.encode("jpeg"),{name:name});
+    const res = new AttachmentBuilder(final.toBuffer("image/jpeg"),{name:name});
     return {files:res,name:name};
 }
 //this.unscramble("https://c-1.mreadercdn.com/_v2/1/0dcb8f9eaacfd940603bd75c7c152919c72e45517dcfb1087df215e3be94206cfdf45f64815888ea0749af4c0ae5636fabea0abab8c2e938ab3ad7367e9bfa52/7c/22/7c2212ba9241b02f1fcedde872c147e0/7c2212ba9241b02f1fcedde872c147e0_1900.jpeg?t=515363393022bbd440b0b7d9918f291a&ttl=1908547557")

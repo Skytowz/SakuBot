@@ -69,7 +69,7 @@ module.exports.send = async (interaction,chap,numero,{id:research,blueSoloEd = f
         content.components = [row];
     }
     if(defer){
-        interaction.editReply(content);
+        interaction.followUp(content);
     }else{
         interaction.reply(content);
     }

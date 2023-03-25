@@ -16,12 +16,12 @@ module.exports.getChapitre = async (manga,numero) => {
 }
 
 module.exports.getChapitreById = async (chapitre) => {
-    const DOM = await superagent.get(`https://mangareader.to/ajax/image/list/chap/${chapitre.dataset.id}?mode=vertical&quality=medium`).then(({res}) => new JSDOM(JSON.parse(res.text).html));
+    const DOM = await superagent.get(`https://mangareader.to/ajax/image/list/chap/${chapitre.dataset.id}?mode=vertical&quality=low`).then(({res}) => new JSDOM(JSON.parse(res.text).html));
     let shuffled = false;
     const images = await Promise.all(Array.from(DOM.window.document.querySelectorAll(".iv-card")).map(async (e,i) =>{
         if(e.classList.contains('shuffled')){
             shuffled = true;
-            return await unscramble(e.dataset.url,i);
+            return unscramble(e.dataset.url,i);
         }else return e.dataset.url;
     }))
     const number = chapitre.dataset.number;
