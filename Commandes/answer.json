@@ -183,6 +183,14 @@
         "send":["https://media.discordapp.net/attachments/714214949341102111/991301131290546216/ChartGo.png"],
         "slash":true
     },
+    "oiseau":{
+        "name":["oiseau"],
+        "help":"Envoie un banger autre musical",
+        "cmd":"oiseau",
+        "type": "ScanR",
+        "send":["https://sakushi.s-ib.link/oiseau \n||https://music.youtube.com/watch?v=XgkHohYTWzY||"],
+        "slash":true
+    },
     "saku":{
         "name":["sakushi"],
         "help":"Commande speciale pour Saku",
