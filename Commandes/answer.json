@@ -188,7 +188,7 @@
         "help":"Envoie un banger autre musical",
         "cmd":"oiseau",
         "type": "ScanR",
-        "send":["https://sakushi.s-ib.link/oiseau \nhttps://music.youtube.com/watch?v=XgkHohYTWzY"],
+        "send":["https://music.youtube.com/watch?v=XgkHohYTWzY"],
         "slash":true
     },
     "saku":{
