@@ -239,6 +239,14 @@
         "send":[ "https://tiermaker.com/create/seanr-tier-list-15178170"],
         "slash":true
     },
+    "umasortie":{
+        "name":["umasortie"],
+        "help":"Envoie un rappel",
+        "cmd":"umasortie",
+        "type":"ScanR",
+        "send":["Oubliez pas, on est jeudi et y'a quoi le jeudi, un chapitre de Uma à sortir, je le rapelle parceque même quand vous vous en souvenez, vous oubliez quand même donc oubliez pas de sortir un ou deux chapitres de ce banger intersidéral qu'est Uma Musume là!!!"],
+        "slash":true
+    },
     "wiki":{
         "name":["wiki"],
         "help":"Envoie le wiki de Kaguya-sama",
