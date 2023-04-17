@@ -57,6 +57,12 @@
         "cmd":"sbrchap/sbc <chap> [page]",
         "id":"1044287a-73df-48d0-b0b2-5327f32dd651"
     },
+    "senseisukidesu":{
+        "name":["ssdc","senseichap","senseic"],
+        "help":"Affiche une page d'un chapitre de Sensei, Suki Desu",
+        "cmd":"ssdc/senseichap/senseic <chap> [page]",
+        "id":"617f648f-1000-4c4e-b1a3-42862f929dfd"
+    },
     "sentai":{
         "name":["sentaichap","stchap","stc"],
         "help":"Affiche une page d'un chapitre de Sentai Daishikkaku",
