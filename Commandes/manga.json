@@ -15,7 +15,14 @@
         "name":["crocochap","cc"],
         "help":"Affiche une page d'un chapitre de Croco",
         "cmd":"crocochap/cc <chap> [page]",
-        "id":"3395f559-5f90-4049-9dae-75b8918cadb9"
+        "id":"3395f559-5f90-4049-9dae-75b8918cadb9",
+        "options":{
+            "banteam":[
+                {
+                    "id":"31a074d2-dc0e-4983-b646-0f6a1a8104a9"
+                }
+            ]
+        }
     },
     "doujin-kaguya":{
         "name":["dkaguchap","dkc","dkchap"],
@@ -48,8 +55,14 @@
         "help":"Affiche une page d'un chapitre d'Oshi no Ko",
         "cmd":"onkchap/oc/oshichap <chap> [page]",
         "id":"296cbc31-af1a-4b5b-a34b-fee2b4cad542",
-        "blueSoloEd":true,
-        "slug":"oshi-no-ko"
+        "options":{
+            "banteam":[
+                {
+                    "id":"4bd5fd9a-ee2f-40ae-8551-28e49be30cd2",
+                    "from":94
+                }
+            ]
+        }
     },
     "sbr":{
         "name":["sbrchap","sbrc"],

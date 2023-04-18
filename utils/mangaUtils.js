@@ -1,6 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction } = require("discord.js");
 const { getChapitre, getChapitreById, getChapitreInfoById } = require("../services/mangadexService");
-const { getChapitre:getChapitreMangaScan } = require("../services/mangascanService");
 const { getChapitre:getChapitreMangaReader } = require("../services/mangareaderService");
 
 /**
@@ -11,7 +10,7 @@ const { getChapitre:getChapitreMangaReader } = require("../services/mangareaderS
  * @param {string} [slug] 
  * @returns 
  */
-module.exports.send = async (interaction,chap,numero,{id:research,blueSoloEd = false,slug,langue,idChap,mangaReader}) => {
+module.exports.send = async (interaction,chap,numero,{id:research,langue,idChap,mangaReader,options}) => {
     let chapitre;
     let defer = false;
     if(idChap){
@@ -25,23 +24,13 @@ module.exports.send = async (interaction,chap,numero,{id:research,blueSoloEd = f
             defer = true;
             chapitre = await getChapitreMangaReader(research,chap);
         }else{
-            chapitre = await getChapitre(research,chap,blueSoloEd,langue);
+            chapitre = await getChapitre(research,chap,options,langue);
         }
         if(typeof chapitre == "string"){
-            if(slug){
-                chapitre = await getChapitreMangaScan(slug,chap);
-                if(typeof chapitre == "string"){
-                    if(defer){
-                        return interaction.channel.send({content:chapitre,ephemeral:true})
-                    }
-                    return interaction.reply({content:chapitre,ephemeral:true});
-                }
-            }else {
-                if(defer){
-                    return interaction.channel.send({content:chapitre,ephemeral:true})
-                }
-                return interaction.reply({content:chapitre,ephemeral:true});
+            if(defer){
+                return interaction.channel.send({content:chapitre,ephemeral:true})
             }
+            return interaction.reply({content:chapitre,ephemeral:true})
         }
         
     }

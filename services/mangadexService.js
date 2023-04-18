@@ -1,19 +1,26 @@
 const Chapitre = require("../entity/chapitre");
 const superagent = require("superagent");
 
-module.exports.getChapitre = async (manga,numero,blueSoloEd,langue) => {
+module.exports.getChapitre = async (manga,numero,options,langue) => {
     let offset = 0;
     let data;
     let result;
     if(!langue || langue.includes("fr")){
         langue = langue?.filter(e => e != "fr");
+        let URL = `https://api.mangadex.org/manga/${manga}/feed?translatedLanguage[]=fr&includeExternalUrl=0&limit=500`
+        if(options){
+            options.banteam?.forEach(e => {
+                if(!e.from || numero > e.from){
+                    URL+=`&excludedGroups[]=${e.id}`
+                }
+            })
+        }
         do{
-            result = await superagent.get(`https://api.mangadex.org/manga/${manga}/feed?translatedLanguage[]=fr${blueSoloEd && numero > 94 ? "&excludedGroups[]=4bd5fd9a-ee2f-40ae-8551-28e49be30cd2" : ""}&includeExternalUrl=0&limit=500&offset=${offset*500}`)
+            result = await superagent.get(`${URL}&offset=${offset*500}`)
             data = result.body.data.find(element =>   element.attributes.chapter == numero);
             offset++;
         }while(result.body.total > offset*500 && typeof data == "undefined")
-    }else
-    if(langue && typeof data == "undefined"){
+    }else if(langue && typeof data == "undefined"){
         offset = 0;
         do{
             result = await superagent.get(`https://api.mangadex.org/manga/${manga}/feed?${langue.map(e=>`translatedLanguage[]=${e}&`).join("")}includeExternalUrl=0&limit=500&offset=${offset*500}`)
