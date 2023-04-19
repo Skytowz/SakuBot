@@ -3,6 +3,7 @@ module.exports = class TypeHelp{
     static ScanR = new TypeHelp("ScanR", "Page d'aide ralative à tout ce qui se rapporte à ScanR")
     static Utils = new TypeHelp("Utils", "Page d'aide pour tout ce qui est commade utilitaire")
     static Autre = new TypeHelp("Autre", "Commande fun/troll proposé par les membres du serveur")
+    static Character = new TypeHelp("Character", "Commande qui affiche une image d'un personnage")
     
     constructor(name,description) {
         this.name = name
