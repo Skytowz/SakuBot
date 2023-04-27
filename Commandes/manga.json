@@ -64,6 +64,12 @@
             ]
         }
     },
+    "renai":{
+        "name":["renaichap","renaic","rc"],
+        "help":"Affiche une page d'un chapitre de Renai Daikou",
+        "cmd":"renaichap/renaic/rc <chap> [page]",
+        "id":"ea3fc681-51fd-44d9-a83d-297c4c28e11b"
+    },
     "sbr":{
         "name":["sbrchap","sbrc"],
         "help":"Affiche une page d'un chapitre de Jojo's Steel Ball Run",
