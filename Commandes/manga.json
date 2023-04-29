@@ -68,7 +68,21 @@
         "name":["renaichap","renaic","rc"],
         "help":"Affiche une page d'un chapitre de Renai Daikou",
         "cmd":"renaichap/renaic/rc <chap> [page]",
-        "id":"ea3fc681-51fd-44d9-a83d-297c4c28e11b"
+        "id":"ea3fc681-51fd-44d9-a83d-297c4c28e11b",
+
+        "options":{
+
+            "banteam":[
+
+                {
+
+                    "id":"fca36086-ea94-4d1b-803d-cc22dab6a570"
+
+                }
+
+            ]
+
+        }
     },
     "sbr":{
         "name":["sbrchap","sbrc"],
