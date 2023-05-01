@@ -1,4 +1,4 @@
-node_modules
+node_modules/
 .env
-package-lock.json
-Commandes/leave.js
+src/Commandes/leave.js
+dist/
