@@ -6,8 +6,12 @@ import {
 } from 'discord.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
 
-export const run = async (client: Client, interaction: CommandInteraction) => {
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   let user;
   if (interaction.isUserContextMenuCommand()) {
     user = interaction.targetUser;
@@ -19,7 +23,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   } else {
     user = interaction.user;
   }
-  //FIXME
   //@ts-ignore
   const url = user?.avatarURL() ?? user?.user?.avatarURL();
   if (!url)
@@ -30,7 +33,7 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   await interaction.reply(url + '?size=4096');
 };
 
-export const help = {
+export const help: CommandDeclaration = {
   name: ['pp'],
   help: "> Recupère la photo d'un profil de sois même ou d'un utilisateur",
   type: TypeHelp.Autre,

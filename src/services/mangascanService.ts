@@ -8,7 +8,6 @@ export const getChapitre = async (manga: string, numero: string) => {
   if (numero.includes('.')) {
     numero = numero.replace('.', '-');
   }
-  //FIXME
   //@ts-ignore
   await got(`https://www.mangafr.net/manga/${manga}/chapitre-${numero}/`)
     .then((response: any) => {
@@ -18,7 +17,6 @@ export const getChapitre = async (manga: string, numero: string) => {
         res = 'Chapitre invalide';
         return;
       }
-      //FIXME
       //@ts-ignore
       const url = img0.src.slice(0, -'1.jpg'.length);
       const page = Array.from(

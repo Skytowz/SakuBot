@@ -88,8 +88,7 @@ export default class Embed {
     return this;
   }
 
-  //FIXME
-  setAuthor(user: any) {
+  setAuthor(user: { username: string; avatarURL: () => string }) {
     this.author = {
       name: user.username,
       iconURL: user.avatarURL(),
@@ -110,7 +109,6 @@ export default class Embed {
     return this;
   }
 
-  //FIXME
   static getNautiljonEmbed(username: string, props: any, link: string) {
     const getDescription = (description: string) => {
       if (description.length > 500)
@@ -120,7 +118,6 @@ export default class Embed {
       else return description;
     };
     const otherData: Array<string> = [];
-    //FIXME
     const datas = props.data.reduce((json: any, item: string) => {
       if (item.includes('·')) {
         const elements = item.split('·');
@@ -128,7 +125,6 @@ export default class Embed {
           elements.forEach((element: string) => {
             if (element.includes(':')) {
               const data = element.split(':');
-              //FIXME
               //@ts-ignore
               json[data.shift()?.trim()] = data.join(':').trim();
             } else {
@@ -139,7 +135,6 @@ export default class Embed {
       } else {
         if (item.includes(':')) {
           const data = item.split(':');
-          //FIXME
           //@ts-ignore
           json[data.shift()?.trim()] = data.join(':').trim();
         }

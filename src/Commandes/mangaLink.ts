@@ -7,6 +7,7 @@ import {
   Client,
 } from 'discord.js';
 import { send } from '../utils/mangaUtils.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
 const language = [
   {
     name: 'anglais',
@@ -46,12 +47,13 @@ const language = [
  * @param {Client} client
  * @param {CommandInteraction} interaction
  */
-export const run = async (client: Client, interaction: CommandInteraction) => {
-  //FIXME
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   //@ts-ignore
-  const url = interaction.options.getString('url');
+  const url: string = interaction.options.getString('url');
   const id = url.match(/title\/([a-zA-Z0-9-]+)(\/?.*)/i)?.at(1);
-  //FIXME
   //@ts-ignore
   const langue = interaction.options.getString('langue');
   let langues;
@@ -63,22 +65,18 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   if (id && url.match(/mangadex.org\/title/)) {
     send(
       interaction,
-      //FIXME
       //@ts-ignore
       interaction.options.getString('chapitre') ?? 1,
-      //FIXME
       //@ts-ignore
       interaction.options.getString('page'),
-      //FIXME
-      //@ts-ignore
-      { id: id, langue: langues }
+      { idChap: id, langue: langues }
     );
   } else {
     return interaction.reply({ content: 'Lien invalide', ephemeral: true });
   }
 };
 
-export const help = {
+export const help: CommandDeclaration = {
   name: ['manga'],
   help: "Affiche n'importe quel manga de mangadex",
   type: TypeHelp.ViewManga,

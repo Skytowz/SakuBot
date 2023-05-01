@@ -1,19 +1,20 @@
 import { Client, CommandInteraction } from "discord.js";
 import TypeHelp from "../entity/typeHelp";
+import { CommandDeclaration, CommandRun } from './Command.js';
 
 /**
  * 
  * @param {Client} client 
  * @param {CommandInteraction} interaction 
  */
-export const run = async(client: Client, interaction: CommandInteraction) =>{        
+export const run: CommandRun = async(client: Client, interaction: CommandInteraction) =>{        
     await interaction.reply("yo")
 };
 
-export consthelp = {
+export consthelp: CommandDeclaration = {
     name:["name"],
     help:"> message",
     type: TypeHelp.Autre,
     cmd:"cmd",
-    noHelp: false
+    nohelp: false
 }

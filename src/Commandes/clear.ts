@@ -6,26 +6,27 @@ import {
 } from 'discord.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
 
 /**
  *
  * @param {*} client
  * @param {CommandInteraction} interaction
  */
-export const run = async (client: Client, interaction: CommandInteraction) => {
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   if (
     !['452186417334976532', '273756946308530176'].includes(
-      //FIXME
       //@ts-ignore
       interaction.member?.id
     )
   )
     return interaction.reply({ content: 'Tu peux pas, CHEH', ephemeral: true });
-  //FIXME
   //@ts-ignore
   const nombre = interaction.options.getInteger('nombre');
   interaction.channel
-    //FIXME
     //@ts-ignore
     ?.bulkDelete(nombre)
     .then(() =>
@@ -39,7 +40,7 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
     );
 };
 
-export const help = {
+export const help: CommandDeclaration = {
   name: ['clear'],
   help: 'Clear un certain nombre de message',
   type: TypeHelp.Utils,

@@ -9,12 +9,16 @@ import {
 import { request, fetch } from 'undici';
 import TypeHelp from '../entity/typeHelp.js';
 import Embed from '../utils/embed.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
 /**
  *
  * @param {*} client
  * @param {CommandInteraction} interaction
  */
-export const run = async (client: Client, interaction: CommandInteraction) => {
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   if (!interaction.isMessageContextMenuCommand())
     return interaction.reply({
       content: "Ceci n'est pas un message",
@@ -45,7 +49,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   const { results } = await fetch(
     `https://saucenao.com/search.php?db=999&output_type=2&numres=50&api_key=4f94dcf41458ba2601b9d09fe7d4107a7afd9071&url=${image}`
   ).then(
-    //FIXME
     async (response) => ((await response.json()) as { results: any }).results
   );
   if (!results) {
@@ -54,7 +57,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
       ephemeral: true,
     });
   }
-  //FIXME
   results.sort((a: any, b: any) => b.header.similarity - a.header.similarity);
   const res = results[0];
   const embed = new Embed()
@@ -87,7 +89,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
       .setLabel('Afficher')
       .setStyle(ButtonStyle.Secondary)
   );
-  //FIXME
   //@ts-ignore
   interaction.reply({
     embeds: [embed],
@@ -101,7 +102,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
     if (i.customId === 'show') {
       row.components.pop();
       i.update({ content: '-', embeds: [], components: [] });
-      //FIXME
       interaction.targetMessage.reply({
         //@ts-ignore
         embeds: [embed],
@@ -113,7 +113,7 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   });
 };
 
-export const help = {
+export const help: CommandDeclaration = {
   name: ['sauce'],
   help: "> Donne la source d'une image",
   type: TypeHelp.Utils,

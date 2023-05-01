@@ -11,6 +11,7 @@ import {
   getChapitreInfoById,
 } from '../services/mangadexService.js';
 import { getChapitre as getChapitreMangaReader } from '../services/mangareaderService.js';
+import { CommandDeclarationOptions } from '../Commandes/Command.js';
 
 /**
  *
@@ -31,12 +32,11 @@ export const send = async (
     mangaReader,
     options,
   }: {
-    research: string;
+    research?: string;
     langue: Array<string>;
     idChap?: string;
-    mangaReader: boolean;
-    //FIXME
-    options: any;
+    mangaReader?: boolean;
+    options?: CommandDeclarationOptions;
   }
 ) => {
   let chapitre;
@@ -55,13 +55,17 @@ export const send = async (
     if (mangaReader) {
       interaction.deferReply();
       defer = true;
-      chapitre = await getChapitreMangaReader(research, chap);
+      chapitre = await getChapitreMangaReader(research as string, chap);
     } else {
-      chapitre = await getChapitre(research, chap, options, langue);
+      chapitre = await getChapitre(
+        research as string,
+        chap,
+        options as CommandDeclarationOptions,
+        langue
+      );
     }
     if (typeof chapitre == 'string') {
       if (defer) {
-        //FIXME
         return interaction.channel?.send({
           content: chapitre,
           //@ts-ignore
@@ -77,12 +81,12 @@ export const send = async (
     numero &&
     numero != '' &&
     !Number.isNaN(numero) &&
-    numero <= chapitre.nbPages &&
+    (numero as number) <= chapitre.nbPages &&
     (numero as number) > 0
   )
     embedList.index = (numero as number) - 1;
 
-  const content = embedList.getContent();
+  const content = embedList.getContent() as any;
 
   if (chapitre.nbPages > 1) {
     const row = new ActionRowBuilder().addComponents(
@@ -113,8 +117,10 @@ export const send = async (
 
     interact.on('collect', async (i) => {
       if (i.customId === 'before') {
+        //@ts-ignore
         embedList.left(i);
       } else if (i.customId === 'next') {
+        //@ts-ignore
         embedList.right(i);
       } else if (i.customId === 'lock') {
         interact.stop();

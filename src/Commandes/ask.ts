@@ -2,6 +2,8 @@
 import { Client, CommandInteraction } from 'discord.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
+import { sample } from '../utils/arrayUtils.js';
 
 const quote = [
   'Je réponds pas à un Mikodog', //Negatif
@@ -27,19 +29,19 @@ const quote = [
   'Vas-y pose une question encore plus conne pour voir ?', //Tkt
 ];
 
-export const run = async (client: Client, interaction: CommandInteraction) => {
-  //FIXME
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   //@ts-ignore
   const question = interaction.options.getString('question');
   const content =
-    //FIXME
-    //@ts-ignore
-    (question ? `> **${question}** \n` : '') + `*${quote.sample()}*`;
+    (question ? `> **${question}** \n` : '') + `*${sample(quote)}*`;
   await interaction.reply({ content: content });
 };
 
-export const help = {
-  name: 'ask',
+export const help: CommandDeclaration = {
+  name: ['ask'],
   cmd: 'ask [question]',
   help: 'Répond à une question',
   type: TypeHelp.Autre,

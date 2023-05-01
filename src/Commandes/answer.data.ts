@@ -116,7 +116,7 @@ export default {
     slash: true,
   },
   aka: {
-    name: 'aka',
+    name: ['aka'],
     help: 'Envoie une photo du maitre',
     cmd: 'aka',
     type: 'Autre',
@@ -231,7 +231,7 @@ export default {
     slash: true,
   },
   hayasaka: {
-    name: 'hayasaka',
+    name: ['hayasaka'],
     help: 'Affiche une image random de Hayasaka (la seule est unique waifu)',
     cmd: 'hayasaka',
     type: 'Character',

@@ -8,7 +8,6 @@ export const getChapitre = async (manga: string, numero: number | string) => {
   const result = await superagent.get(
     `https://mangareader.to/ajax/manga/reading-list/${manga}`
   );
-  //FIXME
   //@ts-ignore
   const DOM = new JSDOM(JSON.parse(result.res.text).html);
   const chapitre = DOM.window.document.querySelector(
@@ -17,18 +16,14 @@ export const getChapitre = async (manga: string, numero: number | string) => {
   if (!chapitre) {
     return 'Numéro de chapitre invalide';
   }
-  //FIXME
-  //@ts-ignore
-  return await this.getChapitreById(chapitre);
+  return await getChapitreById(chapitre);
 };
 
-//FIXME: retirer le any
 export const getChapitreById = async (chapitre: any) => {
   const DOM = await superagent
     .get(
       `https://mangareader.to/ajax/image/list/chap/${chapitre.dataset.id}?mode=vertical&quality=low`
     )
-    //FIXME
     //@ts-ignore
     .then(({ res }) => new JSDOM(JSON.parse(res.text).html));
   let shuffled = false;
@@ -37,7 +32,6 @@ export const getChapitreById = async (chapitre: any) => {
       async (e, i) => {
         if (e.classList.contains('shuffled')) {
           shuffled = true;
-          //FIXME
           //@ts-ignore
           return unscramble(e.dataset.url, i);
           //@ts-ignore

@@ -1,15 +1,15 @@
 import { ApplicationCommandOptionType } from 'discord.js';
+import { LangOption } from '../Commandes/Command.js';
 
 export default class SlashOption {
-  //FIXME
-  public choices?: any;
+  public choices?: Array<LangOption>;
 
   constructor(
     public name?: string,
     public description?: string,
     public type = ApplicationCommandOptionType.String,
     public required = false,
-    choices?: any
+    choices?: Array<LangOption>
   ) {
     this.name = name;
     this.description = description;

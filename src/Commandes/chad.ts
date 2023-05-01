@@ -7,12 +7,16 @@ import {
 } from 'discord.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
 /**
  *
  * @param {Client} client
  * @param {CommandInteraction} interaction
  */
-export const run = async (client: Client, interaction: CommandInteraction) => {
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   let user;
   if (interaction.isUserContextMenuCommand()) {
     user = interaction.targetUser;
@@ -32,7 +36,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   );
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  //FIXME
   const url =
     //@ts-ignore
     user?.avatarURL({ format: 'png' }) ??
@@ -50,8 +53,8 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   interaction.reply({ files: [buffer] });
 };
 
-export const help = {
-  name: 'chad',
+export const help: CommandDeclaration = {
+  name: ['chad'],
   help:
     "Envoie un photomontage de soit meme chad ou d'une personne tag en Chad",
   cmd: 'chad [tag]',

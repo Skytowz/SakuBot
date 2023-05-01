@@ -2,19 +2,22 @@
 import { Client, CommandInteraction } from 'discord.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { config } from 'dotenv';
+import { CommandDeclaration, CommandRun } from './Command.js';
 config();
 
 const idMsg =
   process.env.ENV == 'DEV' ? '1019290546088460289' : '1019293176516841472';
 
-export const run = async (client: Client, interaction: CommandInteraction) => {
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   if (
     ![
       '904895756073336873',
       '273756946308530176',
       '1020030218154557611',
       '1022927961613148190',
-      //FIXME
       //@ts-ignore
     ].includes(interaction.member?.id)
   )
@@ -27,7 +30,7 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   msg.edit('' + chiffre);
 };
 
-export const help = {
+export const help: CommandDeclaration = {
   name: ['ayahitoo', 'aya'],
   help: 'Commande speciale pour Ayahitoo',
   type: TypeHelp.Autre,
