@@ -7,26 +7,28 @@ import {
 import { send } from '../utils/mangaUtils.js';
 import SlashOption from '../utils/slashOption.js';
 import mangas from './manga.data.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
 
-export const run = async (client: Client, interaction: CommandInteraction) => {
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   const manga = Object.values(mangas).find((manga) =>
     manga.name.includes(interaction.commandName)
   );
   send(
     interaction,
-    //FIXME
     //@ts-ignore
     interaction.options.getString('chapitre'),
-    //FIXME
     //@ts-ignore
     interaction.options.getString('page'),
-    //FIXME
     //@ts-ignore
     manga
   );
 };
-export const help = {
-  noHelp: true,
+
+export const help: CommandDeclaration = {
+  nohelp: true,
   args: [
     new SlashOption(
       'chapitre',

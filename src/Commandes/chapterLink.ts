@@ -7,19 +7,21 @@ import {
   CommandInteraction,
 } from 'discord.js';
 import { send } from '../utils/mangaUtils.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
 
 /**
  *
  * @param {Client} client
  * @param {CommandInteraction} interaction
  */
-export const run = async (client: Client, interaction: CommandInteraction) => {
-  //FIXME
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   //@ts-ignore
   const url = interaction.options.getString('url');
   const id = url.match(/chapter\/([a-zA-Z0-9-]+)(\/?.*)/i)?.at(1);
   if (id && url.match(/mangadex.org\/chapter/)) {
-    //FIXME
     //@ts-ignore
     send(interaction, null, interaction.options.getString('page'), {
       idChap: id,
@@ -29,7 +31,7 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   }
 };
 
-export const help = {
+export const help: CommandDeclaration = {
   name: ['chapter'],
   help: "Affiche n'importe quel chapitre de mangadex",
   type: TypeHelp.ViewManga,

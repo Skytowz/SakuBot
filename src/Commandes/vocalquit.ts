@@ -8,10 +8,14 @@ import {
 } from '@discordjs/voice';
 import TypeHelp from '../entity/typeHelp.js';
 import { Client, CommandInteraction } from 'discord.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
 
 let enCours = false;
 
-export const run = async (client: Client, interaction: CommandInteraction) => {
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   if (enCours)
     return interaction.reply({
       content: 'Une déco est déjà en cours',
@@ -60,7 +64,7 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   interaction.reply({ content: 'Disconnected', ephemeral: true });
 };
 
-export const help = {
+export const help: CommandDeclaration = {
   name: ['quit'],
   help: 'Quitter le vocal de manière stylé',
   type: TypeHelp.Autre,

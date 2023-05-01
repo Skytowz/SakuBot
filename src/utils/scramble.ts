@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Canvas from '@napi-rs/canvas';
 import { AttachmentBuilder } from 'discord.js';
 import shuffleSeed from 'shuffle-seed';
 
 const PIECE_SIZE = 200;
-const memo: any = {};
+const memo: { [key: number]: Array<number> } = {};
 
 export const unscramble = async (imageSrc: string, iteration: number) => {
   const image = await Canvas.loadImage(imageSrc);
@@ -25,21 +24,26 @@ export const unscramble = async (imageSrc: string, iteration: number) => {
       });
     }
   }
-  const groups = pieces.reduce((accumulator, current) => {
-    //FIXME
-    //@ts-ignore
-    if (accumulator[(current.w << 16) | current.h]) {
-      //@ts-ignore
-      accumulator[(current.w << 16) | current.h].push(current);
-    } else {
-      //@ts-ignore
-      accumulator[(current.w << 16) | current.h] = [];
-      //@ts-ignore
-      accumulator[(current.w << 16) | current.h].push(current);
+  const groups = pieces.reduce(
+    (accumulator, current) => {
+      if (accumulator[(current.w << 16) | current.h]) {
+        accumulator[(current.w << 16) | current.h].push(current);
+      } else {
+        accumulator[(current.w << 16) | current.h] = [];
+        accumulator[(current.w << 16) | current.h].push(current);
+      }
+      return accumulator;
+    },
+    {} as {
+      [key: number]: Array<{
+        x: number;
+        y: number;
+        w: number;
+        h: number;
+      }>;
     }
-    return accumulator;
-  }, {});
-  for (const [_, group] of Object.entries<Array<any>>(groups)) {
+  );
+  for (const [_, group] of Object.entries(groups)) {
     const size = group.length;
     if (!memo[size]) {
       const indices = [];
@@ -48,8 +52,8 @@ export const unscramble = async (imageSrc: string, iteration: number) => {
       }
       memo[size] = shuffleSeed.unshuffle(indices, 'stay');
     }
-    const permutation: any = memo[size];
-    permutation.forEach((i: any, original: any) => {
+    const permutation: Array<number> = memo[size];
+    permutation.forEach((i, original) => {
       const src = group[i];
       const dst = group[original];
       context.drawImage(

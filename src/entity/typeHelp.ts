@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 export default class TypeHelp {
   static ViewManga = new TypeHelp(
     'View Manga',
@@ -26,17 +25,12 @@ export default class TypeHelp {
   static getValues() {
     return Object.keys(TypeHelp).map((value) => [
       value,
-      //FIXME
-      //@ts-ignore
-      TypeHelp[value].name,
-      //@ts-ignore
-      TypeHelp[value].description,
+      Object.entries(TypeHelp).find(([key]) => key === value)?.[1]?.name,
+      Object.entries(TypeHelp).find(([key]) => key === value)?.[1]?.description,
     ]);
   }
 
   static getValue(value: string) {
-    //FIXME
-    //@ts-ignore
-    return TypeHelp[value] ?? null;
+    return Object.entries(TypeHelp).find(([key]) => key === value)?.[1] ?? null;
   }
 }

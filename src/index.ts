@@ -10,14 +10,22 @@ import {
 } from 'discord.js';
 import * as fs from 'fs';
 import SlashCommand from './utils/slashCommand.js';
+import {
+  filterCommandsDataFromList,
+  filterCommandsFromList,
+} from './utils/commandUtils.js';
+import Command, {
+  CommandDeclaration,
+  CommandsData,
+} from './Commandes/Command.js';
 
 import { config } from 'dotenv';
 config();
 
-//FIXME
 const rest = new REST({ version: '10' }).setToken(
-  //@ts-ignore
-  process.env.ENV == 'DEV' ? process.env.TOKEN_DEV : process.env.TOKEN
+  (process.env.ENV == 'DEV'
+    ? process.env.TOKEN_DEV
+    : process.env.TOKEN) as string
 );
 
 const client = new Client({
@@ -32,13 +40,6 @@ const client = new Client({
   ],
 });
 
-//FIXME
-//@ts-ignore
-Array.prototype.sample = function () {
-  if (this.length == 1) return this[0];
-  return this[Math.floor(Math.random() * this.length)];
-};
-
 client.on('rateLimit', (data) => {
   if (data.timeout > 1000) process.kill(1);
 });
@@ -49,39 +50,37 @@ if (process.env.ENV == 'DEV') {
   client.login(process.env.TOKEN);
 }
 
-//FIXME
+//FIXME: ne pas ajouter de champs à une classe!
 //@ts-ignore
 client.commands = new Collection();
 
-const commands: Array<ContextMenuCommandBuilder | SlashCommand> = [];
+const registeredCommands: Array<ContextMenuCommandBuilder | SlashCommand> = [];
 
-// const appCommand = new ContextMenuCommandBuilder().setName('chad').setType(ApplicationCommandType.Message);
-//
-// commands.push(appCommand);
-
-//FIXME
-const addList = (name: string, commande: any, object: any) => {
-  if (!commande.help.noHelp || object) {
-    //FIXME
+const addList = (
+  name: string,
+  commande: Command,
+  object?: CommandDeclaration
+) => {
+  if (!commande.help.nohelp || object) {
     //@ts-ignore
     client.commands.set(name, commande);
     if (commande.help.slash || object?.slash) {
-      commands.push(
+      registeredCommands.push(
         new SlashCommand()
           .setName(name)
-          .setDescription(object?.help ?? commande.help.help)
+          .setDescription((object?.help ?? commande.help.help) as string)
           .setOption(commande.help.args ?? [])
       );
     }
     if (commande.help.user || object?.user) {
-      commands.push(
+      registeredCommands.push(
         new ContextMenuCommandBuilder()
           .setName(name)
           .setType(ApplicationCommandType.User)
       );
     }
     if (commande.help.message || object?.message) {
-      commands.push(
+      registeredCommands.push(
         new ContextMenuCommandBuilder()
           .setName(name)
           .setType(ApplicationCommandType.Message)
@@ -89,53 +88,24 @@ const addList = (name: string, commande: any, object: any) => {
     }
   }
 };
+
 (async () => {
   fs.readdir('./dist/Commandes/', async (error, f) => {
-    console.log(f);
     //Recupération des commandes classiques
-    const commandes = f.filter((f) => f.match(/^(?:(?!(?:\.data)).)*\.js$/));
+    const commandes = filterCommandsFromList(f);
     if (commandes.length <= 0)
       return console.log('Aucune commande classique trouvé');
-    await Promise.all(
-      commandes.map(async (f) => {
-        // prettier-ignore
-        const commande = await import(`./Commandes/${f}`);
-        console.log(commande);
+    await Promise.all(commandes.map(importCommand));
 
-        if (typeof commande.help.name == 'object')
-          commande.help.name.forEach((name: string) =>
-            addList(name, commande, undefined)
-          );
-        else addList(commande.help.name, commande, undefined);
-      })
-    );
-    console.log(f);
-    //recuperation des commandes JSON
-    const jsons = f.filter((f) => f.match(/\.data\.js$/));
-    if (jsons.length <= 0) return console.log('Aucune commande JSON trouvé');
-    Promise.all(
-      jsons.map(async (f) => {
-        const json = (await import(`./Commandes/${f}`)).default;
-        const js = await import(`./Commandes/${f.replace(/\.data/g, '')}`);
-        //FIXME
-        Object.values(json).forEach((object: any) => {
-          if (typeof object.name == 'object')
-            object.name.forEach((name: string) => addList(name, js, object));
-          else addList(object.name, js, object);
-        });
-      })
-    );
-    //Initialisation des commandes dans l'
+    //recuperation des commandes data
+    const datas = filterCommandsDataFromList(f);
+    if (datas.length <= 0) return console.log('Aucune commande data trouvé');
+    await Promise.all(datas.map(importCommandData));
+
+    //Initialisation des commandes dans l'api
     try {
       console.log('Started refreshing application (/) commands.');
-      await rest.put(
-        Routes.applicationCommands(
-          //FIXME
-          //@ts-ignore
-          process.env.ENV == 'DEV' ? process.env.APP_ID_DEV : process.env.APP_ID
-        ),
-        { body: commands }
-      );
+      await registerCommandsIdAPI(registeredCommands);
       console.log('Successfully reloaded application (/) commands.');
     } catch (error) {
       console.error(error);
@@ -148,13 +118,45 @@ fs.readdir('./dist/Events/', (error, f) => {
   console.log(`${f.length} events en chargement`);
 
   f.forEach(async (f) => {
-    //FIXME
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const events = (await import(`./Events/${f}`)).default;
     const event = f.split('.')[0];
-
-    console.log(events);
 
     client.on(event, events.bind(null, client));
   });
 });
+
+export const importCommand = async (command: string) => {
+  const commande: Command = await import(`./Commandes/${command}`);
+
+  if (typeof commande.help.name == 'object')
+    commande.help.name.forEach((name: string) =>
+      addList(name, commande, undefined)
+    );
+  else addList((commande.help.name as unknown) as string, commande, undefined);
+};
+
+export const importCommandData = async (commandData: string) => {
+  const data: CommandsData = (await import(`./Commandes/${commandData}`))
+    .default;
+  const js: Command = await import(
+    `./Commandes/${commandData.replace(/\.data/g, '')}`
+  );
+  Object.values(data).forEach((object) => {
+    if (typeof object.name == 'object')
+      object.name.forEach((name: string) => addList(name, js, object));
+    else addList((object.name as unknown) as string, js, object);
+  });
+};
+
+export const registerCommandsIdAPI = async (
+  commands: Array<ContextMenuCommandBuilder | SlashCommand>
+) => {
+  return rest.put(
+    Routes.applicationCommands(
+      (process.env.ENV == 'DEV'
+        ? process.env.APP_ID_DEV
+        : process.env.APP_ID) as string
+    ),
+    { body: commands }
+  );
+};

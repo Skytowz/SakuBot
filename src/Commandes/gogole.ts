@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Client, CommandInteraction } from 'discord.js';
 import TypeHelp from '../entity/typeHelp.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
+import { sample } from '../utils/arrayUtils.js';
 
 const quote = [
   'https://media.discordapp.net/attachments/991333308988395670/991448778395631726/IMG_20220402_184149.jpg',
@@ -11,10 +13,13 @@ const quote = [
   'https://media.discordapp.net/attachments/991333308988395670/991449449073217726/IMG_0398.jpg',
   'https://media.discordapp.net/attachments/991333308988395670/992525237407191102/IMG_20220421_002513.jpg',
 ];
-export const run = async (client: Client, interaction: CommandInteraction) => {
+
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   if (
     !['713837802638278749', '273756946308530176'].includes(
-      //FIXME
       //@ts-ignore
       interaction.member?.id
     )
@@ -25,11 +30,11 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
     });
   //FIXME
   //@ts-ignore
-  await interaction.reply({ files: [quote.sample()] });
+  await interaction.reply({ files: [sample(quote)] });
 };
 
-export const help = {
-  name: 'gogole',
+export const help: CommandDeclaration = {
+  name: ['gogole'],
   help: 'Commande gogole',
   cmd: 'gogole',
   type: TypeHelp.Autre,

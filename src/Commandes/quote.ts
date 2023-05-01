@@ -4,6 +4,7 @@ import TypeHelp from '../entity/typeHelp.js';
 import { getDateFromTimeStamp } from '../utils/dateUtils.js';
 import Embed from '../utils/embed.js';
 import SlashOption from '../utils/slashOption.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
 
 /**
  *
@@ -11,12 +12,14 @@ import SlashOption from '../utils/slashOption.js';
  * @param {CommandInteraction} interaction
  * @returns
  */
-export const run = async (client: Client, interaction: CommandInteraction) => {
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   let message;
   if (interaction.isMessageContextMenuCommand()) {
     message = interaction.targetId;
   } else {
-    //FIXME
     //@ts-ignore
     message = interaction.options.getString('message');
   }
@@ -45,7 +48,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   }
 
   const channel = await client.channels.fetch(ids[0]).catch((e) => {
-    console.log(e);
     return 'ERROR';
   });
   if (channel == 'ERROR')
@@ -54,7 +56,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
       ephemeral: true,
     });
 
-  //FIXME
   //@ts-ignore
   const messageFetch = await channel?.messages
     .fetch(ids[1])
@@ -73,7 +74,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
     .setAuthor(messageFetch.author)
     .setFooter(
       '#' +
-        //FIXME
         //@ts-ignore
         channel.name +
         ' | ' +
@@ -94,7 +94,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   ) {
     embeds.push(...messageFetch.embeds);
   }
-  //FIXME
   //@ts-ignore
   interaction.reply({ embeds: embeds });
   //
@@ -112,7 +111,7 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   // };
 };
 
-export const help = {
+export const help: CommandDeclaration = {
   name: ['quote'],
   help: "Renvoie le contenu d'un message",
   cmd: 'q/quote ([<id-channel>-]<id-message> | <url-message>)',

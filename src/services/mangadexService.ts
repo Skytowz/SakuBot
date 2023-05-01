@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { CommandDeclarationOptions } from '../Commandes/Command.js';
 import Chapitre from '../entity/chapitre.js';
 import * as superagent from 'superagent';
 
 export const getChapitre = async (
   manga: string,
   numero: number | string,
-  options: any,
+  options: CommandDeclarationOptions,
   langue: Array<string>
 ) => {
   let offset = 0;
@@ -15,10 +16,8 @@ export const getChapitre = async (
     langue = langue?.filter((e) => e != 'fr');
     let URL = `https://api.mangadex.org/manga/${manga}/feed?translatedLanguage[]=fr&includeExternalUrl=0&limit=500`;
     if (options) {
-      //FIXME
-      //@ts-ignore
       options.banteam?.forEach((e) => {
-        if (!e.from || numero > e.from) {
+        if (!e.from || (numero as number) > e.from) {
           URL += `&excludedGroups[]=${e.id}`;
         }
       });
@@ -26,9 +25,8 @@ export const getChapitre = async (
     do {
       result = await superagent.get(`${URL}&offset=${offset * 500}`);
       data = result.body.data.find(
-        //FIXME
-        //@ts-ignore
-        (element) => element.attributes.chapter == numero
+        (element: { attributes: { chapter: string } }) =>
+          element.attributes.chapter == numero
       );
       offset++;
     } while (result.body.total > offset * 500 && typeof data == 'undefined');
@@ -42,23 +40,16 @@ export const getChapitre = async (
             .join('')}includeExternalUrl=0&limit=500&offset=${offset * 500}`
         )
         .catch((e) => console.error(e));
-      //FIXME
-      //@ts-ignore
-      data = result.body.data.find(
-        //@ts-ignore
-        (element) =>
+      data = result?.body.data.find(
+        (element: { attributes: { chapter: string } }) =>
           element.attributes.chapter == numero ||
           (numero == 1 && element.attributes.chapter == null)
       );
       offset++;
-      //FIXME
-      //@ts-ignore
-    } while (result.body.total > offset * 500 && typeof data == 'undefined');
+    } while (result?.body.total > offset * 500 && typeof data == 'undefined');
   }
   if (typeof data == 'undefined') return 'Numéro de chapitre invalide';
-  //FIXME
-  //@ts-ignore
-  return await this.getChapitreById(data);
+  return await getChapitreById(data);
 };
 
 export const getChapitreById = async (chapitre: {

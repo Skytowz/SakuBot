@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import {
   Colors,
   SelectMenuBuilder,
@@ -10,8 +9,12 @@ import {
 import fs from 'fs';
 import TypeHelp from '../entity/typeHelp.js';
 import Embed from '../utils/embed.js';
+import { CommandDeclaration, CommandRun } from './Command.js';
 
-export const run = async (client: Client, interaction: CommandInteraction) => {
+export const run: CommandRun = async (
+  client: Client,
+  interaction: CommandInteraction
+) => {
   const help = new Embed()
     .setColor(Colors.DarkPurple)
     .setTitle('Help')
@@ -38,7 +41,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
     )
       .map((v) => v.default)
       .flatMap((json) =>
-        //FIXME
         Object.values(json).map((value) => {
           //@ts-ignore
           value.type = value.id
@@ -82,10 +84,8 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
         })
       )
     );
-    //FIXME
     //@ts-ignore
     content.components = [row];
-    //FIXME
     //@ts-ignore
     interaction.reply(content);
     const msg = await interaction.fetchReply();
@@ -94,7 +94,6 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
       if (i.customId === 'SelectHelp') {
         i.update({
           embeds: [
-            //FIXME
             //@ts-ignore
             embeds.find((v) => v.description.startsWith('**' + i.values)),
           ],
@@ -107,8 +106,8 @@ export const run = async (client: Client, interaction: CommandInteraction) => {
   });
 };
 
-export const help = {
-  name: 'help',
+export const help: CommandDeclaration = {
+  name: ['help'],
   cmd: 'help',
   type: TypeHelp.Utils,
   help: "Appelle l'aide",

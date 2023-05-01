@@ -24,10 +24,6 @@ export default class SlashCommand {
     return this;
   }
 
-  // addOption(option) {
-  //   this.options.push(option);
-  // }
-
   addOption(
     name: string,
     description: string,

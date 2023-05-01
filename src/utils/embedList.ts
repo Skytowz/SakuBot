@@ -33,7 +33,6 @@ export default class embedList {
     this.turnPage(msg);
   }
 
-  //FIXME
   //@ts-ignore
   turnPage(msg) {
     msg.update(this.getContent());
