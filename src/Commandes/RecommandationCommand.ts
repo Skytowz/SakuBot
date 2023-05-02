@@ -3,10 +3,11 @@ import { CommandInteraction, CacheType, Client } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
+import { CommandManager } from '../CommandManager.js';
 
 export default class RecommandationCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['reco'],
       help: 'Recommande un manga/anime',
       type: TypeHelp.Utils,

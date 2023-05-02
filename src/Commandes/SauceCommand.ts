@@ -11,15 +11,17 @@ import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import Embed from '../utils/embed.js';
 import { request } from 'undici';
+import { CommandManager } from '../CommandManager.js';
 
 export default class SauceCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['sauce'],
       help: "> Donne la source d'une image",
       type: TypeHelp.Utils,
       cmd: 'sauce',
       message: true,
+      slash: false,
     });
   }
 

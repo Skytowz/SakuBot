@@ -15,8 +15,8 @@ import fs from 'fs';
 import { CommandManager } from '../CommandManager.js';
 
 export default class HelpCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['help'],
       cmd: 'help',
       type: TypeHelp.Utils,
@@ -25,10 +25,7 @@ export default class HelpCommand extends AbstractCommand {
     });
   }
 
-  public async run(
-    commandInteraction: CommandInteraction<CacheType>,
-    commandManager: CommandManager
-  ) {
+  public async run(commandInteraction: CommandInteraction<CacheType>) {
     const help = new Embed()
       .setColor(Colors.DarkPurple)
       .setTitle('Help')
@@ -37,7 +34,7 @@ export default class HelpCommand extends AbstractCommand {
       )
       .setDescription('Choose your help page below');
 
-    const values = commandManager
+    const values = this.getCommandManager()
       .getAll()
       .filter(
         (command) => !command.getDetails().nohelp && command.getDetails().type

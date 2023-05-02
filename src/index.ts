@@ -36,13 +36,11 @@ if (process.env.ENV == 'DEV') {
   client.login(process.env.TOKEN);
 }
 
-const commands: Array<AbstractCommand> = [];
+const commandManager = new CommandManager();
 
-commandsData.forEach(({ command, details }) => {
-  commands.push(new command(client, details || {}));
-});
-
-const commandManager = new CommandManager(commands);
+commandsData.forEach(({ command, details }) =>
+  commandManager.addCommand(new command(client, commandManager, details || {}))
+);
 
 const events: Array<AbstractEvent> = [];
 
@@ -57,11 +55,18 @@ events.forEach((event) => {
 });
 
 (async () => {
-  //Initialisation des commandes dans l'api
   try {
-    console.log('Started refreshing application (/) commands.');
+    console.log(
+      `Starting the refresh of ${
+        commandManager.getAll().length
+      } application (/) commands.`
+    );
     await commandManager.registerCommands(rest);
-    console.log('Successfully reloaded application (/) commands.');
+    console.log(
+      `Successfully loaded ${
+        commandManager.getAll().length
+      } application (/) commands.`
+    );
   } catch (error) {
     console.error(error);
   }

@@ -2,10 +2,11 @@ import { CommandInteraction, CacheType, Client } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { getTimeLeft } from '../utils/dateUtils.js';
+import { CommandManager } from '../CommandManager.js';
 
 export default class OnkWhenCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['onkwhen'],
       help:
         'Dis combien de temps il reste avant le début du 1er episode de Oshi no Ko',

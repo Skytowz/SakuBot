@@ -5,7 +5,7 @@ import { registerCommands } from './services/commandService.js';
 export class CommandManager {
   private commands: Array<AbstractCommand> = [];
 
-  public constructor(commands: Array<AbstractCommand>) {
+  public constructor(commands: Array<AbstractCommand> = []) {
     if (commands) this.commands = commands;
   }
 

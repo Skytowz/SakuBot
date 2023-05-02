@@ -4,14 +4,15 @@ import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 
 import { config } from 'dotenv';
+import { CommandManager } from '../CommandManager.js';
 config();
 
 const ID_MSG =
   process.env.ENV == 'DEV' ? '1019290546088460289' : '1019293176516841472';
 
 export default class AyahitooCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['ayahitoo', 'aya'],
       help: 'Commande speciale pour Ayahitoo',
       type: TypeHelp.Autre,

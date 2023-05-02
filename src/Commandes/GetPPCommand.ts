@@ -8,10 +8,11 @@ import {
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
+import { CommandManager } from '../CommandManager.js';
 
 export default class GetPPCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['pp'],
       help: "> Recupère la photo d'un profil de sois même ou d'un utilisateur",
       type: TypeHelp.Autre,
