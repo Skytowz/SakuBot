@@ -15,6 +15,10 @@ import GogoleCommand from '../Commandes/GogoleCommand.js';
 import HelpCommand from '../Commandes/HelpCommand.js';
 import MangaLinkCommand from '../Commandes/MangaLinkCommand.js';
 import OnkWhenCommand from '../Commandes/OnkWhenCommand.js';
+import QuoteCommand from '../Commandes/QuoteCommand.js';
+import RecommandationCommand from '../Commandes/RecommandationCommand.js';
+import SauceCommand from '../Commandes/SauceCommand.js';
+import VocalquitCommand from '../Commandes/VocalquitCommand.js';
 import PinCommand from '../Commandes/PinCommand.js';
 import ImplementableDanroobuCommand from '../Commandes/implementable/ImplementableDanroobuCommand.js';
 
@@ -29,6 +33,10 @@ export default [
   { command: HelpCommand },
   { command: MangaLinkCommand },
   { command: OnkWhenCommand },
+  { command: QuoteCommand },
+  { command: RecommandationCommand },
+  { command: SauceCommand },
+  { command: VocalquitCommand },
   { command: PinCommand },
   ...AnswerCommandData.map((details) => ({
     command: ImplementableAnswerCommand,

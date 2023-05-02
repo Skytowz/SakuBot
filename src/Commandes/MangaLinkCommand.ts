@@ -9,6 +9,7 @@ import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import { send } from '../utils/mangaUtils.js';
+import { CommandManager } from '../CommandManager.js';
 
 const LANGUAGES = [
   {
@@ -46,8 +47,8 @@ const LANGUAGES = [
 ];
 
 export default class MangaLinkCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['manga'],
       help: "Affiche n'importe quel manga de mangadex",
       type: TypeHelp.ViewManga,

@@ -5,10 +5,11 @@ import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import Embed from '../utils/embed.js';
 import { getDateFromTimeStamp } from '../utils/dateUtils.js';
+import { CommandManager } from '../CommandManager.js';
 
 export default class QuoteCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['quote'],
       help: "Renvoie le contenu d'un message",
       cmd: 'q/quote ([<id-channel>-]<id-message> | <url-message>)',

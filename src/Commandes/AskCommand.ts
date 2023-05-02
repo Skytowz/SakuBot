@@ -4,6 +4,7 @@ import AbstractCommand from './AbstractCommand.js';
 import { sample } from '../utils/arrayUtils.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
+import { CommandManager } from '../CommandManager.js';
 
 const QUOTE = [
   'Je réponds pas à un Mikodog', //Negatif
@@ -30,8 +31,8 @@ const QUOTE = [
 ];
 
 export default class AskCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['ask'],
       cmd: 'ask [question]',
       help: 'Répond à une question',

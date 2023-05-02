@@ -9,12 +9,13 @@ import {
   createAudioResource,
   joinVoiceChannel,
 } from '@discordjs/voice';
+import { CommandManager } from '../CommandManager.js';
 
 export default class VocalquitCommand extends AbstractCommand {
   private enCours = false;
 
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['quit'],
       help: 'Quitter le vocal de manière stylé',
       type: TypeHelp.Autre,

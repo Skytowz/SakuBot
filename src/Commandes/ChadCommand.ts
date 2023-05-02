@@ -9,10 +9,11 @@ import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import Canvas from '@napi-rs/canvas';
+import { CommandManager } from '../CommandManager.js';
 
 export default class ChadCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(client: Client, commandManager: CommandManager) {
+    super(client, commandManager, {
       name: ['chad'],
       help:
         "Envoie un photomontage de soit meme chad ou d'une personne tag en Chad",
