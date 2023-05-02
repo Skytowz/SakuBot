@@ -96,7 +96,7 @@ export default class MangaLinkCommand extends AbstractCommand {
         { research: id, langue: langues }
       );
     } else {
-      return commandInteraction.reply({
+      commandInteraction.reply({
         content: 'Lien invalide',
         ephemeral: true,
       });

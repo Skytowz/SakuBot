@@ -1,9 +1,11 @@
+import TypeHelp from '../entity/typeHelp.js';
+
 export default [
   {
     name: ['adaptation'],
     help: 'Envoie le fichier excel des chapitres adaptés en anime',
     cmd: 'adaptation',
-    type: 'ScanR',
+    type: TypeHelp.ScanR,
     send: [
       'https://docs.google.com/spreadsheets/d/1AmXILgVd1BFfOfxQn8OJrgMQCzWbBMBRQoD9o_OHTNw',
     ],
@@ -14,7 +16,7 @@ export default [
     help:
       'Affiche une image random de Ai Hoshino (La best girl qui défonce 90% de vos waifu sauf Hayasaka)',
     cmd: 'ai',
-    type: 'Character',
+    type: TypeHelp.Character,
     send: [
       'https://cdn.discordapp.com/attachments/1096050847479255040/1096132014664589393/Fs8_x8WaMAg9N9R.png',
       'https://cdn.discordapp.com/attachments/1096050847479255040/1096131921400041472/FtAz0nJaEAA46QJ.png',
@@ -119,7 +121,7 @@ export default [
     name: ['aka'],
     help: 'Envoie une photo du maitre',
     cmd: 'aka',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: [
       {
         embeds: [
@@ -144,7 +146,7 @@ export default [
     help:
       "Affiche une image random de Aqua Hoshino (L'homme avec plus de flow que le flow)",
     cmd: 'aqua',
-    type: 'Character',
+    type: TypeHelp.Character,
     send: [
       'https://pbs.twimg.com/media/FuFXYniaEAMSatz.jpg',
       'https://cdn.discordapp.com/attachments/1096367026991271977/1098125844876111872/FuBjJ5MaAAANqVb-1.jpg',
@@ -203,7 +205,7 @@ export default [
     name: ['fatigue'],
     help: 'Envoie un banger musical',
     cmd: 'fatigue',
-    type: 'ScanR',
+    type: TypeHelp.ScanR,
     send: ['https://music.youtube.com/watch?v=E34mR2hB8_o&feature=share'],
     slash: true,
   },
@@ -211,7 +213,7 @@ export default [
     name: ['frictus'],
     help: 'Commande speciale pour Frictus',
     cmd: 'frictus',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: [
       "Réel, au dessus de ça il y a la douceur, l'amabilité, la forme, la gentillesse et la bonté et tant d'autre. Ce que je veux dire c'est qu'il y a pas besoin que ce soir énorme pour passer un merveilleux moment d'ailleurs je trouve ça plus minion quand c'est petit mais aussi plus pratique, ça va peut être plus vite mais c'est une force en soit non ???",
     ],
@@ -221,7 +223,7 @@ export default [
     name: ['gogo'],
     help: 'Commande speciale pour Gogo',
     cmd: 'gogo',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: [
       'https://media.discordapp.net/attachments/695034616351817828/991292586222432296/aaa.jpg',
       'https://media.discordapp.net/attachments/991333308988395670/1026931368606830652/Page_1_copie.jpg',
@@ -234,7 +236,7 @@ export default [
     name: ['hayasaka'],
     help: 'Affiche une image random de Hayasaka (la seule est unique waifu)',
     cmd: 'hayasaka',
-    type: 'Character',
+    type: TypeHelp.Character,
     send: [
       'https://cdn.discordapp.com/attachments/1029828520484012053/1029828584765931572/unknown.png',
       'https://cdn.discordapp.com/attachments/1029828520484012053/1029828611382988850/unknown.png',
@@ -283,7 +285,7 @@ export default [
     name: ['kaguya'],
     help: "Affiche une image random de Kaguya (n'oublions pas la main girl)",
     cmd: 'kaguya',
-    type: 'Character',
+    type: TypeHelp.Character,
     send: [
       'https://media.discordapp.net/attachments/991387297767510167/1050525745161715734/kmo99lljdf4a1.png',
       'https://media.discordapp.net/attachments/991387297767510167/1050526340908077056/xbhztrkiqh3a1.png',
@@ -306,7 +308,7 @@ export default [
     help:
       'Affiche une image random de Kana Arima (Best girl vivante de son anime)',
     cmd: 'kana',
-    type: 'Character',
+    type: TypeHelp.Character,
     send: [
       'https://cdn.discordapp.com/attachments/1096367199821774858/1098279665568862308/image.png',
       'https://cdn.discordapp.com/attachments/1096367199821774858/1097908761244475553/FfE0dt0VUAA5QPO.jpg',
@@ -422,7 +424,7 @@ export default [
     name: ['loggedoff'],
     help: 'Montre la vérité',
     cmd: 'loggedoff',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: [
       'https://cdn.discordapp.com/attachments/992534223397335113/1079552602838155384/ezgif.com-optimize.gif',
     ],
@@ -432,7 +434,7 @@ export default [
     name: ['marwane'],
     help: 'Commande speciale pour Marwane',
     cmd: 'marwane',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: [
       {
         content:
@@ -448,7 +450,7 @@ export default [
     name: ['miko'],
     help: "Affiche une image random de Miko (désolé j'ai perdu un paris)",
     cmd: 'miko',
-    type: 'Character',
+    type: TypeHelp.Character,
     send: [
       'https://cdn.discordapp.com/attachments/1020992894787665940/1024344698824970340/Miko.jpg',
       'https://cdn.discordapp.com/attachments/1020992894787665940/1024344879972761611/Miko_au_vent.jpg',
@@ -478,7 +480,7 @@ export default [
     name: ['dog'],
     help: 'La conjecture des mikodogs',
     cmd: 'dog/mikodog',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: [
       'https://media.discordapp.net/attachments/714214949341102111/991301131290546216/ChartGo.png',
     ],
@@ -488,7 +490,7 @@ export default [
     name: ['oiseau'],
     help: 'Envoie un banger autre musical',
     cmd: 'oiseau',
-    type: 'ScanR',
+    type: TypeHelp.ScanR,
     send: ['https://music.youtube.com/watch?v=XgkHohYTWzY'],
     slash: true,
   },
@@ -497,7 +499,7 @@ export default [
     help:
       'Affiche une image random de Ruby Hoshino (Tout sa mère mais en moins bien)',
     cmd: 'ruby',
-    type: 'Character',
+    type: TypeHelp.Character,
     send: [
       'https://pbs.twimg.com/media/FuFXYniaEAMSatz.jpg',
       'https://cdn.discordapp.com/attachments/1096367128573120604/1098125882314465320/FuDTgtYaAAE6kSu.jpg',
@@ -580,7 +582,7 @@ export default [
     name: ['sakushi'],
     help: 'Commande speciale pour Saku',
     cmd: 'sakushi',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: [
       'https://media.discordapp.net/attachments/714214949341102111/991297071938273300/qq.jpg',
     ],
@@ -590,7 +592,7 @@ export default [
     name: ['seanr', 'fifi'],
     help: 'Commande speciale pour SeanR',
     cmd: 'seanr',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: [
       'Aigris moi ? serieusement ^^ haha on me l avait pas sortie celle la depuis loooongtemps 🙂 demande a mes potes si je suis aigris tu vas voir les reponses que tu vas te prendre XD rien que la semaine passee j\'étais content donc chuuuuut ferme la aigris de merde car oui toi tu m as tout l air d un bon aigris de merde car souvent vous etes frustrer de ne pas AVOIR RAISON:) ses agreable de se faire comprendre ou entendre par les gens hein? tu peux pas repondre car tu ne sais pas ce que c ou alors tu le sais mais tu as du taper dans ta barre de recherche "comment se fait comprendre" ou "comment se faire entendre" pour comprendre ce que c etait mdddrrr !! c est grave quoiquil en soit.... pour revenir a moi, je pense que je suis le mec le moins aigris de ma bande de 11 meilleurs amis pas psk j ai eu le plus de bonne réponse mais psk j ai le plus jolie phrasé de mes amis 😄 ses pas moi qui le dit, ses eux qui commente sous mes posts twitter "trop belle la phrase que tu as poster hier !" donc apres si tu veux que sa parte plus loi sa peut partir vraiment loi j habite dans la banlieue de niort sa te parle steven sanchez ? ses juste un cousin donc OKLM hahaha on verra si tu parles encore le aigris de merde mdddrrr pk insulter qd on est soi meme aigris tu me feras toujour marrer!!',
     ],
@@ -600,7 +602,7 @@ export default [
     name: ['scang'],
     help: 'Envoi le lien du serveur clone maléfique de ScanR, ScanG',
     cmd: 'scang',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: ['https://discord.gg/NYU9wN9KMy'],
     slash: true,
   },
@@ -608,7 +610,7 @@ export default [
     name: ['scanr'],
     help: 'Envoi le lien du serveur ScanR',
     cmd: 'scanr',
-    type: 'ScanR',
+    type: TypeHelp.ScanR,
     send: ['https://discord.gg/Dw9VVZFaR6'],
     slash: true,
   },
@@ -616,7 +618,7 @@ export default [
     name: ['source', 'git'],
     help: 'Envoie le lien du github',
     cmd: 'source/git',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: ['https://github.com/Skytowz/SakuBot'],
     slash: true,
   },
@@ -624,7 +626,7 @@ export default [
     name: ['tierlist'],
     help: 'Envoie le lien de la tierlist',
     cmd: 'tierlist',
-    type: 'Autre',
+    type: TypeHelp.Autre,
     send: ['https://tiermaker.com/create/seanr-tier-list-15178170'],
     slash: true,
   },
@@ -632,7 +634,7 @@ export default [
     name: ['umasortie'],
     help: 'Envoie un rappel',
     cmd: 'umasortie',
-    type: 'ScanR',
+    type: TypeHelp.ScanR,
     send: [
       "Oubliez pas, on est jeudi et y'a quoi le jeudi, un chapitre de Uma à sortir, je le rapelle parceque même quand vous vous en souvenez, vous oubliez quand même donc oubliez pas de sortir un ou deux chapitres de ce banger intersidéral qu'est Uma Musume là!!!",
     ],
@@ -642,7 +644,7 @@ export default [
     name: ['wiki'],
     help: 'Envoie le wiki de Kaguya-sama',
     cmd: 'wiki',
-    type: 'ScanR',
+    type: TypeHelp.ScanR,
     send: [
       'https://kaguyasama-wa-kokurasetai.fandom.com/wiki/Kaguya-sama_wa_Kokurasetai_Wikia',
     ],

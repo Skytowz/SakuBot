@@ -1,5 +1,6 @@
 import { Client, CommandInteraction } from 'discord.js';
 import { CommandDeclaration } from '../types/Command.js';
+import { CommandManager } from '../CommandManager.js';
 
 export default class AbstractCommand {
   private client;
@@ -18,8 +19,10 @@ export default class AbstractCommand {
     return this.details;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async run(commandInteraction: CommandInteraction): Promise<any> {
-    Promise.resolve(commandInteraction);
+  public async run(
+    commandInteraction: CommandInteraction,
+    commandManager: CommandManager
+  ) {
+    Promise.reject({ commandInteraction, commandManager });
   }
 }

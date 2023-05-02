@@ -16,7 +16,7 @@ export default class ChapterLinkCommand extends AbstractCommand {
       name: ['chapter'],
       help: "Affiche n'importe quel chapitre de mangadex",
       type: TypeHelp.ViewManga,
-      cmd: 'manga',
+      cmd: 'chapter',
       args: [
         new SlashOption(
           'url',

@@ -9,6 +9,7 @@ import SlashOption from '../../utils/slashOption.js';
 import { send } from '../../utils/mangaUtils.js';
 import { CommandDeclaration } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
+import TypeHelp from '../../entity/typeHelp.js';
 
 export interface MangaCommandDeclaration extends CommandDeclaration {
   chapterId: string;
@@ -27,6 +28,7 @@ export default class ImplementableMangaCommand extends AbstractCommand {
         new SlashOption('page', 'Numéro de la page'),
       ],
       slash: true,
+      type: TypeHelp.ViewManga,
       ...details,
     });
   }
