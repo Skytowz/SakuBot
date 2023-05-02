@@ -34,12 +34,9 @@ export default class AbstractEvent {
     this.onEvent(commandInteraction).catch((error) => {
       console.error(error);
       if (commandInteraction.deferred) {
-        if (commandInteraction.replied)
-          commandInteraction.followUp({
-            content: ERROR_MESAGE,
-            ephemeral: true,
-          });
-        else commandInteraction.channel?.send({ content: ERROR_MESAGE });
+        commandInteraction.editReply({
+          content: ERROR_MESAGE,
+        });
       } else {
         if (commandInteraction.replied)
           commandInteraction.editReply({ content: ERROR_MESAGE });
