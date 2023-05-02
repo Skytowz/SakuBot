@@ -110,11 +110,12 @@ export default class SauceCommand extends AbstractCommand {
       if (i.customId === 'show') {
         row.components.pop();
         i.update({ content: '-', embeds: [], components: [] });
-        commandInteraction.editReply({
+        commandInteraction.followUp({
           //@ts-ignore
           embeds: [embed],
           //@ts-ignore
           components: [row],
+          ephemeral: false,
           allowedMentions: { repliedUser: false },
         });
       }
