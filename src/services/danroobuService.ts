@@ -1,6 +1,10 @@
 import * as superagent from 'superagent';
 
-export const getGeneralImageByTag = async (name, solo, sensitive) =>
+export const getGeneralImageByTag = async (
+  name: string,
+  solo: boolean,
+  sensitive: boolean
+) =>
   await superagent
     .get(
       `https://gelbooru.com/index.php?tags=${name}${

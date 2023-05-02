@@ -47,7 +47,7 @@ export default class embedList {
       embeds: [this.get()],
     };
     if (this.files) {
-      message.files = [this.files[this.index]];
+      message.files = this.files.length > 0 ? [this.files[this.index]] : [];
     }
     return message;
   }

@@ -1,5 +1,5 @@
-export default {
-  adaptation: {
+export default [
+  {
     name: ['adaptation'],
     help: 'Envoie le fichier excel des chapitres adaptés en anime',
     cmd: 'adaptation',
@@ -9,7 +9,7 @@ export default {
     ],
     slash: true,
   },
-  aka: {
+  {
     name: 'aka',
     help: 'Envoie une photo du maitre',
     cmd: 'aka',
@@ -33,7 +33,7 @@ export default {
     ],
     slash: true,
   },
-  fatigue: {
+  {
     name: ['fatigue'],
     help: 'Envoie un banger musical',
     cmd: 'fatigue',
@@ -41,7 +41,7 @@ export default {
     send: ['https://music.youtube.com/watch?v=E34mR2hB8_o&feature=share'],
     slash: true,
   },
-  frictus: {
+  {
     name: ['frictus'],
     help: 'Commande speciale pour Frictus',
     cmd: 'frictus',
@@ -51,7 +51,7 @@ export default {
     ],
     slash: true,
   },
-  gogo: {
+  {
     name: ['gogo'],
     help: 'Commande speciale pour Gogo',
     cmd: 'gogo',
@@ -64,7 +64,7 @@ export default {
     ],
     slash: true,
   },
-  kanasimp: {
+  {
     name: ['kanasimp'],
     help: 'Louange à Kana',
     cmd: 'kanasimp',
@@ -74,7 +74,7 @@ export default {
     ],
     slash: true,
   },
-  leumas: {
+  {
     name: ['leumas'],
     help: 'Montre la vérité sur Leumas',
     cmd: 'leumas',
@@ -84,7 +84,7 @@ export default {
     ],
     slash: true,
   },
-  loggedoff: {
+  {
     name: ['loggedoff'],
     help: 'Montre la vérité',
     cmd: 'loggedoff',
@@ -94,7 +94,7 @@ export default {
     ],
     slash: true,
   },
-  marwane: {
+  {
     name: ['marwane'],
     help: 'Commande speciale pour Marwane',
     cmd: 'marwane',
@@ -110,7 +110,7 @@ export default {
     ],
     slash: true,
   },
-  mikodog: {
+  {
     name: ['dog'],
     help: 'La conjecture des mikodogs',
     cmd: 'dog/mikodog',
@@ -120,7 +120,7 @@ export default {
     ],
     slash: true,
   },
-  nijikasimp: {
+  {
     name: ['nijikasimp'],
     help: 'Ôde à Nijika',
     cmd: 'nijikasimp',
@@ -130,7 +130,7 @@ export default {
     ],
     slash: true,
   },
-  oiseau: {
+  {
     name: ['oiseau'],
     help: 'Envoie un banger autre musical',
     cmd: 'oiseau',
@@ -138,7 +138,7 @@ export default {
     send: ['https://music.youtube.com/watch?v=XgkHohYTWzY'],
     slash: true,
   },
-  saku: {
+  {
     name: ['sakushi'],
     help: 'Commande speciale pour Saku',
     cmd: 'sakushi',
@@ -148,7 +148,7 @@ export default {
     ],
     slash: true,
   },
-  seanr: {
+  {
     name: ['seanr', 'fifi'],
     help: 'Commande speciale pour SeanR',
     cmd: 'seanr',
@@ -158,7 +158,7 @@ export default {
     ],
     slash: true,
   },
-  scang: {
+  {
     name: ['scang'],
     help: 'Envoi le lien du serveur clone maléfique de ScanR, ScanG',
     cmd: 'scang',
@@ -166,7 +166,7 @@ export default {
     send: ['https://discord.gg/NYU9wN9KMy'],
     slash: true,
   },
-  scanr: {
+  {
     name: ['scanr'],
     help: 'Envoi le lien du serveur ScanR',
     cmd: 'scanr',
@@ -174,7 +174,7 @@ export default {
     send: ['https://discord.gg/Dw9VVZFaR6'],
     slash: true,
   },
-  source: {
+  {
     name: ['source', 'git'],
     help: 'Envoie le lien du github',
     cmd: 'source/git',
@@ -182,7 +182,7 @@ export default {
     send: ['https://github.com/Skytowz/SakuBot'],
     slash: true,
   },
-  tierlist: {
+  {
     name: ['tierlist'],
     help: 'Envoie le lien de la tierlist',
     cmd: 'tierlist',
@@ -190,7 +190,7 @@ export default {
     send: ['https://tiermaker.com/create/seanr-tier-list-15178170'],
     slash: true,
   },
-  umasortie: {
+  {
     name: ['umasortie'],
     help: 'Envoie un rappel',
     cmd: 'umasortie',
@@ -200,7 +200,7 @@ export default {
     ],
     slash: true,
   },
-  wiki: {
+  {
     name: ['wiki'],
     help: 'Envoie le wiki de Kaguya-sama',
     cmd: 'wiki',
@@ -210,4 +210,4 @@ export default {
     ],
     slash: true,
   },
-};
+];

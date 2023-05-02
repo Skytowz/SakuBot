@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Client, CommandInteraction } from 'discord.js';
+import { CommandInteraction, CacheType, Client } from 'discord.js';
+import AbstractCommand from './AbstractCommand.js';
+import { sample } from '../utils/arrayUtils.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
-import { CommandDeclaration, CommandRun } from './Command.js';
-import { sample } from '../utils/arrayUtils.js';
 
-const quote = [
+const QUOTE = [
   'Je réponds pas à un Mikodog', //Negatif
   'Quand Maki aura un copain', //Negatif
   'Et puis quoi encore ??', //Negatif
@@ -29,23 +29,24 @@ const quote = [
   'Vas-y pose une question encore plus conne pour voir ?', //Tkt
 ];
 
-export const run: CommandRun = async (
-  client: Client,
-  interaction: CommandInteraction
-) => {
-  //@ts-ignore
-  const question = interaction.options.getString('question');
-  const content =
-    (question ? `> **${question}** \n` : '') + `*${sample(quote)}*`;
-  await interaction.reply({ content: content });
-};
+export default class AskCommand extends AbstractCommand {
+  public constructor(client: Client) {
+    super(client, {
+      name: ['ask'],
+      cmd: 'ask [question]',
+      help: 'Répond à une question',
+      type: TypeHelp.Autre,
+      commandeReste: true,
+      args: [new SlashOption('question', 'Question a posé')],
+      slash: true,
+    });
+  }
 
-export const help: CommandDeclaration = {
-  name: ['ask'],
-  cmd: 'ask [question]',
-  help: 'Répond à une question',
-  type: TypeHelp.Autre,
-  commandeReste: true,
-  args: [new SlashOption('question', 'Question a posé')],
-  slash: true,
-};
+  public async run(commandInteraction: CommandInteraction<CacheType>) {
+    //@ts-ignore
+    const question = commandInteraction.options.getString('question');
+    const content =
+      (question ? `> **${question}** \n` : '') + `*${sample(QUOTE)}*`;
+    await commandInteraction.reply({ content: content });
+  }
+}

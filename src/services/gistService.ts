@@ -1,7 +1,11 @@
-import Chapitre from '../entity/chapitre';
+import Chapitre from '../entity/chapitre.js';
 import * as superagent from 'superagent';
 
-export const getChapitre = async (manga, numero, cubari) => {
+export const getChapitre = async (
+  manga: string,
+  numero: string,
+  cubari: boolean
+) => {
   const chapitre = await superagent
     .get(manga)
     .set('accept', 'json')
@@ -10,7 +14,11 @@ export const getChapitre = async (manga, numero, cubari) => {
   return await getChapitreById(chapitre, numero, cubari);
 };
 
-export const getChapitreById = async (chapitre, numero, cubari) => {
+export const getChapitreById = async (
+  chapitre: any,
+  numero: string,
+  cubari: boolean
+) => {
   const pages = Object.values(chapitre.groups).pop();
   return new Chapitre(
     //FIXME
