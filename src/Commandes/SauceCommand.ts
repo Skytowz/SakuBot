@@ -26,10 +26,11 @@ export default class SauceCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction<CacheType>) {
+    commandInteraction.deferReply({ ephemeral: true });
+
     if (!commandInteraction.isMessageContextMenuCommand())
-      return commandInteraction.reply({
+      return commandInteraction.editReply({
         content: "Ceci n'est pas un message",
-        ephemeral: true,
       });
     let img;
     let image;
@@ -42,26 +43,25 @@ export default class SauceCommand extends AbstractCommand {
     } else if (isImgUrl(commandInteraction.targetMessage.content)) {
       image = commandInteraction.targetMessage.content;
     } else {
-      return commandInteraction.reply({
+      return commandInteraction.editReply({
         content: "Ceci n'est pas une image",
-        ephemeral: true,
       });
     }
     image = image.split('?')[0];
     if (!isImgUrl(image))
-      return commandInteraction.reply({
+      return commandInteraction.editReply({
         content: 'Image ou lien incompatible',
-        ephemeral: true,
       });
-    const { results } = await fetch(
-      `https://saucenao.com/search.php?db=999&output_type=2&numres=50&api_key=4f94dcf41458ba2601b9d09fe7d4107a7afd9071&url=${image}`
-    ).then(
-      async (response) => ((await response.json()) as { results: any }).results
+
+    const result = await fetch(
+      `https://saucenao.com/search.php?db=999&output_type=2&numres=50&api_key=4f94dcf41458ba2601b9d09fe7d4107a7afd9071&url=${encodeURIComponent(
+        image
+      )}`
     );
+    const { results } = await result.json();
     if (!results) {
-      return commandInteraction.reply({
+      return commandInteraction.editReply({
         content: 'Image ou lien incompatible',
-        ephemeral: true,
       });
     }
     results.sort((a: any, b: any) => b.header.similarity - a.header.similarity);
@@ -96,10 +96,11 @@ export default class SauceCommand extends AbstractCommand {
         .setLabel('Afficher')
         .setStyle(ButtonStyle.Secondary)
     );
-    //@ts-ignore
-    commandInteraction.reply({
+
+    commandInteraction.editReply({
+      //@ts-ignore
       embeds: [embed],
-      ephemeral: true,
+      //@ts-ignore
       components: [row],
     });
     const msg = await commandInteraction.fetchReply();
@@ -109,7 +110,7 @@ export default class SauceCommand extends AbstractCommand {
       if (i.customId === 'show') {
         row.components.pop();
         i.update({ content: '-', embeds: [], components: [] });
-        commandInteraction.targetMessage.reply({
+        commandInteraction.editReply({
           //@ts-ignore
           embeds: [embed],
           //@ts-ignore
