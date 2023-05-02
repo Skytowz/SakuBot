@@ -11,7 +11,7 @@ import {
   getChapitreInfoById,
 } from '../services/mangadexService.js';
 import { getChapitre as getChapitreMangaReader } from '../services/mangareaderService.js';
-import { CommandDeclarationOptions } from '../Commandes/Command.js';
+import { CommandDeclarationOptions } from '../types/Command.js';
 
 /**
  *
@@ -33,24 +33,24 @@ export const send = async (
     options,
   }: {
     research?: string;
-    langue: Array<string>;
+    langue?: Array<string>;
     idChap?: string;
     mangaReader?: boolean;
     options?: CommandDeclarationOptions;
   }
 ) => {
   let chapitre;
+  interaction.deferReply({ ephemeral: true });
   let defer = false;
   if (idChap) {
     const data = await getChapitreInfoById(idChap);
     chapitre = await getChapitreById(data);
     if (typeof chapitre == 'string')
-      return interaction.reply({ content: chapitre, ephemeral: true });
+      return interaction.channel?.send({ content: chapitre });
   } else {
     if (!chap || chap == '' || Number.isNaN(chap))
-      return interaction.reply({
+      return interaction.channel?.send({
         content: 'Veuillez rentrer un numéro de chapitre valide',
-        ephemeral: true,
       });
     if (mangaReader) {
       interaction.deferReply();
@@ -61,18 +61,16 @@ export const send = async (
         research as string,
         chap,
         options as CommandDeclarationOptions,
-        langue
+        langue || []
       );
     }
     if (typeof chapitre == 'string') {
       if (defer) {
         return interaction.channel?.send({
           content: chapitre,
-          //@ts-ignore
-          ephemeral: true,
         });
       }
-      return interaction.reply({ content: chapitre, ephemeral: true });
+      return interaction.channel?.send({ content: chapitre });
     }
   }
   const embedList = chapitre.getEmbedList();
@@ -105,11 +103,9 @@ export const send = async (
     );
     content.components = [row];
   }
-  if (defer) {
-    interaction.followUp(content);
-  } else {
-    interaction.reply(content);
-  }
+
+  interaction.followUp(content);
+
   const msg = await interaction.fetchReply();
 
   if (chapitre.nbPages > 1) {

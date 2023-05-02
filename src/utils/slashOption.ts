@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import { LangOption } from '../Commandes/Command.js';
+import { LangOption } from '../types/Command.js';
 
 export default class SlashOption {
   public choices?: Array<LangOption>;

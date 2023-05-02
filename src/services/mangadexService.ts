@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CommandDeclarationOptions } from '../Commandes/Command.js';
+import { CommandDeclarationOptions } from '../types/Command.js';
 import Chapitre from '../entity/chapitre.js';
 import superagent from 'superagent';
 

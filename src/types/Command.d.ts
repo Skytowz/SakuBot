@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Client, CommandInteraction } from 'discord.js';
 import SlashOption from '../utils/slashOption.ts';
 import TypeHelp from '../entity/typeHelp.ts';
@@ -29,6 +30,7 @@ export interface CommandDeclaration {
   user?: boolean;
   message?: boolean;
   options?: CommandDeclarationOptions;
+  [key: string]: any;
 }
 
 export type CommandRun = (

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Client, CommandInteraction } from 'discord.js';
+import { CommandInteraction, CacheType, Client } from 'discord.js';
+import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import { CommandDeclaration, CommandRun } from './Command.js';
 import { sample } from '../utils/arrayUtils.js';
 
-const quote = [
+const QUOTE = [
   'https://media.discordapp.net/attachments/991333308988395670/991448778395631726/IMG_20220402_184149.jpg',
   'https://media.discordapp.net/attachments/991333308988395670/991448778789888090/IMG_20220311_214535.jpg',
   'https://media.discordapp.net/attachments/991333308988395670/991449285809942628/20210629_225506.jpg',
@@ -14,25 +14,29 @@ const quote = [
   'https://media.discordapp.net/attachments/991333308988395670/992525237407191102/IMG_20220421_002513.jpg',
 ];
 
-export const run: CommandRun = async (
-  client: Client,
-  interaction: CommandInteraction
-) => {
-  if (
-    !['713837802638278749', '273756946308530176'].includes(
-      //@ts-ignore
-      interaction.member?.id
-    )
-  )
-    return interaction.reply({ content: 'Tu peux pas, CHEH', ephemeral: true });
-  //@ts-ignore
-  await interaction.reply({ files: [sample(quote)] });
-};
+export default class GogoleCommand extends AbstractCommand {
+  public constructor(client: Client) {
+    super(client, {
+      name: ['gogole'],
+      help: 'Commande gogole',
+      cmd: 'gogole',
+      type: TypeHelp.Autre,
+      slash: true,
+    });
+  }
 
-export const help: CommandDeclaration = {
-  name: ['gogole'],
-  help: 'Commande gogole',
-  cmd: 'gogole',
-  type: TypeHelp.Autre,
-  slash: true,
-};
+  public async run(commandInteraction: CommandInteraction<CacheType>) {
+    if (
+      !['713837802638278749', '273756946308530176'].includes(
+        //@ts-ignore
+        commandInteraction.member?.id
+      )
+    )
+      return commandInteraction.reply({
+        content: 'Tu peux pas, CHEH',
+        ephemeral: true,
+      });
+    //@ts-ignore
+    await commandInteraction.reply({ files: [sample(QUOTE)] });
+  }
+}
