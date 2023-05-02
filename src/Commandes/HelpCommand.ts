@@ -6,11 +6,13 @@ import {
   Colors,
   ActionRowBuilder,
   SelectMenuBuilder,
+  APIEmbed,
 } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import Embed from '../utils/embed.js';
 import fs from 'fs';
+import { CommandManager } from '../CommandManager.js';
 
 export default class HelpCommand extends AbstractCommand {
   public constructor(client: Client) {
@@ -23,7 +25,10 @@ export default class HelpCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
+  public async run(
+    commandInteraction: CommandInteraction<CacheType>,
+    commandManager: CommandManager
+  ) {
     const help = new Embed()
       .setColor(Colors.DarkPurple)
       .setTitle('Help')
@@ -32,86 +37,65 @@ export default class HelpCommand extends AbstractCommand {
       )
       .setDescription('Choose your help page below');
 
-    fs.readdir('./dist/Commandes/', async (error, f) => {
-      if (error) console.log(error);
-      const values = (
-        await Promise.all(
-          f
-            .filter((f) => f.match(/^(?:(?!(?:\.data)).)*\.js$/))
-            .map((v) => import(`./${v}`))
-        )
-      )
-        .map((v) => v.help)
-        .filter((v) => !v.noHelp && v.type);
-      const jsons = (
-        await Promise.all(
-          f.filter((f) => f.match(/\.data\.js$/)).map((v) => import(`./${v}`))
-        )
-      )
-        .map((v) => v.default)
-        .flatMap((json) =>
-          Object.values(json).map((value) => {
-            //@ts-ignore
-            value.type = value.id
-              ? TypeHelp.ViewManga
-              : //@ts-ignore
-                TypeHelp.getValue(value.type);
-            return value;
-          })
-        );
-      values.push(...jsons);
-      const embeds = TypeHelp.getValues().map(([, value, description]) => {
-        return new Embed()
-          .setColor(Colors.DarkPurple)
-          .setTitle('Help')
-          .setThumbnail(
-            'https://greeks.ufl.edu/wp-content/uploads/2019/10/noun_FAQ_793197.png'
-          )
-          .setDescription(
-            `**${value}**\n------------------------------\n${description}\n------------------------------`
-          )
-          .addFields(
-            values
-              .filter((v) => v.type.name == value)
-              .map((v) => {
-                return {
-                  name: '/' + v.cmd,
-                  value: '> ' + v.help + '.',
-                  inline: false,
-                };
-              })
-          );
-      });
-      const content = { embeds: [help] };
-      const row = new ActionRowBuilder().addComponents(
-        new SelectMenuBuilder().setCustomId('SelectHelp').setOptions(
-          TypeHelp.getValues().map(([, value]) => {
-            return {
-              label: value,
-              value: value,
-            };
-          })
-        )
+    const values = commandManager
+      .getAll()
+      .filter(
+        (command) => !command.getDetails().nohelp && command.getDetails().type
       );
-      //@ts-ignore
-      content.components = [row];
-      //@ts-ignore
-      commandInteraction.reply(content);
-      const msg = await commandInteraction.fetchReply();
-      const interact = msg.createMessageComponentCollector({ time: 180000 });
-      interact.on('collect', (i) => {
-        if (i.customId === 'SelectHelp') {
-          i.update({
-            embeds: [
+
+    const embeds = TypeHelp.getValues().map(([, value, description]) => {
+      return new Embed()
+        .setColor(Colors.DarkPurple)
+        .setTitle('Help')
+        .setThumbnail(
+          'https://greeks.ufl.edu/wp-content/uploads/2019/10/noun_FAQ_793197.png'
+        )
+        .setDescription(
+          `**${value}**\n------------------------------\n${description}\n------------------------------`
+        )
+        .addFields(
+          values
+            .filter((v) => v.getDetails().type?.name == value)
+            .map((v) => {
+              return {
+                name: '/' + v.getDetails().cmd,
+                value: '> ' + v.getDetails().help + '.',
+                inline: false,
+              };
+            })
+        );
+    });
+    const content = { embeds: [help] };
+    const row = new ActionRowBuilder().addComponents(
+      new SelectMenuBuilder().setCustomId('SelectHelp').setOptions(
+        TypeHelp.getValues().map(([, value]) => {
+          return {
+            label: value,
+            value: value,
+          };
+        })
+      )
+    );
+    //@ts-ignore
+    content.components = [row];
+    //@ts-ignore
+    commandInteraction.reply(content);
+    const msg = await commandInteraction.fetchReply();
+    const interact = msg.createMessageComponentCollector({ time: 180000 });
+    interact.on('collect', (i) => {
+      if (i.customId === 'SelectHelp') {
+        i.update({
+          embeds: [
+            embeds.find((v) =>
               //@ts-ignore
-              embeds.find((v) => v.description.startsWith('**' + i.values)),
-            ],
-          });
-        }
-      });
-      interact.on('end', () => {
-        msg.edit({ components: [] });
-      });
+              v.description?.startsWith('**' + i.values)
+            ) as APIEmbed,
+          ],
+        });
+      }
+    });
+    interact.on('end', () => {
+      msg.edit({ components: [] });
     });
   }
 }

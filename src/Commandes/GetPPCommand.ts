@@ -42,7 +42,7 @@ export default class GetPPCommand extends AbstractCommand {
     //@ts-ignore
     const url = user?.avatarURL() ?? user?.user?.avatarURL();
     if (!url)
-      return commandInteraction.reply({
+      commandInteraction.reply({
         content: "Cet utilisateur n'as pas de photo de profil",
         ephemeral: true,
       });

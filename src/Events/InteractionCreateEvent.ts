@@ -16,7 +16,9 @@ export default class InteractionCreateEvent extends AbstractEvent {
       const command = this.getCommandManager().getCommandByName(commandName);
       if (!command) return;
 
-      await command.run(commandInteraction);
+      console.log(`Executing command [${commandName}]`);
+
+      await command.run(commandInteraction, this.getCommandManager());
     }
   }
 }
