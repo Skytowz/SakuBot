@@ -223,6 +223,14 @@
         "send":["https://media.discordapp.net/attachments/714214949341102111/991301131290546216/ChartGo.png"],
         "slash":true
     },
+    "nijikasimp":{
+        "name":["nijikasimp"],
+        "help":"Ôde à Nijika",
+        "cmd":"nijikasimp",
+        "type":"Autre",
+        "send":["Qui est Nijika ? Pour les aveugles, elle est la vue. Pour les affamés, elle est le chef. Pour les assoiffés, elle est de l'eau. Si Nijika pense, je suis d'accord. Si Nijika parle, j'écoute. Si Nijika a un million de fans, je suis l'un d'entre eux. Si Nijika a dix fans, je suis l'un d'entre eux. Si Nijika n'a qu'un fan, c'est moi. Si Nijika n'a pas de fans, je n'existe plus. Si le monde entier est contre Nijika, je suis contre le monde entier. Je vais aimer Nijika jusqu'à mon dernier souffle."],
+        "slash":true
+    },
     "oiseau":{
         "name":["oiseau"],
         "help":"Envoie un banger autre musical",
