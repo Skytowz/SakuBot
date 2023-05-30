@@ -11,6 +11,7 @@ const { getChapitre:getChapitreMangaReader } = require("../services/mangareaderS
  * @returns 
  */
 module.exports.send = async (interaction,chap,numero,{id:research,langue,idChap,mangaReader,options}) => {
+    return interaction.reply({content:"suite à un changement dans discord ou mangadex je ne peux pas garantir le fonctionnement de cette commande et elle sera donc down temporairement...",ephemeral:true});
     let chapitre;
     let defer = false;
     if(idChap){
