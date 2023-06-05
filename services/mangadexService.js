@@ -35,7 +35,7 @@ module.exports.getChapitre = async (manga,numero,options,langue) => {
 
 module.exports.getChapitreById = async (chapitre) => {
     const data = await superagent.get(`https://api.mangadex.org/at-home/server/${chapitre.id}?forcePort443=false`).then(res => res.body.chapter);
-    return new Chapitre(data.dataSaver,chapitre.attributes.chapter,chapitre.attributes.title,chapitre.attributes.pages,(num)=>`https://uploads.mangadex.org/data-saver/${data.hash}/${num}`,`https://mangadex.org/chapter/${chapitre.id}`);
+    return new Chapitre(data.dataSaver,chapitre.attributes.chapter,chapitre.attributes.title,chapitre.attributes.pages,(num)=>`https://uploads.mangadex.org/data-saver/${data.hash}/${num}?x=${(Math.random() + 1).toString(36).substring(2)}`,`https://mangadex.org/chapter/${chapitre.id}`);
 }
 
 module.exports.getChapitreInfoById = async (id) => {
