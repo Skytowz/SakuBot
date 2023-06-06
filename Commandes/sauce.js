@@ -25,7 +25,7 @@ module.exports.run = async(client, interaction) =>{
     }
     results.sort((a,b) => b.header.similarity - a.header.similarity)
     const res = results[0];
-    const embed = new Embed().setTitle(res.data.title ?? res.data.source ?? res.header.index_name).setUrl(res.data.ext_urls ? res.data.ext_urls[0] : res.header.thumbnail).setImage(res.header.thumbnail).addField('Similitude',`${res.header.similarity}%`);
+    const embed = new Embed().setTitle(res.data.title ?? res.data.source ?? res.header.index_name).setUrl(res.data.ext_urls ? res.data.ext_urls[0] : res.header.thumbnail).setImage(res.header.thumbnail).addField("Commande par :",`<@${interaction.user.id}>`).addField('Similitude',`${res.header.similarity}%`);
     if(res.data.author_name){
         embed.setAuthorNameUrl(res.data.author_name,res.data.author_url);
     }else if(res.data.twitter_user_handle){
