@@ -11,7 +11,7 @@
         "help":"Envoie une image random de Akane Kurokaw(J'ai pas le choix où le bot est ban)",
         "cmd":"akane",
         "type": "Character",
-        "research":"kurokawa_akane+arima_kana"
+        "research":"kurokawa_akane"
     },
     "aqua":{
         "name":["aqua"],
