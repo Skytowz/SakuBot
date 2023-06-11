@@ -32,7 +32,7 @@
         "help":"Affiche une image random de Ruby Hoshino (Tout sa mère mais en moins bien)",
         "cmd":"ruby",
         "type": "Character",
-        "research":"iino_miko"
+        "research":"hoshino_ruby"
     },
 
 
@@ -99,7 +99,7 @@
         "help":"Affiche une image random de Nijika (C’est cadeau Childew)",
         "cmd":"miko",
         "type": "Character",
-        "research":"iino_miko"
+        "research":"ijichi_nijika"
     },
     "ryou":{
         "name": ["ryou"],
