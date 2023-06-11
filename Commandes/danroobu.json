@@ -6,6 +6,13 @@
         "type": "Character",
         "research":"hoshino_ai_(oshi_no_ko)"
     },
+    "akane":{
+        "name":["akane"],
+        "help":"Envoie une image random de Akane Kurokaw(J'ai pas le choix où le bot est ban)",
+        "cmd":"akane",
+        "type": "Character",
+        "research":"kurokawa_akane arima_kana"
+    },
     "aqua":{
         "name":["aqua"],
         "help":"Affiche une image random de Aqua Hoshino (L'homme avec plus de flow que le flow)",

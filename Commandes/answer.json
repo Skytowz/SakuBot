@@ -26,14 +26,6 @@
         ],
         "slash":true
     },
-    "akane":{
-        "name":["akane"],
-        "help":"Envoie une image random de Akane Kurokaw(J'ai pas le choix où le bot est ban)",
-        "cmd":"akane",
-        "type": "Character",
-        "send":["https://cdn.donmai.us/sample/3c/cf/__arima_kana_and_kurokawa_akane_oshi_no_ko_drawn_by_parisa_reaz__sample-3ccf1039d4d4f14ee158ca5c6d0ba2b8.jpg"],
-        "slash":true
-    },
     "fatigue":{
         "name":["fatigue"],
         "help":"Envoie un banger musical",
