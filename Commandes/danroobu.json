@@ -8,7 +8,7 @@
     },
     "akane":{
         "name":["akane"],
-        "help":"Envoie une image random de Akane Kurokaw(J'ai pas le choix où le bot est ban)",
+        "help":"Envoie une image random de Akane Kurokawa (J'ai pas le choix où le bot est ban)",
         "cmd":"akane",
         "type": "Character",
         "research":"kurokawa_akane"
