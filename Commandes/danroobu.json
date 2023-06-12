@@ -94,6 +94,13 @@
         "type": "Character",
         "research":"gotou_hitori"
     },
+    "bokita":{
+        "name": "bokita",
+	    "help":"Affiche une image random de Bokita (Le 3e meilleur Yuri)",
+        "cmd":"bokita",
+        "type": "Character",
+        "research":"gotou_hitori+kita_ikuyo+-ijichi_nijika+-yamada_ryou+2girls"
+    },
     "kita":{
         "name": ["kita"],
 	    "help":"Affiche une image random de Kita (Fuwa fuwa Pyua pyua Miracuru kyun Omuraisu ga oishiku nare Kita-n)",
