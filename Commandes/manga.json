@@ -54,15 +54,8 @@
         "name":["onkchap","oc","oshichap"],
         "help":"Affiche une page d'un chapitre d'Oshi no Ko",
         "cmd":"onkchap/oc/oshichap <chap> [page]",
-        "id":"296cbc31-af1a-4b5b-a34b-fee2b4cad542",
-        "options":{
-            "banteam":[
-                {
-                    "id":"4bd5fd9a-ee2f-40ae-8551-28e49be30cd2",
-                    "from":94
-                }
-            ]
-        }
+        "id":"https://raw.githubusercontent.com/ImSakushi/OshiNoKoFR/master/OshiNoKo.json",
+        "cubari":"cmF3L0ltU2FrdXNoaS9Pc2hpTm9Lb0ZSL21hc3Rlci9Pc2hpTm9Lby5qc29u"
     },
     "renai":{
         "name":["renaichap","renaic","rc"],
