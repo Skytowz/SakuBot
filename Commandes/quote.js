@@ -18,9 +18,10 @@ module.exports.run = async(client, interaction) =>{
         message = interaction.options.getString("message");
     }
     const ids = [];
-    if(message.startsWith("https://discord.com/channels")){
-        const args = message.split("/");
-        if(args.length != 7){
+
+    if(message.startsWith("https://discord")){
+        const args = message.match(/\/\d+\/(\d+)\/(\d+)/);
+        if(args.length != 3){
             return interaction.reply({content:"Erreur, le lien du message n'est pas valide",ephemeral:true});
         }else{
             const idMsg = args.pop();
