@@ -14,7 +14,6 @@ module.exports.getChapitre = async (manga,numero,cubari) => {
 
 module.exports.getChapitreById = async (chapitre,numero,cubari) => {
     const pages = Object.values(chapitre.groups).pop();
-    console.log(pages);
     return new Chapitre(pages,numero,chapitre.title,pages.length,(page)=>page,`https://cubari.moe/read/gist/${cubari}/${numero}`);
 }
 
