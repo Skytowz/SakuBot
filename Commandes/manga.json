@@ -11,6 +11,12 @@
         "cmd":"bocchichap/bc/bchap <chap> [page]",
         "id":"2e0fdb3b-632c-4f8f-a311-5b56952db647"
     },
+    "cingray":{
+        "name":["cgc","cingraychap"],
+        "help":"Affiche une page d'un chapitre de Uma Musume: Cinderella Gray",
+        "cmd":"cgc/cingraychap <chap> [page]",
+        "id":"a9dd451c-3c45-4d66-a818-4e1b78855838"
+    },
     "croco":{
         "name":["crocochap","cc"],
         "help":"Affiche une page d'un chapitre de Croco",
@@ -95,16 +101,16 @@
         "cmd":"sentaichap/stchap/stc <chap> [page]",
         "id":"7878c129-a33d-4bf9-b5d2-ff98cbe85bd6"
     },
+    "stablo":{
+        "name":["sbc","stablochap"],
+        "help":"Affiche une page d'un chapitre de Uma Musume Pretty Derby: Star Blossom",
+        "cmd":"sbc/stablochap <chap> [page]",
+        "id":"778b8438-af3a-4534-841c-adf923b55ee1"
+    },
     "tawawa":{
         "name":["tc","tawawachap","tchap"],
         "help":"Affiche une page d'un chapitre de Tawawa",
         "cmd":"tc/tawawachap/tchap <chap> [page]",
         "id":"6b27cbd8-4cc6-40ca-b010-928da4540be8"
-    },
-    "uma":{
-        "name":["umachap","uc"],
-        "help":"Affiche une page d'un chapitre de Uma Musume",
-        "cmd":"umachap/uc <chap> [page]",
-        "id":"a9dd451c-3c45-4d66-a818-4e1b78855838"
     }
 }
