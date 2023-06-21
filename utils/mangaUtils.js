@@ -72,7 +72,7 @@ module.exports.send = async (interaction,chap,numero,{id:research,langue,idChap,
         const interact = msg.createMessageComponentCollector({time:180000});
         
         interact.on("collect",async i =>{
-            if(i.user.id != interaction.user.id) return i.reply({content:"Tu peux pas cheh !",ephemeral:true}) 
+            if(i.user.id != interaction.user.id) return i.reply({content:"Tu ne peux pas utiliser cette commande",ephemeral:true}) 
             if(i.customId === "before"){
                 embedList.left(i);
             }else if(i.customId === "next"){
