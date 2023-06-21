@@ -8,7 +8,7 @@ const SlashOption = require("../utils/slashOption");
  * @param {CommandInteraction} interaction 
  */
 module.exports.run = async(client, interaction) =>{      
-    if (!["452186417334976532", "273756946308530176"].includes(interaction.member.id)) return interaction.reply({ content: 'Tu peux pas, CHEH', ephemeral: true });  
+    if (!["452186417334976532", "273756946308530176"].includes(interaction.member.id)) return interaction.reply({ content: 'Tu ne peux pas utiliser cette commande', ephemeral: true });  
     const nombre = interaction.options.getInteger("nombre");
     interaction.channel.bulkDelete(nombre)
     .then(() => interaction.reply({content:"Les messages ont bien été supprimé",ephemeral:true}))
