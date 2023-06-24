@@ -113,5 +113,11 @@
         "help":"Affiche une page d'un chapitre de Uma Musume",
         "cmd":"umachap/uc <chap> [page]",
         "id":"a9dd451c-3c45-4d66-a818-4e1b78855838"
+    },
+    "yamada":{
+        "name":["yamadac","yc"],
+        "help":"Affiche une page d'un chapitre de Yamada-kun to Lv999 no Koi wo Suru",
+        "cmd":"yamadac/yc <chap> [page]",
+        "id":"643561e6-5c27-4382-95d3-8e84894a3fb6"
     }
 }
