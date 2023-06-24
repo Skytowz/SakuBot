@@ -1,6 +1,7 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction } = require("discord.js");
 const { getChapitre, getChapitreById, getChapitreInfoById } = require("../services/mangadexService");
 const { getChapitre:getChapitreMangaReader } = require("../services/mangareaderService");
+const { getChapitre:getChapitreGist } = require("../services/gistService");
 
 /**
  * 
@@ -10,7 +11,7 @@ const { getChapitre:getChapitreMangaReader } = require("../services/mangareaderS
  * @param {string} [slug] 
  * @returns 
  */
-module.exports.send = async (interaction,chap,numero,{id:research,langue,idChap,mangaReader,options}) => {
+module.exports.send = async (interaction,chap,numero,{id:research,langue,idChap,mangaReader,cubari,options}) => {
     //return interaction.reply({content:"suite à un changement dans discord ou mangadex je ne peux pas garantir le fonctionnement de cette commande et elle sera donc down temporairement...",ephemeral:true});
     let chapitre;
     let defer = false;
@@ -24,6 +25,8 @@ module.exports.send = async (interaction,chap,numero,{id:research,langue,idChap,
             interaction.deferReply();
             defer = true;
             chapitre = await getChapitreMangaReader(research,chap);
+        }else if(cubari){
+            chapitre = await getChapitreGist(research,chap,cubari);
         }else{
             chapitre = await getChapitre(research,chap,options,langue);
         }
@@ -69,7 +72,7 @@ module.exports.send = async (interaction,chap,numero,{id:research,langue,idChap,
         const interact = msg.createMessageComponentCollector({time:180000});
         
         interact.on("collect",async i =>{
-            if(i.user.id != interaction.user.id) return i.reply({content:"Tu peux pas cheh !",ephemeral:true}) 
+            if(i.user.id != interaction.user.id) return i.reply({content:"Tu ne peux pas utiliser cette commande",ephemeral:true}) 
             if(i.customId === "before"){
                 embedList.left(i);
             }else if(i.customId === "next"){

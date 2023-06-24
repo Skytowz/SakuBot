@@ -10,7 +10,7 @@ const quote = [
 	"https://media.discordapp.net/attachments/991333308988395670/992525237407191102/IMG_20220421_002513.jpg",
 ]
 module.exports.run = async (client, interaction, args) => {
-	if (!["713837802638278749", "273756946308530176"].includes(interaction.member.id)) return interaction.reply({ content: 'Tu peux pas, CHEH', ephemeral: true });
+	if (!["713837802638278749", "273756946308530176"].includes(interaction.member.id)) return interaction.reply({ content: 'Tu ne peux pas utiliser cette commande', ephemeral: true });
 	await interaction.reply({files: [quote.sample()] });
 };
 module.exports.help = {
