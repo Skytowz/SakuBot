@@ -8,10 +8,16 @@ import {
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
+import pino from 'pino';
+import { CommandManager } from '../CommandManager.js';
 
 export default class GetPPCommand extends AbstractCommand {
-  public constructor(client: Client) {
-    super(client, {
+  public constructor(
+    logger: pino.Logger,
+    client: Client,
+    commandManager: CommandManager
+  ) {
+    super(logger, client, commandManager, {
       name: ['pin'],
       help: '> pin le message',
       type: TypeHelp.Utils,

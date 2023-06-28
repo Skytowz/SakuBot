@@ -12,7 +12,7 @@ export default [
     slash: true,
   },
   {
-    name: 'aka',
+    name: ['aka'],
     help: 'Envoie une photo du maitre',
     cmd: 'aka',
     type: TypeHelp.Autre,

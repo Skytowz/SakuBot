@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { CommandDeclarationOptions } from '../types/Command.js';
 import Chapitre from '../entity/chapitre.js';
-import * as superagent from 'superagent';
+import superagent from 'superagent';
 
 export const getChapitre = async (
   manga: string,

@@ -1,4 +1,4 @@
-import * as superagent from 'superagent';
+import superagent from 'superagent';
 
 export const getGeneralImageByTag = async (
   name: string,

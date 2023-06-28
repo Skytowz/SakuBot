@@ -10,14 +10,21 @@ import { send } from '../../utils/mangaUtils.js';
 import { CommandDeclaration } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import { getGeneralImageByTag } from '../../services/danroobuService.js';
+import pino from 'pino';
+import { CommandManager } from '../../CommandManager.js';
 
 export interface DanroobuCommandDeclaration extends CommandDeclaration {
   research: string;
 }
 
 export default class ImplementableDanroobuCommand extends AbstractCommand {
-  public constructor(client: Client, details: DanroobuCommandDeclaration) {
-    super(client, {
+  public constructor(
+    logger: pino.Logger,
+    client: Client,
+    commandManager: CommandManager,
+    details: DanroobuCommandDeclaration
+  ) {
+    super(logger, client, commandManager, {
       args: [
         new SlashOption()
           .setName('mention')
