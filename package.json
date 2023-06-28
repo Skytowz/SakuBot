@@ -5,16 +5,17 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "nodemon dist/index.js",
-    "forever": "forever -w dist/index.js",
-    "clean": "rimraf dist/",
+    "exec": "node dist/index.js",
+    "exec:watch": "nodemon dist/index.js",
+    "exec:forever": "forever -w dist/index.js",
     "compile": "tsc",
     "compile:watch": "tsc -w",
+    "build": "npm run test && npm run compile",
+    "build:watch": "npm run test && npm run compile:watch",
+    "clean": "rimraf dist/ logs/",
     "lint": "prettier --write . && prettier --check . && eslint",
     "test": "npm run lint",
-    "build": "npm run test && npm run compile",
-    "build:watch": "npm run test && npm run compile:watch"
+    "start": "npm run build && npm run exec"
   },
   "author": "Skytowz",
   "license": "ISC",
