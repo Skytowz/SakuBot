@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  CommandInteraction,
-  CacheType,
-  Client,
-  ApplicationCommandOptionType,
-} from 'discord.js';
+import { CacheType, Client, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import SlashOption from '../utils/slashOption.js';
 import pino from 'pino';
 import { CommandManager } from '../CommandManager.js';
 
@@ -22,8 +16,8 @@ export default class GetPPCommand extends AbstractCommand {
       help: '> pin le message',
       type: TypeHelp.Utils,
       cmd: 'pin',
-      slash: true,
-      user: true,
+      slash: false,
+      message: true,
     });
   }
 
@@ -31,7 +25,7 @@ export default class GetPPCommand extends AbstractCommand {
     if (
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      !interaction.member.roles.cache.find(
+      !commandInteraction.member.roles.cache.find(
         (e: { id: string }) =>
           e.id == '780835397008621600' || '685583592084340740'
       )
