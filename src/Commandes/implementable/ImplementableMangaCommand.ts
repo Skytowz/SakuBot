@@ -11,6 +11,7 @@ import { CommandDeclaration } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import TypeHelp from '../../entity/typeHelp.js';
 import { CommandManager } from '../../CommandManager.js';
+import pino from 'pino';
 
 export interface MangaCommandDeclaration extends CommandDeclaration {
   chapterId: string;
@@ -18,11 +19,12 @@ export interface MangaCommandDeclaration extends CommandDeclaration {
 
 export default class ImplementableMangaCommand extends AbstractCommand {
   public constructor(
+    logger: pino.Logger,
     client: Client,
     commandManager: CommandManager,
     details: CommandDeclaration
   ) {
-    super(client, commandManager, {
+    super(logger, client, commandManager, {
       args: [
         new SlashOption(
           'chapitre',

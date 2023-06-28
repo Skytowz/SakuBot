@@ -1,10 +1,15 @@
 import { Client, CommandInteraction } from 'discord.js';
 import { CommandManager } from '../CommandManager.js';
 import AbstractEvent from './AbstractEvent.js';
+import pino from 'pino';
 
 export default class InteractionCreateEvent extends AbstractEvent {
-  public constructor(client: Client, commandManager: CommandManager) {
-    super(client, commandManager, 'interactionCreate');
+  public constructor(
+    logger: pino.Logger,
+    client: Client,
+    commandManager: CommandManager
+  ) {
+    super(logger, client, commandManager, 'interactionCreate');
   }
 
   protected async onEvent(commandInteraction: CommandInteraction) {
@@ -16,7 +21,14 @@ export default class InteractionCreateEvent extends AbstractEvent {
       const command = this.getCommandManager().getCommandByName(commandName);
       if (!command) return;
 
-      console.log(`Executing command [${commandName}]`);
+      this.getLogger().info(
+        `Executing command [${commandName.toString()}] for user (${
+          commandInteraction.member?.user?.id
+        }) ${commandInteraction.member?.user?.username}#${
+          commandInteraction.member?.user?.discriminator
+        }`
+      );
+      this.getLogger().debug(commandInteraction.options);
 
       await command.run(commandInteraction);
     }

@@ -10,12 +10,17 @@ import {
   joinVoiceChannel,
 } from '@discordjs/voice';
 import { CommandManager } from '../CommandManager.js';
+import pino from 'pino';
 
 export default class VocalquitCommand extends AbstractCommand {
   private enCours = false;
 
-  public constructor(client: Client, commandManager: CommandManager) {
-    super(client, commandManager, {
+  public constructor(
+    logger: pino.Logger,
+    client: Client,
+    commandManager: CommandManager
+  ) {
+    super(logger, client, commandManager, {
       name: ['quit'],
       help: 'Quitter le vocal de manière stylé',
       type: TypeHelp.Autre,

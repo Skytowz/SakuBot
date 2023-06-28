@@ -1,5 +1,9 @@
-.vscode
+#IDE
+.vscode/
+.idea/
+#local
 node_modules/
-.env
-src/Commandes/leave.js
 dist/
+logs/
+#secrets
+*.env

@@ -13,10 +13,15 @@ import TypeHelp from '../entity/typeHelp.js';
 import Embed from '../utils/embed.js';
 import fs from 'fs';
 import { CommandManager } from '../CommandManager.js';
+import pino from 'pino';
 
 export default class HelpCommand extends AbstractCommand {
-  public constructor(client: Client, commandManager: CommandManager) {
-    super(client, commandManager, {
+  public constructor(
+    logger: pino.Logger,
+    client: Client,
+    commandManager: CommandManager
+  ) {
+    super(logger, client, commandManager, {
       name: ['help'],
       cmd: 'help',
       type: TypeHelp.Utils,

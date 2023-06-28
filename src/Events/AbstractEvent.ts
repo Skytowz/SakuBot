@@ -1,18 +1,22 @@
 import { Client, CommandInteraction } from 'discord.js';
 import { CommandManager } from '../CommandManager.js';
+import pino from 'pino';
 
 const ERROR_MESAGE = "Une Erreur s'est produite";
 
 export default class AbstractEvent {
+  private logger: pino.Logger;
   private eventIdentifier;
   private client;
   private commandManager;
 
   public constructor(
+    logger: pino.Logger,
     client: Client,
     commandManager: CommandManager,
     eventIdentifier: string
   ) {
+    this.logger = logger;
     this.eventIdentifier = eventIdentifier;
     this.client = client;
     this.commandManager = commandManager;
@@ -20,6 +24,10 @@ export default class AbstractEvent {
 
   public getEventIdentifier() {
     return this.eventIdentifier;
+  }
+
+  public getLogger() {
+    return this.logger;
   }
 
   public getClient() {
@@ -32,7 +40,7 @@ export default class AbstractEvent {
 
   public async execute(commandInteraction: CommandInteraction) {
     this.onEvent(commandInteraction).catch((error) => {
-      console.error(error);
+      this.getLogger().error(error);
       if (commandInteraction.deferred) {
         commandInteraction.editReply({
           content: ERROR_MESAGE,
@@ -48,5 +56,9 @@ export default class AbstractEvent {
 
   protected async onEvent(commandInteraction: CommandInteraction) {
     Promise.reject(commandInteraction);
+  }
+
+  public toString() {
+    return this.eventIdentifier;
   }
 }

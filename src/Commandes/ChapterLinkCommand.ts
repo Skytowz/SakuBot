@@ -10,10 +10,15 @@ import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import { send } from '../utils/mangaUtils.js';
 import { CommandManager } from '../CommandManager.js';
+import pino from 'pino';
 
 export default class ChapterLinkCommand extends AbstractCommand {
-  public constructor(client: Client, commandManager: CommandManager) {
-    super(client, commandManager, {
+  public constructor(
+    logger: pino.Logger,
+    client: Client,
+    commandManager: CommandManager
+  ) {
+    super(logger, client, commandManager, {
       name: ['chapter'],
       help: "Affiche n'importe quel chapitre de mangadex",
       type: TypeHelp.ViewManga,

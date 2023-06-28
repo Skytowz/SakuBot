@@ -5,14 +5,19 @@ import TypeHelp from '../entity/typeHelp.js';
 
 import { config } from 'dotenv';
 import { CommandManager } from '../CommandManager.js';
+import pino from 'pino';
 config();
 
 const ID_MSG =
   process.env.ENV == 'DEV' ? '1019290546088460289' : '1019293176516841472';
 
 export default class AyahitooCommand extends AbstractCommand {
-  public constructor(client: Client, commandManager: CommandManager) {
-    super(client, commandManager, {
+  public constructor(
+    logger: pino.Logger,
+    client: Client,
+    commandManager: CommandManager
+  ) {
+    super(logger, client, commandManager, {
       name: ['ayahitoo', 'aya'],
       help: 'Commande speciale pour Ayahitoo',
       type: TypeHelp.Autre,

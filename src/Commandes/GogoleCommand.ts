@@ -4,6 +4,7 @@ import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { sample } from '../utils/arrayUtils.js';
 import { CommandManager } from '../CommandManager.js';
+import pino from 'pino';
 
 const QUOTE = [
   'https://media.discordapp.net/attachments/991333308988395670/991448778395631726/IMG_20220402_184149.jpg',
@@ -16,8 +17,12 @@ const QUOTE = [
 ];
 
 export default class GogoleCommand extends AbstractCommand {
-  public constructor(client: Client, commandManager: CommandManager) {
-    super(client, commandManager, {
+  public constructor(
+    logger: pino.Logger,
+    client: Client,
+    commandManager: CommandManager
+  ) {
+    super(logger, client, commandManager, {
       name: ['gogole'],
       help: 'Commande gogole',
       cmd: 'gogole',

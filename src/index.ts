@@ -1,10 +1,10 @@
 import { Client, GatewayIntentBits, REST } from 'discord.js';
 import commandsData from './data/commands.js';
 import eventsData from './data/events.js';
-import AbstractCommand from './Commandes/AbstractCommand.js';
 import { CommandManager } from './CommandManager.js';
 import AbstractEvent from './Events/AbstractEvent.js';
 import dotenv from 'dotenv';
+import logger from './logger.js';
 
 dotenv.config();
 
@@ -38,36 +38,66 @@ if (process.env.ENV == 'DEV') {
 
 const commandManager = new CommandManager();
 
-commandsData.forEach(({ command, details }) =>
-  commandManager.addCommand(new command(client, commandManager, details || {}))
-);
+commandsData.forEach(({ command, details }) => {
+  const commandLogger = logger.child(
+    {},
+    { msgPrefix: `[${details?.name || 'unknown'}] : ` }
+  );
+  commandManager.addCommand(
+    new command(commandLogger, client, commandManager, details || {})
+  );
+});
 
 const events: Array<AbstractEvent> = [];
 
-eventsData.forEach(({ event }) =>
+eventsData.forEach(({ event }) => {
+  const eventLogger = logger.child(
+    {},
+    { msgPrefix: `[${event.name || 'unknown'}] : ` }
+  );
   events.push(
-    new event(client, commandManager, (undefined as unknown) as string)
-  )
-);
-
-events.forEach((event) => {
-  client.on(event.getEventIdentifier(), (args) => event.execute(args));
+    new event(
+      eventLogger,
+      client,
+      commandManager,
+      (undefined as unknown) as string
+    )
+  );
 });
+
+try {
+  logger.info(`Registering ${events.length} application events.`);
+  events.forEach((event) => {
+    client.on(event.getEventIdentifier(), (args) => event.execute(args));
+  });
+  logger.info(`Successfully registered ${events.length} application events.`);
+  logger.debug({
+    loadedEvents: events.map((event) => event.toString()),
+  });
+} catch (error) {
+  logger.fatal(error);
+  throw error;
+}
 
 (async () => {
   try {
-    console.log(
+    logger.info(
       `Starting the refresh of ${
         commandManager.getAll().length
       } application (/) commands.`
     );
     await commandManager.registerCommands(rest);
-    console.log(
+    logger.info(
       `Successfully loaded ${
         commandManager.getAll().length
       } application (/) commands.`
     );
+    logger.debug({
+      loadedCommands: commandManager
+        .getAll()
+        .map((command) => command.toString()),
+    });
   } catch (error) {
-    console.error(error);
+    logger.fatal(error);
   }
 })();

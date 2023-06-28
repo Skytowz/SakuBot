@@ -5,6 +5,7 @@ import { sample } from '../utils/arrayUtils.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import { CommandManager } from '../CommandManager.js';
+import pino from 'pino';
 
 const QUOTE = [
   'Je réponds pas à un Mikodog', //Negatif
@@ -31,8 +32,12 @@ const QUOTE = [
 ];
 
 export default class AskCommand extends AbstractCommand {
-  public constructor(client: Client, commandManager: CommandManager) {
-    super(client, commandManager, {
+  public constructor(
+    logger: pino.Logger,
+    client: Client,
+    commandManager: CommandManager
+  ) {
+    super(logger, client, commandManager, {
       name: ['ask'],
       cmd: 'ask [question]',
       help: 'Répond à une question',
