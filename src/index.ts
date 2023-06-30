@@ -8,6 +8,29 @@ import logger from './logger.js';
 
 dotenv.config();
 
+const unhandledErrorsThreshold =
+  Number(process.env.UNHANDLED_ERRORS_THRESHOLD) || 10;
+
+let unhandledErrorCount = 0;
+
+const unhandledErrorListener = (error: unknown) => {
+  unhandledErrorCount++;
+  logger.error('an unhandled exception occurred');
+  logger.error(error);
+  if (
+    unhandledErrorsThreshold !== -1 &&
+    unhandledErrorCount >= unhandledErrorsThreshold
+  ) {
+    logger.fatal(
+      'too many unhandled errors occurred, shutting down for safety!'
+    );
+    process.exit(1);
+  }
+};
+
+process.on('unhandledRejection', unhandledErrorListener);
+process.on('uncaughtException', unhandledErrorListener);
+
 const rest = new REST({ version: '10' }).setToken(
   (process.env.ENV == 'DEV'
     ? process.env.TOKEN_DEV
@@ -110,5 +133,13 @@ try {
     });
   } catch (error) {
     logger.fatal(error);
+  }
+
+  if (client.isReady()) {
+    logger.info(`Application is fully loaded!`);
+  } else {
+    logger.info(
+      `Application initialization is complete, please wait for the bot to connect!`
+    );
   }
 })();
