@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CacheType, Colors, CommandInteraction } from 'discord.js';
+import {
+  Channel,
+  Colors,
+  CommandInteraction,
+  EmbedBuilder,
+  Message,
+} from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
-import Embed from '../utils/embed.js';
 import { getDateFromTimeStamp } from '../utils/dateUtils.js';
 import { AppInstances } from '../AppInstances.js';
 
@@ -25,101 +30,156 @@ export default class QuoteCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
-    let message;
-    if (commandInteraction.isMessageContextMenuCommand()) {
-      message = commandInteraction.targetId;
-    } else {
-      //@ts-ignore
-      message = commandInteraction.options.getString('message');
-    }
-    const ids = [];
-    if (message.startsWith('https://discord.com/channels')) {
-      const args = message.split('/');
-      if (args.length != 7) {
-        return commandInteraction.reply({
-          content: "Erreur, le lien du message n'est pas valide",
-          ephemeral: true,
-        });
-      } else {
-        const idMsg = args.pop();
-        ids.push(args.pop(), idMsg);
+  public async run(commandInteraction: CommandInteraction) {
+    let targetChannelId = commandInteraction.channel?.id;
+    let targetMessageId;
+    try {
+      const parsedIds = parseIdsFromCommandInteraction(commandInteraction);
+      targetChannelId = parsedIds.channelId ?? targetChannelId;
+      targetMessageId = parsedIds.messageId;
+    } catch (e) {
+      let erreurMessage = "Une erreur s'est produite";
+      if (!(e instanceof Error)) {
+        erreurMessage = String(e);
       }
-    } else {
-      if (!message.includes('-')) {
-        message = commandInteraction.channel?.id + '-' + message;
-      } else if (message.split(/-/).length > 2)
-        return commandInteraction.reply({
-          content:
-            "Erreur, veuillez donnez l'id sous la forme <message-channel>-<message-message> ou le lien du message",
-          ephemeral: true,
-        });
-      ids.push(...message.split(/-/));
+      await commandInteraction.reply({
+        content: erreurMessage,
+        ephemeral: true,
+      });
+      return;
     }
 
-    const channel = await this.getAppInstances()
-      .client.channels.fetch(ids[0])
-      .catch(() => {
-        return 'ERROR';
-      });
-    if (channel == 'ERROR')
-      return commandInteraction.reply({
-        content: 'Channel innexistant',
+    if (!targetChannelId || !targetMessageId) {
+      await commandInteraction.reply({
+        content: 'Merci de préciser tout les arguments nécessaires.',
         ephemeral: true,
       });
+      return;
+    }
 
-    //@ts-ignore
-    const messageFetch = await channel?.messages
-      .fetch(ids[1])
-      .catch(() => 'ERROR');
-    if (messageFetch == 'ERROR')
-      return commandInteraction.reply({
-        content: 'Message innexistant',
-        ephemeral: true,
-      });
-
-    const embed = new Embed()
-      .setColor(Colors.Fuchsia)
-      .setDescription(
-        messageFetch.content + `\n\n[Aller au message](${messageFetch.url})`
-      )
-      .setAuthor(messageFetch.author)
-      .setFooter(
-        '#' +
-          //@ts-ignore
-          channel.name +
-          ' | ' +
-          getDateFromTimeStamp(messageFetch.createdTimestamp)
+    let targetChannel: Channel | null | undefined;
+    try {
+      targetChannel = await this.getAppInstances().client.channels.fetch(
+        targetChannelId
       );
-
-    if (messageFetch.attachments.size != 0) {
-      if (messageFetch.attachments.first().contentType.startsWith('image'))
-        embed.setImage(messageFetch.attachments.first().proxyURL);
+    } catch (e) {
+      /* empty */
     }
 
-    const embeds = [embed];
-
-    if (
-      messageFetch.embeds &&
-      messageFetch.embeds.length > 0 &&
-      !(messageFetch.author.bot && messageFetch.embeds[0].title == null)
-    ) {
-      embeds.push(...messageFetch.embeds);
+    if (!targetChannel) {
+      await commandInteraction.reply({
+        content: 'Channel inexistant',
+        ephemeral: true,
+      });
+      return;
     }
-    //@ts-ignore
-    commandInteraction.reply({ embeds: embeds });
-    //
-    //     if(messageFetch.attachments.size != 0){
-    //         if(messageFetch.attachments.first().contentType.startsWith("image")) embed.setImage(messageFetch.attachments.first().proxyURL);
-    //     }
-    //
-    //
-    //     const embeds = [embed];
-    //
-    //     if(messageFetch.embeds && messageFetch.embeds.length > 0 && !(messageFetch.author.bot && messageFetch.embeds[0].title == null)){
-    //         embeds.push(...messageFetch.embeds);
-    //     }
-    //     interaction.reply({embeds:embeds})
-    // };
+
+    let targetMessage;
+    try {
+      //@ts-ignore pas le choix...
+      targetMessage = await targetChannel.messages.fetch(targetMessageId);
+    } catch (e) {
+      /* empty */
+    }
+
+    if (!targetMessage) {
+      await commandInteraction.reply({
+        content: 'Message inexistant',
+        ephemeral: true,
+      });
+      return;
+    }
+
+    const embeds = convertTargetMessageToQuoteEmbeds(
+      targetMessage,
+      targetChannel
+    );
+
+    await commandInteraction.reply({ embeds: embeds });
   }
 }
+
+const convertTargetMessageToQuoteEmbeds = (
+  targetMessage: Message,
+  targetChannel: Channel
+) => {
+  const iconUrl = targetMessage.author.avatarURL();
+  const mainEmbed = new EmbedBuilder()
+    .setColor(Colors.Fuchsia)
+    .setDescription(
+      targetMessage.content + `\n\n[Aller au message](${targetMessage.url})`
+    )
+    .setAuthor({
+      name: targetMessage.author.username,
+      ...(iconUrl ? { iconURL: iconUrl } : {}),
+    })
+    .setFooter({
+      text:
+        '#' +
+        //@ts-ignore
+        targetChannel.name +
+        ' | ' +
+        getDateFromTimeStamp(targetMessage.createdTimestamp),
+    });
+
+  if (targetMessage.attachments.size != 0) {
+    const firstAttachment = targetMessage.attachments.first();
+    if (firstAttachment?.contentType?.startsWith('image')) {
+      mainEmbed.setImage(firstAttachment.proxyURL);
+    }
+  }
+
+  const embeds = [mainEmbed];
+
+  if (
+    targetMessage.embeds &&
+    targetMessage.embeds.length > 0 &&
+    !(targetMessage.author.bot && targetMessage.embeds[0].title == null)
+  ) {
+    embeds.push(
+      ...targetMessage.embeds.map((embed) => new EmbedBuilder(embed.data))
+    );
+  }
+  return embeds;
+};
+
+type Ids = { messageId?: string; channelId?: string };
+
+const parseIdsFromCommandInteraction = (
+  commandInteraction: CommandInteraction
+): Ids => {
+  const ids: Ids = {};
+  if (commandInteraction.isMessageContextMenuCommand()) {
+    ids.messageId = commandInteraction.targetMessage.id;
+  } else {
+    // @ts-ignore
+    const argument = commandInteraction.options.getString('message');
+    let url;
+    try {
+      url = new URL(argument);
+    } catch (e) {
+      /* empty */
+    }
+    if (url?.host === 'discord.com' && url.pathname.startsWith('/channels')) {
+      const splitIds = url.pathname.split('/');
+      if (splitIds.length != 5) {
+        throw "Erreur, le lien du message n'est pas valide";
+      }
+      ids.messageId = splitIds.pop();
+      ids.channelId = splitIds.pop();
+    } else if (url) {
+      throw "Erreur, le lien du message n'est pas valide";
+    } else {
+      if (!argument.includes('-')) {
+        ids.messageId = argument;
+      } else if (argument.split(/-/).length != 2) {
+        throw "Erreur, veuillez donner l'id sous la forme <message-channel>-<message-message> ou le lien du message";
+      } else {
+        const splitIds = argument.split(/-/);
+        ids.channelId = splitIds[0];
+        ids.messageId = splitIds[1];
+      }
+    }
+  }
+  return ids;
+};
