@@ -1,23 +1,19 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CommandInteraction, CacheType, Client } from 'discord.js';
+import { CacheType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 
 import { config } from 'dotenv';
-import { CommandManager } from '../CommandManager.js';
-import pino from 'pino';
+import { AppInstances } from '../AppInstances.js';
+
 config();
 
 const ID_MSG =
   process.env.ENV == 'DEV' ? '1019290546088460289' : '1019293176516841472';
 
 export default class AyahitooCommand extends AbstractCommand {
-  public constructor(
-    logger: pino.Logger,
-    client: Client,
-    commandManager: CommandManager
-  ) {
-    super(logger, client, commandManager, {
+  public constructor(appInstances: AppInstances) {
+    super(appInstances, {
       name: ['ayahitoo', 'aya'],
       help: 'Commande speciale pour Ayahitoo',
       type: TypeHelp.Autre,
@@ -40,7 +36,9 @@ export default class AyahitooCommand extends AbstractCommand {
         content: 'Tu ne peux pas utiliser cette commande',
         ephemeral: true,
       });
-    const ayahito = await this.getClient().users.fetch('904895756073336873');
+    const ayahito = await this.getAppInstances().client.users.fetch(
+      '904895756073336873'
+    );
     const dm = await ayahito.createDM();
     const msg = await dm.messages.fetch(ID_MSG);
     const chiffre = parseInt(msg.content) + 1;

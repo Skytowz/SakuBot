@@ -1,46 +1,28 @@
-import { Client, CommandInteraction } from 'discord.js';
-import { CommandManager } from '../CommandManager.js';
-import pino from 'pino';
+import { CommandInteraction } from 'discord.js';
+import { AppInstances } from '../AppInstances.js';
 
 const ERROR_MESAGE = "Une Erreur s'est produite";
 
 export default class AbstractEvent {
-  private logger: pino.Logger;
+  private appInstances: AppInstances;
   private eventIdentifier;
-  private client;
-  private commandManager;
 
-  public constructor(
-    logger: pino.Logger,
-    client: Client,
-    commandManager: CommandManager,
-    eventIdentifier: string
-  ) {
-    this.logger = logger;
+  public constructor(appInstances: AppInstances, eventIdentifier: string) {
+    this.appInstances = appInstances;
     this.eventIdentifier = eventIdentifier;
-    this.client = client;
-    this.commandManager = commandManager;
   }
 
   public getEventIdentifier() {
     return this.eventIdentifier;
   }
 
-  public getLogger() {
-    return this.logger;
-  }
-
-  public getClient() {
-    return this.client;
-  }
-
-  public getCommandManager() {
-    return this.commandManager;
+  public getAppInstances() {
+    return this.appInstances;
   }
 
   public async execute(commandInteraction: CommandInteraction) {
     this.onEvent(commandInteraction).catch((error) => {
-      this.getLogger().error(error);
+      this.getAppInstances().logger.error(error);
       if (commandInteraction.deferred) {
         commandInteraction.editReply({
           content: ERROR_MESAGE,

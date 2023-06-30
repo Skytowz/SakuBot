@@ -1,30 +1,25 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
-  CommandInteraction,
-  CacheType,
-  Client,
   ApplicationCommandOptionType,
+  CacheType,
+  CommandInteraction,
 } from 'discord.js';
 import SlashOption from '../../utils/slashOption.js';
-import { send } from '../../utils/mangaUtils.js';
-import { CommandDeclaration } from '../../types/Command.js';
+import { CommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import { getGeneralImageByTag } from '../../services/danroobuService.js';
-import pino from 'pino';
-import { CommandManager } from '../../CommandManager.js';
+import { AppInstances } from '../../AppInstances.js';
 
-export interface DanroobuCommandDeclaration extends CommandDeclaration {
+export interface DanroobuCommandDeclaration extends CommandDetails {
   research: string;
 }
 
 export default class ImplementableDanroobuCommand extends AbstractCommand {
   public constructor(
-    logger: pino.Logger,
-    client: Client,
-    commandManager: CommandManager,
+    appInstances: AppInstances,
     details: DanroobuCommandDeclaration
   ) {
-    super(logger, client, commandManager, {
+    super(appInstances, {
       args: [
         new SlashOption()
           .setName('mention')

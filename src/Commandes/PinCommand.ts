@@ -1,17 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CacheType, Client, CommandInteraction } from 'discord.js';
+import { CacheType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import pino from 'pino';
-import { CommandManager } from '../CommandManager.js';
+import { AppInstances } from '../AppInstances.js';
 
 export default class GetPPCommand extends AbstractCommand {
-  public constructor(
-    logger: pino.Logger,
-    client: Client,
-    commandManager: CommandManager
-  ) {
-    super(logger, client, commandManager, {
+  public constructor(appInstances: AppInstances) {
+    super(appInstances, {
       name: ['pin'],
       help: '> pin le message',
       type: TypeHelp.Utils,
@@ -41,7 +36,7 @@ export default class GetPPCommand extends AbstractCommand {
       });
     if (commandInteraction.targetMessage.pinned)
       return commandInteraction.reply({
-        content: 'Le message est déjà pin',
+        content: 'Le message est dï¿½jï¿½ pin',
         ephemeral: true,
       });
 

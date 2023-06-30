@@ -38,17 +38,25 @@ if (process.env.ENV == 'DEV') {
 
 const commandManager = new CommandManager();
 
+const events: Array<AbstractEvent> = [];
+
 commandsData.forEach(({ command, details }) => {
   const commandLogger = logger.child(
     {},
     { msgPrefix: `[${details?.name || 'unknown'}] : ` }
   );
   commandManager.addCommand(
-    new command(commandLogger, client, commandManager, details || {})
+    new command(
+      {
+        commandManager: commandManager,
+        client: client,
+        logger: commandLogger,
+        events: events,
+      },
+      details || {}
+    )
   );
 });
-
-const events: Array<AbstractEvent> = [];
 
 eventsData.forEach(({ event }) => {
   const eventLogger = logger.child(
@@ -57,9 +65,12 @@ eventsData.forEach(({ event }) => {
   );
   events.push(
     new event(
-      eventLogger,
-      client,
-      commandManager,
+      {
+        commandManager: commandManager,
+        client: client,
+        logger: eventLogger,
+        events: events,
+      },
       (undefined as unknown) as string
     )
   );

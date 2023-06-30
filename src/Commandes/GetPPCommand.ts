@@ -1,23 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
-  CommandInteraction,
-  CacheType,
-  Client,
   ApplicationCommandOptionType,
+  CacheType,
+  CommandInteraction,
 } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
-import { CommandManager } from '../CommandManager.js';
-import pino from 'pino';
+import { AppInstances } from '../AppInstances.js';
 
 export default class GetPPCommand extends AbstractCommand {
-  public constructor(
-    logger: pino.Logger,
-    client: Client,
-    commandManager: CommandManager
-  ) {
-    super(logger, client, commandManager, {
+  public constructor(appInstances: AppInstances) {
+    super(appInstances, {
       name: ['pp'],
       help: "> Recupère la photo d'un profil de sois même ou d'un utilisateur",
       type: TypeHelp.Autre,

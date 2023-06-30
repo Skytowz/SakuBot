@@ -1,20 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CommandInteraction, CacheType, Client, Colors } from 'discord.js';
+import { CacheType, Colors, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import Embed from '../utils/embed.js';
 import { getDateFromTimeStamp } from '../utils/dateUtils.js';
-import { CommandManager } from '../CommandManager.js';
-import pino from 'pino';
+import { AppInstances } from '../AppInstances.js';
 
 export default class QuoteCommand extends AbstractCommand {
-  public constructor(
-    logger: pino.Logger,
-    client: Client,
-    commandManager: CommandManager
-  ) {
-    super(logger, client, commandManager, {
+  public constructor(appInstances: AppInstances) {
+    super(appInstances, {
       name: ['quote'],
       help: "Renvoie le contenu d'un message",
       cmd: 'q/quote ([<id-channel>-]<id-message> | <url-message>)',
@@ -62,8 +57,8 @@ export default class QuoteCommand extends AbstractCommand {
       ids.push(...message.split(/-/));
     }
 
-    const channel = await this.getClient()
-      .channels.fetch(ids[0])
+    const channel = await this.getAppInstances()
+      .client.channels.fetch(ids[0])
       .catch(() => {
         return 'ERROR';
       });

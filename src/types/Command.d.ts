@@ -17,7 +17,7 @@ export interface CommandDeclarationOptions {
   ];
 }
 
-export interface CommandDeclaration {
+export interface CommandDetails {
   name?: Array<string>;
   cmd?: string;
   help?: string;
@@ -40,11 +40,11 @@ export type CommandRun = (
 
 interface Command {
   run: CommandRun;
-  help: CommandDeclaration;
+  help: CommandDetails;
 }
 
 export interface CommandsData {
-  [key: string]: CommandDeclaration;
+  [key: string]: CommandDetails;
 }
 
 export default Command;

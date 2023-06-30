@@ -1,25 +1,20 @@
-import { ActivityType, Client } from 'discord.js';
-import { CommandManager } from '../CommandManager.js';
+import { ActivityType } from 'discord.js';
 import AbstractEvent from './AbstractEvent.js';
-import pino from 'pino';
+import { AppInstances } from '../AppInstances.js';
 
 export default class readyEvent extends AbstractEvent {
-  public constructor(
-    logger: pino.Logger,
-    client: Client,
-    commandManager: CommandManager
-  ) {
-    super(logger, client, commandManager, 'ready');
+  public constructor(appInstances: AppInstances) {
+    super(appInstances, 'ready');
   }
 
   protected async onEvent() {
-    this.getClient().user?.setActivity('Saku le best', {
+    this.getAppInstances().client.user?.setActivity('Saku le best', {
       type: ActivityType.Playing,
     });
-    this.getLogger().info(
-      `Bot instance (${this.getClient().user?.id}) ${
-        this.getClient().user?.username
-      }#${this.getClient().user?.discriminator} is ready!`
+    this.getAppInstances().logger.info(
+      `Bot instance (${this.getAppInstances().client.user?.id}) ${
+        this.getAppInstances().client.user?.username
+      }#${this.getAppInstances().client.user?.discriminator} is ready!`
     );
   }
 }

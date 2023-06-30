@@ -1,36 +1,18 @@
-import { Client, CommandInteraction } from 'discord.js';
-import { CommandDeclaration } from '../types/Command.js';
-import { CommandManager } from '../CommandManager.js';
-import pino from 'pino';
+import { CommandInteraction } from 'discord.js';
+import { CommandDetails } from '../types/Command.js';
+import { AppInstances } from '../AppInstances.js';
 
 export default class AbstractCommand {
-  private logger: pino.Logger;
-  private client;
-  private commandManager;
-  private details: CommandDeclaration;
+  private appInstances: AppInstances;
+  private details: CommandDetails;
 
-  public constructor(
-    logger: pino.Logger,
-    client: Client,
-    commandManager: CommandManager,
-    details: CommandDeclaration
-  ) {
-    this.logger = logger;
-    this.client = client;
-    this.commandManager = commandManager;
+  public constructor(appInstances: AppInstances, details: CommandDetails) {
+    this.appInstances = appInstances;
     this.details = { slash: true, ...details };
   }
 
-  public getLogger() {
-    return this.logger;
-  }
-
-  public getClient() {
-    return this.client;
-  }
-
-  public getCommandManager() {
-    return this.commandManager;
+  public getAppInstances() {
+    return this.appInstances;
   }
 
   public getDetails() {

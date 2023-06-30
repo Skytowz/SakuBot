@@ -1,6 +1,6 @@
 import ImplementableAnswerCommand from '../Commandes/implementable/ImplementableAnswerCommand.js';
 import ImplementableMangaCommand from '../Commandes/implementable/ImplementableMangaCommand.js';
-import { CommandDeclaration } from '../types/Command.js';
+import { CommandDetails } from '../types/Command.js';
 import AnswerCommandData from './AnswerCommand.data.js';
 import MangaCommandData from './MangaCommand.data.js';
 import DanroobuCommandData from './DanroobuCommand.data.js';
@@ -52,5 +52,5 @@ export default [
   })),
 ] as Array<{
   command: typeof AbstractCommand;
-  details?: CommandDeclaration;
+  details?: CommandDetails;
 }>;
