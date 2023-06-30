@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CacheType, CommandInteraction } from 'discord.js';
+import { CacheType, CommandInteraction, GuildMember } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import {
   AudioPlayerStatus,
   createAudioPlayer,
   createAudioResource,
+  DiscordGatewayAdapterCreator,
   joinVoiceChannel,
   NoSubscriberBehavior,
 } from '@discordjs/voice';
@@ -25,27 +25,35 @@ export default class VocalquitCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction<CacheType>) {
-    if (this.enCours)
-      return commandInteraction.reply({
+    if (this.enCours) {
+      await commandInteraction.reply({
         content: 'Une déco est déjà en cours',
         ephemeral: true,
       });
+      return;
+    }
 
-    //@ts-ignore
-    const channelId: string = commandInteraction.member?.voice.channelId;
+    const guildMember = ((await commandInteraction.guild?.members.fetch({
+      user: commandInteraction.member?.user.id,
+    })) as unknown) as GuildMember;
+    if (!guildMember) {
+      return;
+    }
+
+    const channelId = guildMember.voice.channelId;
     if (!channelId) {
-      return commandInteraction.reply({
+      await commandInteraction.reply({
         content: "Vous n'êtes pas dans un channel vocal",
         ephemeral: true,
       });
+      return;
     }
 
     const connection = joinVoiceChannel({
       channelId: channelId,
-      //@ts-ignore
-      guildId: commandInteraction.member?.voice.guild.id as string,
-      //@ts-ignore
-      adapterCreator: commandInteraction.member?.guild.voiceAdapterCreator,
+      guildId: guildMember.guild.id,
+      adapterCreator: (guildMember.guild
+        .voiceAdapterCreator as unknown) as DiscordGatewayAdapterCreator,
     });
 
     const player = createAudioPlayer({
@@ -54,7 +62,7 @@ export default class VocalquitCommand extends AbstractCommand {
       },
     });
 
-    const ressource = createAudioResource('./Ressources/outro.mp3');
+    const ressource = createAudioResource('./ressources/outro.mp3');
 
     player.play(ressource);
 
@@ -64,12 +72,17 @@ export default class VocalquitCommand extends AbstractCommand {
       connection.disconnect();
     });
 
+    await commandInteraction.deferReply({
+      ephemeral: true,
+    });
+
     this.enCours = true;
     setTimeout(() => {
-      //@ts-ignore
-      commandInteraction.member?.voice.disconnect();
       this.enCours = false;
+      guildMember.voice.disconnect();
+      commandInteraction.editReply({
+        content: 'Disconnected',
+      });
     }, 15500);
-    commandInteraction.reply({ content: 'Disconnected', ephemeral: true });
   }
 }
