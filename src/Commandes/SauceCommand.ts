@@ -1,16 +1,19 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  CacheType,
   CommandInteraction,
+  EmbedBuilder,
+  Message,
 } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import Embed from '../utils/embed.js';
 import { request } from 'undici';
 import { AppInstances } from '../AppInstances.js';
+import {
+  fetchSourceDataFromImageUrl,
+  SourceData,
+} from '../services/saucenaoService.js';
 
 export default class SauceCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
@@ -24,96 +27,57 @@ export default class SauceCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
-    commandInteraction.deferReply({ ephemeral: true });
+  public async run(commandInteraction: CommandInteraction) {
+    await commandInteraction.deferReply({ ephemeral: true });
 
-    if (!commandInteraction.isMessageContextMenuCommand())
+    if (!commandInteraction.isMessageContextMenuCommand()) {
       return commandInteraction.editReply({
         content: "Ceci n'est pas un message",
       });
-    let img;
-    let image;
-    if (
-      (img = commandInteraction.targetMessage.attachments.find((value) =>
-        value.contentType?.includes('image')
-      ))
-    ) {
-      image = img.url;
-    } else if (isImgUrl(commandInteraction.targetMessage.content)) {
-      image = commandInteraction.targetMessage.content;
-    } else {
-      return commandInteraction.editReply({
-        content: "Ceci n'est pas une image",
-      });
     }
-    image = image.split('?')[0];
-    if (!isImgUrl(image))
-      return commandInteraction.editReply({
-        content: 'Image ou lien incompatible',
-      });
 
-    const result = await fetch(
-      `https://saucenao.com/search.php?db=999&output_type=2&numres=50&api_key=4f94dcf41458ba2601b9d09fe7d4107a7afd9071&url=${encodeURIComponent(
-        image
-      )}`
+    const sourceImageUrl = extractUrlFromMessage(
+      commandInteraction.targetMessage
     );
-    const { results } = await result.json();
-    if (!results) {
+
+    if (!sourceImageUrl) {
       return commandInteraction.editReply({
         content: 'Image ou lien incompatible',
       });
     }
-    results.sort((a: any, b: any) => b.header.similarity - a.header.similarity);
-    const res = results[0];
-    const embed = new Embed()
-      .setTitle(res.data.title ?? res.data.source ?? res.header.index_name)
-      .setUrl(res.data.ext_urls ? res.data.ext_urls[0] : res.header.thumbnail)
-      .setImage(res.header.thumbnail)
-      .addField('Commande par :', `<@${commandInteraction.user.id}>`)
-      .addField('Similitude', `${res.header.similarity}%`);
-    if (res.data.author_name) {
-      embed.setAuthorNameUrl(res.data.author_name, res.data.author_url);
-    } else if (res.data.twitter_user_handle) {
-      embed.setAuthorNameUrl(
-        res.data.twitter_user_handle,
-        `https://twitter.com/${res.data.twitter_user_handle}`
-      );
-    } else if (res.data.eng_name) {
-      embed.setAuthorNameUrl(res.data.eng_name, res.header.thumbnail);
-    } else if (res.data.danbooru_id) {
-      embed
-        .setAuthorNameUrl(res.data.creator, res.data.ext_urls[0])
-        .setTitle(res.data.characters);
+
+    const result = await fetchSourceDataFromImageUrl(sourceImageUrl);
+
+    if (!result) {
+      return commandInteraction.editReply({
+        content: 'Impossible de récupérer la source',
+      });
     }
-    const row = new ActionRowBuilder().addComponents(
-      new ButtonBuilder()
-        .setLabel('Voir')
-        .setURL(res.data.ext_urls ? res.data.ext_urls[0] : res.header.thumbnail)
-        .setStyle(ButtonStyle.Link),
-      new ButtonBuilder()
-        .setCustomId('show')
-        .setEmoji('👁')
-        .setLabel('Afficher')
-        .setStyle(ButtonStyle.Secondary)
+
+    const embed = convertImageSourceDataToEmbed(
+      result,
+      commandInteraction.user.id
     );
 
-    commandInteraction.editReply({
-      //@ts-ignore
+    const row = createButtonRowForImageSourceDataToEmbed(result);
+
+    await commandInteraction.editReply({
       embeds: [embed],
-      //@ts-ignore
       components: [row],
     });
-    const msg = await commandInteraction.fetchReply();
-    const interact = msg.createMessageComponentCollector({ time: 180000 });
 
-    interact.on('collect', async (i) => {
-      if (i.customId === 'show') {
+    const reply = await commandInteraction.fetchReply();
+    const replyInteraction = reply.createMessageComponentCollector({
+      time: 180000,
+    });
+
+    replyInteraction.on('collect', async (interaction) => {
+      // when the user click on show, we remove the button row and the previous message content, then post the result publicly
+      if (interaction.customId === 'show') {
         row.components.pop();
-        i.update({ content: '-', embeds: [], components: [] });
-        commandInteraction.followUp({
-          //@ts-ignore
+        await interaction.update({ content: '-', embeds: [], components: [] });
+        await commandInteraction.followUp({
           embeds: [embed],
-          //@ts-ignore
           components: [row],
           ephemeral: false,
           allowedMentions: { repliedUser: false },
@@ -123,6 +87,68 @@ export default class SauceCommand extends AbstractCommand {
   }
 }
 
+const createButtonRowForImageSourceDataToEmbed = (data: SourceData) => {
+  return new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setLabel('Voir')
+      .setURL(String(data.ext_url ?? data.thumbnail))
+      .setStyle(ButtonStyle.Link),
+    new ButtonBuilder()
+      .setCustomId('show')
+      .setEmoji('👁')
+      .setLabel('Afficher')
+      .setStyle(ButtonStyle.Secondary)
+  );
+};
+
+const convertImageSourceDataToEmbed = (
+  data: SourceData,
+  requestingUserId: string
+) => {
+  const embed = new EmbedBuilder()
+    .setTitle(String(data.title ?? data.source ?? data.index_name))
+    .setURL(String(data.ext_url ?? data.thumbnail))
+    .setImage(String(data.thumbnail))
+    .addFields(
+      { name: 'Commande par :', value: `<@${requestingUserId}>` },
+      {
+        name: 'Similitude',
+        value: `${data.similarity}%`,
+      }
+    );
+  if (data.author_name) {
+    embed.setAuthor({ name: data.author_name, url: data.author_url });
+  } else if (data.twitter_user_handle) {
+    embed.setAuthor({
+      name: data.twitter_user_handle,
+      url: `https://twitter.com/${data.twitter_user_handle}`,
+    });
+  } else if (data.eng_name) {
+    embed.setAuthor({ name: data.eng_name, url: data.thumbnail });
+  } else if (data.danbooru_id) {
+    embed
+      .setAuthor({ name: String(data.creator), url: data.ext_url })
+      .setTitle(String(data.characters));
+  }
+  return embed;
+};
+
+const extractUrlFromMessage = (message: Message): string | undefined => {
+  let sourceImage: string | undefined;
+
+  const sourceImageAttachment = message.attachments.find((value) =>
+    value.contentType?.includes('image')
+  );
+
+  if (sourceImageAttachment) {
+    sourceImage = sourceImageAttachment.url;
+  } else if (isImgUrl(message.content)) {
+    sourceImage = message.content;
+  }
+
+  return sourceImage?.split('?')[0];
+};
+
 const isImgUrl = (url: string) => {
   if (!validURL(url)) return false;
   return request(url).then(({ headers }) => {
@@ -130,7 +156,7 @@ const isImgUrl = (url: string) => {
   });
 };
 
-const validURL = (str: string) => {
+const validURL = (str: string): boolean => {
   const pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -140,5 +166,5 @@ const validURL = (str: string) => {
       '(\\#[-a-z\\d_]*)?$',
     'i'
   ); // fragment locator
-  return !!pattern.test(str);
+  return pattern.test(str);
 };
