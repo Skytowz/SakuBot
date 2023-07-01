@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CacheType, CommandInteraction } from 'discord.js';
+import { CommandInteraction, GuildMemberRoleManager } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { AppInstances } from '../AppInstances.js';
+
+const WHITELIST = ['780835397008621600', '685583592084340740'];
 
 export default class GetPPCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
@@ -16,31 +17,35 @@ export default class GetPPCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
+  public async run(commandInteraction: CommandInteraction) {
     if (
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      !commandInteraction.member.roles.cache.find(
-        (e: { id: string }) =>
-          e.id == '780835397008621600' || '685583592084340740'
+      !(commandInteraction.member
+        ?.roles as GuildMemberRoleManager).cache.find(({ id }) =>
+        WHITELIST.includes(id)
       )
-    )
-      return commandInteraction.reply({
+    ) {
+      await commandInteraction.reply({
         content: 'Tu ne peux pas utiliser cette commande',
         ephemeral: true,
       });
-    if (!commandInteraction.isMessageContextMenuCommand())
-      return commandInteraction.reply({
+      return;
+    }
+    if (!commandInteraction.isMessageContextMenuCommand()) {
+      await commandInteraction.reply({
         content: "Ceci n'est pas un message",
         ephemeral: true,
       });
-    if (commandInteraction.targetMessage.pinned)
-      return commandInteraction.reply({
-        content: 'Le message est d�j� pin',
+      return;
+    }
+    if (commandInteraction.targetMessage.pinned) {
+      await commandInteraction.reply({
+        content: 'Le message est deja pin',
         ephemeral: true,
       });
+      return;
+    }
 
-    commandInteraction.targetMessage.pin(
+    await commandInteraction.targetMessage.pin(
       `<@${commandInteraction.member?.user.id}> a pin le message.`
     );
     await commandInteraction.reply({
