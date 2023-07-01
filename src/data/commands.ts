@@ -14,7 +14,6 @@ import GetPPCommand from '../Commandes/GetPPCommand.js';
 import GogoleCommand from '../Commandes/GogoleCommand.js';
 import HelpCommand from '../Commandes/HelpCommand.js';
 import MangaLinkCommand from '../Commandes/MangaLinkCommand.js';
-import OnkWhenCommand from '../Commandes/OnkWhenCommand.js';
 import QuoteCommand from '../Commandes/QuoteCommand.js';
 import SauceCommand from '../Commandes/SauceCommand.js';
 import VocalquitCommand from '../Commandes/VocalquitCommand.js';
@@ -31,7 +30,6 @@ export default [
   { command: GogoleCommand },
   { command: HelpCommand },
   { command: MangaLinkCommand },
-  { command: OnkWhenCommand },
   { command: QuoteCommand },
   { command: SauceCommand },
   { command: VocalquitCommand },
