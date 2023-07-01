@@ -4,6 +4,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
   CommandInteraction,
+  InteractionReplyOptions,
 } from 'discord.js';
 import {
   getChapitre,
@@ -14,36 +15,28 @@ import { getChapitre as getChapitreMangaReader } from '../services/mangareaderSe
 import { CommandDeclarationOptions } from '../types/Command.js';
 import { getChapitre as getChapitreGist } from '../services/gistService.js';
 
-/**
- *
- * @param {CommandInteraction} interaction
- * @param {Array} args
- * @param {string} id
- * @param {string} [slug]
- * @returns
- */
 export const send = async (
   interaction: CommandInteraction,
   chap: number | string,
-  numero: number | string,
+  number: number | string,
   {
     research,
     langue,
     idChap,
-    mangaReader,
-    cubari,
+    isMangeReader,
+    isCubari,
     options,
   }: {
     research?: string;
     langue?: Array<string>;
     idChap?: string;
-    mangaReader: boolean;
-    cubari: boolean;
+    isMangeReader?: boolean;
+    isCubari?: boolean;
     options?: CommandDeclarationOptions;
   }
 ) => {
   let chapitre;
-  interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ ephemeral: true });
   let defer = false;
   if (idChap) {
     const data = await getChapitreInfoById(idChap);
@@ -55,15 +48,15 @@ export const send = async (
       return interaction.channel?.send({
         content: 'Veuillez rentrer un numéro de chapitre valide',
       });
-    if (mangaReader) {
-      interaction.deferReply();
+    if (isMangeReader) {
+      await interaction.deferReply();
       defer = true;
       chapitre = await getChapitreMangaReader(research as string, chap);
-    } else if (cubari) {
+    } else if (isCubari) {
       chapitre = await getChapitreGist(
         research as string,
         chap as string,
-        cubari
+        isCubari
       );
     } else {
       chapitre = await getChapitre(
@@ -85,18 +78,18 @@ export const send = async (
   const embedList = chapitre.getEmbedList();
 
   if (
-    numero &&
-    numero != '' &&
-    !Number.isNaN(numero) &&
-    (numero as number) <= chapitre.nbPages &&
-    (numero as number) > 0
+    number &&
+    number != '' &&
+    !Number.isNaN(number) &&
+    (number as number) <= chapitre.nbPages &&
+    (number as number) > 0
   )
-    embedList.index = (numero as number) - 1;
+    embedList.index = (number as number) - 1;
 
-  const content = embedList.getContent() as any;
+  const content = embedList.getContent() as InteractionReplyOptions;
 
   if (chapitre.nbPages > 1) {
-    const row = new ActionRowBuilder().addComponents(
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setCustomId('before')
         .setLabel('<')
@@ -113,7 +106,7 @@ export const send = async (
     content.components = [row];
   }
 
-  interaction.followUp(content);
+  await interaction.followUp(content);
 
   const msg = await interaction.fetchReply();
 
@@ -122,7 +115,7 @@ export const send = async (
 
     interact.on('collect', async (i) => {
       if (i.user.id != interaction.user.id) {
-        i.reply({
+        await i.reply({
           content: 'Tu ne peux pas utiliser cette commande',
           ephemeral: true,
         });
@@ -138,8 +131,8 @@ export const send = async (
       }
     });
 
-    interact.on('end', async (i) => {
-      msg.edit({ components: [] });
+    interact.on('end', async () => {
+      await msg.edit({ components: [] });
     });
   }
 };

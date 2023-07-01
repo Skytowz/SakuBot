@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  ApplicationCommandOptionType,
-  CacheType,
-  CommandInteraction,
-} from 'discord.js';
+import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import { send } from '../utils/mangaUtils.js';
 import { AppInstances } from '../AppInstances.js';
+import { parseUrlPath, stringToURL } from '../utils/urlUtils.js';
 
 const LANGUAGES = [
   {
@@ -24,7 +21,7 @@ const LANGUAGES = [
     value: 'es',
   },
   {
-    name: 'bresilien',
+    name: 'brésilien',
     value: 'pt-br',
   },
   {
@@ -73,34 +70,29 @@ export default class MangaLinkCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
+  public async run(commandInteraction: CommandInteraction) {
     //@ts-ignore
-    const url: string = commandInteraction.options.getString('url');
-    const id = url.match(/title\/([a-zA-Z0-9-]+)(\/?.*)/i)?.at(1);
+    const url = stringToURL(commandInteraction.options.getString('url'));
     //@ts-ignore
-    const langue = commandInteraction.options.getString('langue');
-    let langues;
-    if (langue) {
-      langues = [langue];
-    } else {
-      langues = LANGUAGES.map((e) => e.value);
-    }
+    const language = commandInteraction.options.getString('langue');
+    const languages = language ? [language] : Object.values(LANGUAGES);
+    // @ts-ignore
+    const chapter = commandInteraction.options.getString('chapitre') ?? 1;
+    // @ts-ignore
+    const page = commandInteraction.options.getString('page');
 
-    if (id && url.match(/mangadex.org\/title/)) {
-      send(
-        commandInteraction,
-        //@ts-ignore
-        commandInteraction.options.getString('chapitre') ?? 1,
-        //@ts-ignore
-        commandInteraction.options.getString('page'),
-        //@ts-ignore
-        { research: id, langue: langues }
-      );
-    } else {
-      commandInteraction.reply({
+    let id;
+    if (!url || url.host !== 'mangadex.org' || !(id = parseUrlPath(url)[1])) {
+      await commandInteraction.reply({
         content: 'Lien invalide',
         ephemeral: true,
       });
+      return;
     }
+
+    await send(commandInteraction, chapter, page, {
+      research: id,
+      langue: languages,
+    });
   }
 }
