@@ -2,14 +2,14 @@
 import {
   ActionRowBuilder,
   APIEmbed,
-  CacheType,
   Colors,
   CommandInteraction,
+  EmbedBuilder,
+  InteractionReplyOptions,
   SelectMenuBuilder,
 } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import Embed from '../utils/embed.js';
 import { AppInstances } from '../AppInstances.js';
 
 export default class HelpCommand extends AbstractCommand {
@@ -18,72 +18,52 @@ export default class HelpCommand extends AbstractCommand {
       name: ['help'],
       cmd: 'help',
       type: TypeHelp.Utils,
-      help: "Appelle l'aide",
+      help: "Appel l'aide",
       slash: true,
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
-    const help = new Embed()
-      .setColor(Colors.DarkPurple)
-      .setTitle('Help')
-      .setThumbnail(
-        'https://greeks.ufl.edu/wp-content/uploads/2019/10/noun_FAQ_793197.png'
-      )
-      .setDescription('Choose your help page below');
+  public async run(commandInteraction: CommandInteraction) {
+    const mainEmbed = buildMainEmbed();
 
-    const values = this.getAppInstances()
+    const replyOptions: InteractionReplyOptions = {
+      embeds: [mainEmbed],
+      components: [],
+    };
+
+    const commandsWithHelp = this.getAppInstances()
       .commandManager.getAll()
       .filter(
         (command) => !command.getDetails().nohelp && command.getDetails().type
       );
 
-    const embeds = TypeHelp.getValues().map(([, value, description]) => {
-      return new Embed()
-        .setColor(Colors.DarkPurple)
-        .setTitle('Help')
-        .setThumbnail(
-          'https://greeks.ufl.edu/wp-content/uploads/2019/10/noun_FAQ_793197.png'
-        )
-        .setDescription(
-          `**${value}**\n------------------------------\n${description}\n------------------------------`
-        )
-        .addFields(
-          values
-            .filter((v) => v.getDetails().type?.name == value)
-            .map((v) => {
-              return {
-                name: '/' + v.getDetails().cmd,
-                value: '> ' + v.getDetails().help + '.',
-                inline: false,
-              };
-            })
-        );
-    });
-    const content = { embeds: [help] };
-    const row = new ActionRowBuilder().addComponents(
+    const typesHelps = TypeHelp.getValues();
+
+    const typeHelpEmbeds = buildTypeHelpEmbeds(typesHelps, commandsWithHelp);
+
+    const row = new ActionRowBuilder<SelectMenuBuilder>().addComponents(
       new SelectMenuBuilder().setCustomId('SelectHelp').setOptions(
-        TypeHelp.getValues().map(([, value]) => {
+        typesHelps.map(({ name }) => {
           return {
-            label: value,
-            value: value,
+            label: name,
+            value: name,
           };
         })
       )
     );
-    //@ts-ignore
-    content.components = [row];
-    //@ts-ignore
-    commandInteraction.reply(content);
+    replyOptions.components = [row];
+
+    await commandInteraction.reply(replyOptions);
+
     const msg = await commandInteraction.fetchReply();
     const interact = msg.createMessageComponentCollector({ time: 180000 });
     interact.on('collect', (i) => {
       if (i.customId === 'SelectHelp') {
         i.update({
           embeds: [
-            embeds.find((v) =>
+            typeHelpEmbeds.find((embed) =>
               //@ts-ignore
-              v.description?.startsWith('**' + i.values)
+              embed.data.description?.startsWith('**' + i.values)
             ) as APIEmbed,
           ],
         });
@@ -94,3 +74,46 @@ export default class HelpCommand extends AbstractCommand {
     });
   }
 }
+
+const buildMainEmbed = () => {
+  return new EmbedBuilder()
+    .setColor(Colors.DarkPurple)
+    .setTitle('Help')
+    .setThumbnail(
+      'https://greeks.ufl.edu/wp-content/uploads/2019/10/noun_FAQ_793197.png'
+    )
+    .setDescription('Choose your help page below');
+};
+
+const buildTypeHelpEmbeds = (
+  typeHelps: Array<TypeHelp>,
+  commands: Array<AbstractCommand>
+) => {
+  const organisedTypeHelps = typeHelps.map((typeHelp) => {
+    const filteredCommands = commands.filter(
+      (command) => command.getDetails().type === typeHelp
+    );
+    return { type: typeHelp, commands: filteredCommands };
+  });
+
+  return organisedTypeHelps.map(({ type, commands }) =>
+    new EmbedBuilder()
+      .setColor(Colors.DarkPurple)
+      .setTitle('Help')
+      .setThumbnail(
+        'https://greeks.ufl.edu/wp-content/uploads/2019/10/noun_FAQ_793197.png'
+      )
+      .setDescription(
+        `**${type.name}**\n------------------------------\n${type.description}\n------------------------------`
+      )
+      .addFields(
+        commands.map((v) => {
+          return {
+            name: '/' + v.getDetails().cmd,
+            value: '> ' + v.getDetails().help + '.',
+            inline: false,
+          };
+        })
+      )
+  );
+};
