@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  ApplicationCommandOptionType,
-  CacheType,
-  CommandInteraction,
-} from 'discord.js';
+import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import Canvas from '@napi-rs/canvas';
 import { AppInstances } from '../AppInstances.js';
+import EventError from '../errors/EventError.js';
 
 export default class ChadCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
@@ -29,7 +26,8 @@ export default class ChadCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
+  public async run(commandInteraction: CommandInteraction) {
+    await commandInteraction.deferReply();
     let user;
     if (commandInteraction.isUserContextMenuCommand()) {
       user = commandInteraction.targetUser;
@@ -41,28 +39,43 @@ export default class ChadCommand extends AbstractCommand {
     } else {
       user = commandInteraction.user;
     }
+
+    const url = getUserAvatarUrl(user);
+    if (!url) {
+      throw new EventError("Cet utilisateur n'as pas de photo de profil");
+    }
+
     const canvas = Canvas.createCanvas(678, 761);
-    const context = canvas.getContext('2d');
 
-    const background = await Canvas.loadImage(
-      'https://media.discordapp.net/attachments/991387297767510167/1017410101574914088/unknown.png?width=498&height=559'
-    );
-    context.drawImage(background, 0, 0, canvas.width, canvas.height);
+    const context = await initializeContext(canvas);
 
-    const url =
-      //@ts-ignore
-      user?.avatarURL({ format: 'png' }) ??
-      //@ts-ignore
-      user?.user?.avatarURL({ format: 'png' });
-    if (!url)
-      return commandInteraction.reply({
-        content: "Cet utilisateur n'as pas de photo de profil",
-        ephemeral: true,
-      });
-    const avatar = await Canvas.loadImage(url + '?size=4096');
-    context.drawImage(avatar, 150, 60, 390, 390);
+    await drawHead(context, url);
 
     const buffer = await canvas.encode('png');
-    commandInteraction.reply({ files: [buffer] });
+    await commandInteraction.followUp({ files: [buffer] });
   }
 }
+
+const getUserAvatarUrl = (user: unknown) => {
+  return (
+    //@ts-ignore
+    user?.avatarURL({ format: 'png' }) ??
+    //@ts-ignore
+    user?.user?.avatarURL({ format: 'png' })
+  );
+};
+
+const initializeContext = async (canvas: Canvas.Canvas) => {
+  const context = canvas.getContext('2d');
+
+  const background = await Canvas.loadImage(
+    'https://media.discordapp.net/attachments/991387297767510167/1017410101574914088/unknown.png?width=498&height=559'
+  );
+  context.drawImage(background, 0, 0, canvas.width, canvas.height);
+  return context;
+};
+
+const drawHead = async (context: Canvas.SKRSContext2D, url: string) => {
+  const avatar = await Canvas.loadImage(url + '?size=4096');
+  context.drawImage(avatar, 150, 60, 390, 390);
+};
