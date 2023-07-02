@@ -2,7 +2,7 @@
 import Embed from './embed.js';
 import { mod } from './number.js';
 
-export default class embedList {
+export default class EmbedList {
   public embeds: Array<Embed> = [];
   public index = 0;
   public length = 0;

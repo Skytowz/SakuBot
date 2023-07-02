@@ -3,9 +3,14 @@ import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
-import { send } from '../utils/mangaUtils.js';
+import {
+  generateMagaViewerEmbeds,
+  generateMangaViewerButtonBar,
+  initializeMangaViewerInterractions,
+} from '../utils/mangaUtils.js';
 import { AppInstances } from '../AppInstances.js';
 import { parseUrlPath, stringToURL } from '../utils/urlUtils.js';
+import EventError from '../errors/EventError.js';
 
 const LANGUAGES = [
   {
@@ -71,6 +76,8 @@ export default class MangaLinkCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction) {
+    await commandInteraction.deferReply();
+
     //@ts-ignore
     const url = stringToURL(commandInteraction.options.getString('url'));
     //@ts-ignore
@@ -85,16 +92,25 @@ export default class MangaLinkCommand extends AbstractCommand {
 
     let id;
     if (!url || url.host !== 'mangadex.org' || !(id = parseUrlPath(url)[1])) {
-      await commandInteraction.reply({
-        content: 'Lien invalide',
-        ephemeral: true,
-      });
-      return;
+      throw new EventError('lien invalide');
     }
 
-    await send(commandInteraction, chapter, page, {
-      research: id,
-      langue: languages,
-    });
+    let embeds;
+    try {
+      embeds = await generateMagaViewerEmbeds(chapter, page, {
+        research: id,
+        langue: languages,
+      });
+    } catch (e) {
+      this.getAppInstances().logger.debug("une erreur s'est produite");
+      this.getAppInstances().logger.debug(e);
+      throw new EventError('chapitre invalide');
+    }
+
+    const buttonBar = await generateMangaViewerButtonBar(embeds);
+
+    await commandInteraction.followUp(buttonBar);
+
+    await initializeMangaViewerInterractions(commandInteraction, embeds);
   }
 }

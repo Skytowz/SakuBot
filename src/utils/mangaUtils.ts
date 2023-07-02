@@ -1,70 +1,44 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
+  getChapitre,
+  getChapitreById,
+  getChapitreInfoById,
+} from '../services/mangadexService.js';
+import { CommandDeclarationOptions } from '../types/Command.js';
+import { getChapitre as getChapitreGist } from '../services/gistService.js';
+import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
   CommandInteraction,
   InteractionReplyOptions,
 } from 'discord.js';
-import {
-  getChapitre,
-  getChapitreById,
-  getChapitreInfoById,
-} from '../services/mangadexService.js';
-import { getChapitre as getChapitreMangaReader } from '../services/mangareaderService.js';
-import { CommandDeclarationOptions } from '../types/Command.js';
-import { getChapitre as getChapitreGist } from '../services/gistService.js';
+import EmbedList from './embedList.js';
 
-export const send = async (
-  interaction: CommandInteraction,
-  chap: number | string,
-  number: number | string,
+export const generateMagaViewerEmbeds = async (
+  chap: number,
+  number: number,
   {
     research,
     langue,
     idChap,
-    isMangeReader,
     isCubari,
     options,
   }: {
     research?: string;
     langue?: Array<string>;
     idChap?: string;
-    isMangeReader?: boolean;
     isCubari?: boolean;
     options?: CommandDeclarationOptions;
   }
 ) => {
   let chapitre;
-  await interaction.deferReply();
-  let defer = false;
   if (idChap) {
     const data = await getChapitreInfoById(idChap);
     chapitre = await getChapitreById(data);
-    if (typeof chapitre == 'string') {
-      await interaction.deleteReply();
-      await interaction.followUp({ content: chapitre, ephemeral: true });
-      return;
-    }
   } else {
-    if (!chap || chap == '' || Number.isNaN(chap)) {
-      await interaction.deleteReply();
-      await interaction.followUp({
-        content: 'Veuillez rentrer un numéro de chapitre valide',
-        ephemeral: true,
-      });
-      return;
-    }
-    if (isMangeReader) {
-      await interaction.deferReply();
-      defer = true;
-      chapitre = await getChapitreMangaReader(research as string, chap);
-    } else if (isCubari) {
-      chapitre = await getChapitreGist(
-        research as string,
-        chap as string,
-        isCubari
-      );
+    if (isCubari) {
+      chapitre = await getChapitreGist(research as string, chap, isCubari);
     } else {
       chapitre = await getChapitre(
         research as string,
@@ -73,34 +47,20 @@ export const send = async (
         langue || []
       );
     }
-    if (typeof chapitre == 'string') {
-      if (defer) {
-        await interaction.deleteReply();
-        await interaction.followUp({
-          content: chapitre,
-          ephemeral: true,
-        });
-        return;
-      }
-      await interaction.deleteReply();
-      await interaction.followUp({ content: chapitre, ephemeral: true });
-      return;
-    }
   }
   const embedList = chapitre.getEmbedList();
 
-  if (
-    number &&
-    number != '' &&
-    !Number.isNaN(number) &&
-    (number as number) <= chapitre.nbPages &&
-    (number as number) > 0
-  )
-    embedList.index = (number as number) - 1;
+  if (number <= chapitre.nbPages && number > 0) {
+    embedList.index = number - 1;
+  }
 
+  return embedList;
+};
+
+export const generateMangaViewerButtonBar = (embedList: EmbedList) => {
   const content = embedList.getContent() as InteractionReplyOptions;
 
-  if (chapitre.nbPages > 1) {
+  if (embedList.length > 1) {
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setCustomId('before')
@@ -118,15 +78,20 @@ export const send = async (
     content.components = [row];
   }
 
-  await interaction.followUp(content);
+  return content;
+};
 
-  const msg = await interaction.fetchReply();
+export const initializeMangaViewerInterractions = async (
+  commandInteraction: CommandInteraction,
+  embedList: EmbedList
+) => {
+  const msg = await commandInteraction.fetchReply();
 
-  if (chapitre.nbPages > 1) {
+  if (embedList.length > 1) {
     const interact = msg.createMessageComponentCollector({ time: 180000 });
 
     interact.on('collect', async (i) => {
-      if (i.user.id != interaction.user.id) {
+      if (i.user.id != commandInteraction.user.id) {
         await i.reply({
           content: 'Tu ne peux pas utiliser cette commande',
           ephemeral: true,

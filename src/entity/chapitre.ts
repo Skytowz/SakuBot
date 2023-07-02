@@ -1,6 +1,6 @@
 import { Colors } from 'discord.js';
 import Embed from '../utils/embed.js';
-import embedList from '../utils/embedList.js';
+import EmbedList from '../utils/embedList.js';
 
 export default class Chapitre {
   constructor(
@@ -25,6 +25,6 @@ export default class Chapitre {
         )
         .setColor(Colors.DarkButNotBlack);
     });
-    return new embedList(embeds, embeds.length, 0, this.files);
+    return new EmbedList(embeds, embeds.length, 0, this.files);
   }
 }

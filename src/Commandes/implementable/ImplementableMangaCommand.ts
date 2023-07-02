@@ -5,7 +5,7 @@ import {
   CommandInteraction,
 } from 'discord.js';
 import SlashOption from '../../utils/slashOption.js';
-import { send } from '../../utils/mangaUtils.js';
+import { generateMagaViewerEmbeds } from '../../utils/mangaUtils.js';
 import { CommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import TypeHelp from '../../entity/typeHelp.js';
@@ -34,7 +34,7 @@ export default class ImplementableMangaCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction<CacheType>) {
-    send(
+    generateMagaViewerEmbeds(
       commandInteraction,
       //@ts-ignore
       commandInteraction.options.getString('chapitre'),

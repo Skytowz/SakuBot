@@ -13,7 +13,6 @@ export const getChapitre = async (
   let data;
   let result;
   if (!langue || langue.includes('fr')) {
-    langue = langue?.filter((e) => e != 'fr');
     let URL = `https://api.mangadex.org/manga/${manga}/feed?translatedLanguage[]=fr&includeExternalUrl=0&limit=500`;
     if (options) {
       options.banteam?.forEach((e) => {
@@ -30,7 +29,7 @@ export const getChapitre = async (
       );
       offset++;
     } while (result.body.total > offset * 500 && typeof data == 'undefined');
-  } else if (langue && typeof data == 'undefined') {
+  } else if (langue) {
     offset = 0;
     do {
       result = await superagent
@@ -48,7 +47,9 @@ export const getChapitre = async (
       offset++;
     } while (result?.body.total > offset * 500 && typeof data == 'undefined');
   }
-  if (typeof data == 'undefined') return 'Numéro de chapitre invalide';
+  if (data === undefined) {
+    throw new Error('invalid chapter');
+  }
   return await getChapitreById(data);
 };
 
