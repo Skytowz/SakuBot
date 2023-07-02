@@ -11,10 +11,6 @@ import AbstractCommand from '../AbstractCommand.js';
 import TypeHelp from '../../entity/typeHelp.js';
 import { AppInstances } from '../../types/AppInstances.js';
 
-export interface MangaCommandDeclaration extends CommandDetails {
-  chapterId: string;
-}
-
 export default class ImplementableMangaCommand extends AbstractCommand {
   public static readonly abstractId = 'abstract.manga';
 

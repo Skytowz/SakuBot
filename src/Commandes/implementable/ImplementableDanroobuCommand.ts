@@ -11,17 +11,10 @@ import { getGeneralImageByTag } from '../../services/danroobuService.js';
 import { AppInstances } from '../../types/AppInstances.js';
 import TypeHelp from '../../entity/typeHelp.js';
 
-export interface DanroobuCommandDeclaration extends CommandDetails {
-  research: string;
-}
-
 export default class ImplementableDanroobuCommand extends AbstractCommand {
   public static readonly abstractId = 'abstract.danroobu';
 
-  public constructor(
-    appInstances: AppInstances,
-    details: DanroobuCommandDeclaration
-  ) {
+  public constructor(appInstances: AppInstances, details: CommandDetails) {
     super(appInstances, {
       // @ts-ignore
       id: ImplementableDanroobuCommand.abstractId,
