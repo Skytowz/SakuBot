@@ -19,8 +19,7 @@ export default class AbstractCommand {
     return this.details;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async run(commandInteraction: CommandInteraction): Promise<any> {
+  public async run(commandInteraction: CommandInteraction): Promise<void> {
     await Promise.reject(commandInteraction);
   }
 
