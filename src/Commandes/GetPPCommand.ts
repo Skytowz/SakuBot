@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   ApplicationCommandOptionType,
   CacheType,
@@ -8,6 +7,7 @@ import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import { AppInstances } from '../AppInstances.js';
+import EventError from '../errors/EventError.js';
 
 export default class GetPPCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
@@ -40,13 +40,14 @@ export default class GetPPCommand extends AbstractCommand {
     } else {
       user = commandInteraction.user;
     }
-    //@ts-ignore
+    // FIXME: find a typesafe way to get the url
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const url = user?.avatarURL() ?? user?.user?.avatarURL();
-    if (!url)
-      commandInteraction.reply({
-        content: "Cet utilisateur n'as pas de photo de profil",
-        ephemeral: true,
-      });
+    if (!url) {
+      throw new EventError("Cet utilisateur n'as pas de photo de profil");
+    }
+
     await commandInteraction.reply(url + '?size=4096');
   }
 }
