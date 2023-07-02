@@ -10,7 +10,7 @@ import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import { getDateFromTimeStamp } from '../utils/dateUtils.js';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 import FormatError from '../errors/FormatError.js';
 import EventError from '../errors/EventError.js';
 

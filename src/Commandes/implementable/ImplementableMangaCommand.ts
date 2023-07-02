@@ -9,7 +9,7 @@ import { generateMagaViewerEmbeds } from '../../utils/mangaUtils.js';
 import { CommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import TypeHelp from '../../entity/typeHelp.js';
-import { AppInstances } from '../../AppInstances.js';
+import { AppInstances } from '../../types/AppInstances.js';
 
 export interface MangaCommandDeclaration extends CommandDetails {
   chapterId: string;

@@ -7,7 +7,7 @@ import {
   generateMangaViewerButtonBar,
   initializeMangaViewerInterractions,
 } from '../utils/mangaUtils.js';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
 
 export default class ChapterLinkCommand extends AbstractCommand {

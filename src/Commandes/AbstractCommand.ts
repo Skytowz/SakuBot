@@ -1,6 +1,6 @@
 import { CommandInteraction } from 'discord.js';
 import { CommandDetails } from '../types/Command.js';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 
 export default class AbstractCommand {
   private readonly appInstances: AppInstances;

@@ -1,6 +1,6 @@
 import { CommandInteraction } from 'discord.js';
 import AbstractEvent from './AbstractEvent.js';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 
 export default class InteractionCreateEvent extends AbstractEvent {
   public constructor(appInstances: AppInstances) {

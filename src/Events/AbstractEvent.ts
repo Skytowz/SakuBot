@@ -1,5 +1,5 @@
 import { CommandInteraction } from 'discord.js';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
 
 const ERROR_MESAGE = "Une Erreur s'est produite";

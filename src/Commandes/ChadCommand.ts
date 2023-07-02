@@ -4,7 +4,7 @@ import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import Canvas from '@napi-rs/canvas';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
 
 export default class ChadCommand extends AbstractCommand {

@@ -8,7 +8,7 @@ import SlashOption from '../../utils/slashOption.js';
 import { CommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import { getGeneralImageByTag } from '../../services/danroobuService.js';
-import { AppInstances } from '../../AppInstances.js';
+import { AppInstances } from '../../types/AppInstances.js';
 import TypeHelp from '../../entity/typeHelp.js';
 
 export interface DanroobuCommandDeclaration extends CommandDetails {

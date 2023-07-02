@@ -2,7 +2,7 @@ import { CacheType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { sample } from '../utils/arrayUtils.js';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
 
 const IMAGES = [

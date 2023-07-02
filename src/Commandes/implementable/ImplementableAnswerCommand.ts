@@ -7,7 +7,7 @@ import {
 import { sample } from '../../utils/arrayUtils.js';
 import { CommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
-import { AppInstances } from '../../AppInstances.js';
+import { AppInstances } from '../../types/AppInstances.js';
 import TypeHelp from '../../entity/typeHelp.js';
 
 export default class ImplementableAnswerCommand extends AbstractCommand {

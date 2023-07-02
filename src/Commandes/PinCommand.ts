@@ -1,7 +1,7 @@
 import { CommandInteraction, GuildMemberRoleManager } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
 
 const WHITELIST = ['780835397008621600', '685583592084340740'];

@@ -9,7 +9,7 @@ import {
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { request } from 'undici';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 import {
   fetchSourceDataFromImageUrl,
   SourceData,

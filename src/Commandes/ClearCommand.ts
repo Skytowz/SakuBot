@@ -3,7 +3,7 @@ import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
 
 const WHITELIST = ['452186417334976532', '273756946308530176'];

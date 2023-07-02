@@ -9,7 +9,7 @@ import {
   joinVoiceChannel,
   NoSubscriberBehavior,
 } from '@discordjs/voice';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
 
 export default class VocalquitCommand extends AbstractCommand {

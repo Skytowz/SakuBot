@@ -8,7 +8,7 @@ import {
   generateMangaViewerButtonBar,
   initializeMangaViewerInterractions,
 } from '../utils/mangaUtils.js';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 import { parseUrlPath, stringToURL } from '../utils/urlUtils.js';
 import EventError from '../errors/EventError.js';
 

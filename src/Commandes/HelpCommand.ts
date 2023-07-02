@@ -10,7 +10,7 @@ import {
 } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import { AppInstances } from '../AppInstances.js';
+import { AppInstances } from '../types/AppInstances.js';
 
 export default class HelpCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
