@@ -11,7 +11,7 @@ export default class GetPPCommand extends AbstractCommand {
     super(appInstances, {
       id: 'pin',
       name: ['pin'],
-      description: '> pin le message',
+      description: 'pin le message',
       type: TypeHelp.Utils,
       slashInteraction: false,
       messageInteraction: true,

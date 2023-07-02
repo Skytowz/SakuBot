@@ -21,7 +21,7 @@ export default class SauceCommand extends AbstractCommand {
     super(appInstances, {
       id: 'sauce',
       name: ['sauce'],
-      description: "> Donne la source d'une image",
+      description: "Donne la source d'une image",
       type: TypeHelp.Utils,
       messageInteraction: true,
       slashInteraction: false,

@@ -11,7 +11,7 @@ export default class GetPPCommand extends AbstractCommand {
       id: 'pp',
       name: ['pp'],
       description:
-        "> Recupère la photo d'un profil de sois même ou d'un utilisateur",
+        "Recupère la photo d'un profil de sois même ou d'un utilisateur",
       type: TypeHelp.Autre,
       args: [
         new SlashOption()
