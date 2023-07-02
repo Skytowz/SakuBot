@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  ApplicationCommandOptionType,
-  CacheType,
-  CommandInteraction,
-} from 'discord.js';
+import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import SlashOption from '../../utils/slashOption.js';
 import { generateMagaViewerEmbeds } from '../../utils/mangaUtils.js';
 import { CommandDetails } from '../../types/Command.js';
@@ -34,7 +30,7 @@ export default class ImplementableMangaCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
+  public async run(commandInteraction: CommandInteraction) {
     await generateMagaViewerEmbeds(
       commandInteraction,
       //@ts-ignore

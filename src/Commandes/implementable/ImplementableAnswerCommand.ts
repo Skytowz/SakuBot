@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  CacheType,
-  CommandInteraction,
-  InteractionReplyOptions,
-} from 'discord.js';
+import { CommandInteraction, InteractionReplyOptions } from 'discord.js';
 import { sample } from '../../utils/arrayUtils.js';
 import { CommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
@@ -23,7 +19,7 @@ export default class ImplementableAnswerCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
+  public async run(commandInteraction: CommandInteraction) {
     await commandInteraction.reply(
       sample(this.getDetails().options?.send as Array<InteractionReplyOptions>)
     );

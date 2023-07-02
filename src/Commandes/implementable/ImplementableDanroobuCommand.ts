@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  ApplicationCommandOptionType,
-  CacheType,
-  CommandInteraction,
-} from 'discord.js';
+import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import SlashOption from '../../utils/slashOption.js';
 import { CommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import { getGeneralImageByTag } from '../../services/danroobuService.js';
 import { AppInstances } from '../../types/AppInstances.js';
 import TypeHelp from '../../entity/typeHelp.js';
+import EventError from '../../errors/EventError.js';
 
 export default class ImplementableDanroobuCommand extends AbstractCommand {
   public static readonly abstractId = 'abstract.danroobu';
@@ -35,14 +32,16 @@ export default class ImplementableDanroobuCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
-    // @ts-ignore
-    const solo = commandInteraction.options.getBoolean('solo');
-    // @ts-ignore
-    const sensitive = commandInteraction.options.getBoolean('sensitive');
+  public async run(commandInteraction: CommandInteraction) {
+    if (!commandInteraction.isChatInputCommand()) {
+      throw new EventError(
+        "cette action ne peut être effectuée qu'avec une commande"
+      );
+    }
+    const solo = !!commandInteraction.options.getBoolean('solo');
+    const sensitive = !!commandInteraction.options.getBoolean('sensitive');
     const url = await getGeneralImageByTag(
-      // @ts-ignore
-      this.getDetails().research,
+      this.getDetails().options?.research as string,
       solo,
       sensitive
     );
