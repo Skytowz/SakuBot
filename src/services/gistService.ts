@@ -4,7 +4,7 @@ import superagent from 'superagent';
 export const getChapitre = async (
   manga: string,
   number: number,
-  isCubari: boolean
+  cubariId: string
 ) => {
   const chapitre = await superagent
     .get(manga)
@@ -13,13 +13,13 @@ export const getChapitre = async (
   if (!chapitre) {
     throw new Error('invalid chapter');
   }
-  return await getChapitreById(chapitre, number, isCubari);
+  return await getChapitreById(chapitre, number, cubariId);
 };
 
 export const getChapitreById = async (
   chapitre: { title: string; groups: Array<Array<string>> },
   number: number,
-  isCubari: boolean
+  cubariId: string
 ) => {
   const pages = Object.values(chapitre.groups).pop();
   return new Chapitre(
@@ -30,7 +30,7 @@ export const getChapitreById = async (
     //FIXME
     (pages as Array<unknown>).length,
     (page) => page,
-    `https://cubari.moe/read/gist/${isCubari}/${number}`,
+    `https://cubari.moe/read/gist/${cubariId}/${number}`,
     []
   );
 };

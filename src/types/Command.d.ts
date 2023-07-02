@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Client,
   CommandInteraction,
@@ -22,6 +21,7 @@ export interface CommandDeclarationOptions {
   research?: string;
   chapterId?: string;
   send?: Array<InteractionReplyOptions>;
+  cubari?: string;
 }
 
 export interface CommandDetails {
@@ -37,7 +37,6 @@ export interface CommandDetails {
   parentId?: string;
   nohelp?: boolean;
   options?: CommandDeclarationOptions;
-  // [key: string]: any;
 }
 
 export type CommandRun = (
@@ -48,10 +47,6 @@ export type CommandRun = (
 interface Command {
   run: CommandRun;
   help: CommandDetails;
-}
-
-export interface CommandsData {
-  [key: string]: CommandDetails;
 }
 
 export default Command;

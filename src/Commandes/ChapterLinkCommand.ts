@@ -49,7 +49,7 @@ export default class ChapterLinkCommand extends AbstractCommand {
         0,
         Number(commandInteraction.options.getString('page')),
         {
-          idChap: id,
+          options: { chapterId: id },
         }
       );
     } catch (e) {

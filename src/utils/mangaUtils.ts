@@ -21,24 +21,24 @@ export const generateMagaViewerEmbeds = async (
   {
     research,
     langue,
-    idChap,
-    isCubari,
     options,
   }: {
     research?: string;
     langue?: Array<string>;
-    idChap?: string;
-    isCubari?: boolean;
     options?: CommandDeclarationOptions;
   }
 ) => {
   let chapitre;
-  if (idChap) {
-    const data = await getChapitreInfoById(idChap);
+  if (options?.chapterId) {
+    const data = await getChapitreInfoById(options.chapterId);
     chapitre = await getChapitreById(data);
   } else {
-    if (isCubari) {
-      chapitre = await getChapitreGist(research as string, chap, isCubari);
+    if (options?.cubari) {
+      chapitre = await getChapitreGist(
+        research as string,
+        chap,
+        options.cubari
+      );
     } else {
       chapitre = await getChapitre(
         research as string,

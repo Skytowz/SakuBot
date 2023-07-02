@@ -62,8 +62,8 @@ export default [
     options: {
       chapterId:
         'https://raw.githubusercontent.com/ImSakushi/OshiNoKoFR/master/OshiNoKo.json',
+      cubari: 'cmF3L0ltU2FrdXNoaS9Pc2hpTm9Lb0ZSL21hc3Rlci9Pc2hpTm9Lby5qc29u',
     },
-    cubari: 'cmF3L0ltU2FrdXNoaS9Pc2hpTm9Lb0ZSL21hc3Rlci9Pc2hpTm9Lby5qc29u',
   },
   {
     id: 'renaichap',

@@ -6,6 +6,7 @@ import { CommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import TypeHelp from '../../entity/typeHelp.js';
 import { AppInstances } from '../../types/AppInstances.js';
+import EventError from '../../errors/EventError.js';
 
 export default class ImplementableMangaCommand extends AbstractCommand {
   public static readonly abstractId = 'abstract.manga';
@@ -31,14 +32,18 @@ export default class ImplementableMangaCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction) {
+    if (!commandInteraction.isChatInputCommand()) {
+      throw new EventError(
+        "cette action ne peut être effectuée qu'avec une commande"
+      );
+    }
     await generateMagaViewerEmbeds(
-      commandInteraction,
-      //@ts-ignore
-      commandInteraction.options.getString('chapitre'),
-      //@ts-ignore
-      commandInteraction.options.getString('page'),
-      //@ts-ignore
-      { research: this.getDetails().chapterId, ...this.getDetails() }
+      Number(commandInteraction.options.getString('chapitre')),
+      Number(commandInteraction.options.getString('page')),
+      {
+        research: this.getDetails().options?.chapterId,
+        options: this.getDetails().options,
+      }
     );
   }
 }
