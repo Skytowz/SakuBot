@@ -1,9 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  ApplicationCommandOptionType,
-  CacheType,
-  CommandInteraction,
-} from 'discord.js';
+import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
@@ -35,9 +30,14 @@ export default class ChapterLinkCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
-    //@ts-ignore
-    const url = commandInteraction.options.getString('url');
+  public async run(commandInteraction: CommandInteraction) {
+    if (!commandInteraction.isChatInputCommand()) {
+      throw new EventError(
+        "cette action ne peut être effectuée qu'avec une commande"
+      );
+    }
+
+    const url = commandInteraction.options.getString('url') as string;
     const id = url.match(/chapter\/([a-zA-Z0-9-]+)(\/?.*)/i)?.at(1);
     if (!id || !url.match(/mangadex.org\/chapter/)) {
       throw new EventError('lien invalide');
@@ -47,8 +47,7 @@ export default class ChapterLinkCommand extends AbstractCommand {
     try {
       embeds = await generateMagaViewerEmbeds(
         0,
-        // @ts-ignore
-        commandInteraction.options.getString('page'),
+        Number(commandInteraction.options.getString('page')),
         {
           idChap: id,
         }
