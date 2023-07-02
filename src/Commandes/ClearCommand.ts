@@ -12,10 +12,10 @@ import { AppInstances } from '../AppInstances.js';
 export default class ClearCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'clear',
       name: ['clear'],
-      help: 'Clear un certain nombre de message',
+      description: 'Clear un certain nombre de message',
       type: TypeHelp.Utils,
-      cmd: 'clear <nb-msg>',
       args: [
         new SlashOption(
           'nombre',
@@ -24,7 +24,7 @@ export default class ClearCommand extends AbstractCommand {
           true
         ),
       ],
-      slash: true,
+      slashInteraction: true,
     });
   }
 

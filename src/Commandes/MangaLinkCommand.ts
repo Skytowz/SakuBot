@@ -50,10 +50,10 @@ const LANGUAGES = [
 export default class MangaLinkCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'mangadex',
       name: ['manga'],
-      help: "Affiche n'importe quel manga de mangadex",
+      description: "Affiche n'importe quel manga de mangadex",
       type: TypeHelp.ViewManga,
-      cmd: 'manga',
       args: [
         new SlashOption(
           'url',
@@ -71,7 +71,7 @@ export default class MangaLinkCommand extends AbstractCommand {
           LANGUAGES
         ),
       ],
-      slash: true,
+      slashInteraction: true,
     });
   }
 

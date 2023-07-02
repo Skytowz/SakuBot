@@ -19,12 +19,12 @@ import EventError from '../errors/EventError.js';
 export default class SauceCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'sauce',
       name: ['sauce'],
-      help: "> Donne la source d'une image",
+      description: "> Donne la source d'une image",
       type: TypeHelp.Utils,
-      cmd: 'sauce',
-      message: true,
-      slash: false,
+      messageInteraction: true,
+      slashInteraction: false,
     });
   }
 

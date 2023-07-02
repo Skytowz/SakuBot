@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Client, CommandInteraction } from 'discord.js';
+import {
+  Client,
+  CommandInteraction,
+  InteractionReplyOptions,
+} from 'discord.js';
 import SlashOption from '../utils/slashOption.ts';
 import TypeHelp from '../entity/typeHelp.ts';
 
@@ -9,28 +13,31 @@ export interface LangOption {
 }
 
 export interface CommandDeclarationOptions {
-  banteam: [
+  banteam?: [
     {
       id: string;
       from?: number;
     }
   ];
+  research?: string;
+  chapterId?: string;
+  send?: Array<InteractionReplyOptions>;
 }
 
 export interface CommandDetails {
+  id: string;
   name?: Array<string>;
-  cmd?: string;
-  help?: string;
+  description?: string;
+  helpDescription?: string;
   type?: TypeHelp;
-  commandeReste?: boolean;
   args?: Array<SlashOption>;
-  slash?: boolean;
-  send?: Array<string>;
+  slashInteraction?: boolean;
+  userInteraction?: boolean;
+  messageInteraction?: boolean;
+  parentId?: string;
   nohelp?: boolean;
-  user?: boolean;
-  message?: boolean;
   options?: CommandDeclarationOptions;
-  [key: string]: any;
+  // [key: string]: any;
 }
 
 export type CommandRun = (

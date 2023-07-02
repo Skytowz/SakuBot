@@ -29,22 +29,23 @@ export const convertCommands = (commands: Array<AbstractCommand>) => {
 export const convertCommand = (name: string, command: AbstractCommand) => {
   const result: Array<SlashCommand | ContextMenuCommandBuilder> = [];
   if (!command.getDetails().nohelp) {
-    if (command.getDetails().slash) {
-      result.push(
-        new SlashCommand()
-          .setName(name)
-          .setDescription(command.getDetails().help as string)
-          .setOption(command.getDetails().args ?? [])
-      );
+    if (command.getDetails().slashInteraction) {
+      const slashCommand = new SlashCommand()
+        .setName(name)
+        .setOption(command.getDetails().args ?? []);
+      if (command.getDetails().description) {
+        slashCommand.setDescription(command.getDetails().description as string);
+      }
+      result.push(slashCommand);
     }
-    if (command.getDetails().user) {
+    if (command.getDetails().userInteraction) {
       result.push(
         new ContextMenuCommandBuilder()
           .setName(name)
           .setType(ApplicationCommandType.User)
       );
     }
-    if (command.getDetails().message) {
+    if (command.getDetails().messageInteraction) {
       result.push(
         new ContextMenuCommandBuilder()
           .setName(name)

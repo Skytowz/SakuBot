@@ -17,9 +17,9 @@ import EventError from '../errors/EventError.js';
 export default class QuoteCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'quote',
       name: ['quote'],
-      help: "Renvoie le contenu d'un message",
-      cmd: 'q/quote ([<id-channel>-]<id-message> | <url-message>)',
+      description: "Renvoie le contenu d'un message",
       type: TypeHelp.Utils,
       args: [
         new SlashOption()
@@ -27,8 +27,8 @@ export default class QuoteCommand extends AbstractCommand {
           .setDescription('ID ou lien du message à quote')
           .setRequired(true),
       ],
-      slash: true,
-      message: true,
+      slashInteraction: true,
+      messageInteraction: true,
     });
   }
 

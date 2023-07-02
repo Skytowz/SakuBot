@@ -5,6 +5,7 @@ import { CommandManager } from './CommandManager.js';
 import AbstractEvent from './Events/AbstractEvent.js';
 import dotenv from 'dotenv';
 import logger from './logger.js';
+import { CommandDetails } from './types/Command.js';
 
 dotenv.config();
 
@@ -76,7 +77,7 @@ commandsData.forEach(({ command, details }) => {
         logger: commandLogger,
         events: events,
       },
-      details || {}
+      details || ({} as CommandDetails)
     )
   );
 });

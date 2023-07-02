@@ -9,22 +9,24 @@ import { CommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import { getGeneralImageByTag } from '../../services/danroobuService.js';
 import { AppInstances } from '../../AppInstances.js';
+import TypeHelp from '../../entity/typeHelp.js';
 
 export interface DanroobuCommandDeclaration extends CommandDetails {
   research: string;
 }
 
 export default class ImplementableDanroobuCommand extends AbstractCommand {
+  public static readonly abstractId = 'abstract.danroobu';
+
   public constructor(
     appInstances: AppInstances,
     details: DanroobuCommandDeclaration
   ) {
     super(appInstances, {
+      // @ts-ignore
+      id: ImplementableDanroobuCommand.abstractId,
+      helpDescription: 'sert à donner un fanart donroobu aléatoire',
       args: [
-        new SlashOption()
-          .setName('mention')
-          .setDescription('La personne')
-          .setType(ApplicationCommandOptionType.Mentionable),
         new SlashOption()
           .setName('solo')
           .setDescription('Solo')
@@ -34,7 +36,8 @@ export default class ImplementableDanroobuCommand extends AbstractCommand {
           .setDescription('Sensitive')
           .setType(ApplicationCommandOptionType.Boolean),
       ],
-      slash: true,
+      slashInteraction: true,
+      type: TypeHelp.Character,
       ...details,
     });
   }
@@ -45,19 +48,20 @@ export default class ImplementableDanroobuCommand extends AbstractCommand {
     // @ts-ignore
     const sensitive = commandInteraction.options.getBoolean('sensitive');
     const url = await getGeneralImageByTag(
+      // @ts-ignore
       this.getDetails().research,
       solo,
       sensitive
     );
     if (url && sensitive) {
       await commandInteraction.deferReply();
-      commandInteraction.editReply({
+      await commandInteraction.editReply({
         files: [{ attachment: url, name: 'SPOILER_image.jpg', spoiler: true }],
       });
     } else if (url) {
-      commandInteraction.reply({ content: url });
+      await commandInteraction.reply({ content: url });
     } else {
-      commandInteraction.reply({
+      await commandInteraction.reply({
         content: 'Aucune image trouvé',
         ephemeral: true,
       });

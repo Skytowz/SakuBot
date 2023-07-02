@@ -16,8 +16,13 @@ export interface MangaCommandDeclaration extends CommandDetails {
 }
 
 export default class ImplementableMangaCommand extends AbstractCommand {
+  public static readonly abstractId = 'abstract.manga';
+
   public constructor(appInstances: AppInstances, details: CommandDetails) {
     super(appInstances, {
+      // @ts-ignore
+      id: ImplementableMangaCommand.abstractId,
+      helpDescription: "Affiche une page d'un chapitre d'un manga",
       args: [
         new SlashOption(
           'chapitre',
@@ -27,14 +32,14 @@ export default class ImplementableMangaCommand extends AbstractCommand {
         ),
         new SlashOption('page', 'Numéro de la page'),
       ],
-      slash: true,
+      slashInteraction: true,
       type: TypeHelp.ViewManga,
       ...details,
     });
   }
 
   public async run(commandInteraction: CommandInteraction<CacheType>) {
-    generateMagaViewerEmbeds(
+    await generateMagaViewerEmbeds(
       commandInteraction,
       //@ts-ignore
       commandInteraction.options.getString('chapitre'),

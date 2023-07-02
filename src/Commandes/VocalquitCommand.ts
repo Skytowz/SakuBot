@@ -17,11 +17,11 @@ export default class VocalquitCommand extends AbstractCommand {
 
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'quit',
       name: ['quit'],
-      help: 'Quitter le vocal de manière stylé',
+      description: 'Quitter le vocal de manière stylé',
       type: TypeHelp.Autre,
-      cmd: 'quit',
-      slash: true,
+      slashInteraction: true,
     });
   }
 

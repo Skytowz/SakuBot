@@ -6,7 +6,6 @@ import MangaCommandData from './MangaCommand.data.js';
 import DanroobuCommandData from './DanroobuCommand.data.js';
 import AbstractCommand from '../Commandes/AbstractCommand.js';
 import AskCommand from '../Commandes/AskCommand.js';
-import AyahitooCommand from '../Commandes/AyahitooCommand.js';
 import ChadCommand from '../Commandes/ChadCommand.js';
 import ChapterLinkCommand from '../Commandes/ChapterLinkCommand.js';
 import ClearCommand from '../Commandes/ClearCommand.js';
@@ -22,7 +21,6 @@ import ImplementableDanroobuCommand from '../Commandes/implementable/Implementab
 
 export default [
   { command: AskCommand },
-  { command: AyahitooCommand },
   { command: ChadCommand },
   { command: ChapterLinkCommand },
   { command: ClearCommand },
@@ -36,15 +34,15 @@ export default [
   { command: PinCommand },
   ...AnswerCommandData.map((details) => ({
     command: ImplementableAnswerCommand,
-    details: details,
+    details: { ...details },
   })),
   ...MangaCommandData.map((details) => ({
     command: ImplementableMangaCommand,
-    details: details,
+    details: { ...details },
   })),
   ...DanroobuCommandData.map((details) => ({
     command: ImplementableDanroobuCommand,
-    details: details,
+    details: { parentId: ImplementableMangaCommand.abstractId, ...details },
   })),
 ] as Array<{
   command: typeof AbstractCommand;

@@ -18,10 +18,10 @@ import EventError from '../errors/EventError.js';
 export default class ChapterLinkCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'chapter',
       name: ['chapter'],
-      help: "Affiche n'importe quel chapitre de mangadex",
+      description: "Affiche n'importe quel chapitre de mangadex",
       type: TypeHelp.ViewManga,
-      cmd: 'chapter',
       args: [
         new SlashOption(
           'url',
@@ -31,7 +31,7 @@ export default class ChapterLinkCommand extends AbstractCommand {
         ),
         new SlashOption('page', 'Numéro de la page'),
       ],
-      slash: true,
+      slashInteraction: true,
     });
   }
 

@@ -33,13 +33,12 @@ const QUOTE = [
 export default class AskCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'ask',
       name: ['ask'],
-      cmd: 'ask [question]',
-      help: 'Répond à une question',
+      description: 'Répond à une question',
       type: TypeHelp.Autre,
-      commandeReste: true,
       args: [new SlashOption('question', 'Question a posé')],
-      slash: true,
+      slashInteraction: true,
     });
   }
 

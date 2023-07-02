@@ -9,12 +9,12 @@ const WHITELIST = ['780835397008621600', '685583592084340740'];
 export default class GetPPCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'pin',
       name: ['pin'],
-      help: '> pin le message',
+      description: '> pin le message',
       type: TypeHelp.Utils,
-      cmd: 'pin',
-      slash: false,
-      message: true,
+      slashInteraction: false,
+      messageInteraction: true,
     });
   }
 

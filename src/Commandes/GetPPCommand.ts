@@ -12,18 +12,19 @@ import { AppInstances } from '../AppInstances.js';
 export default class GetPPCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'pp',
       name: ['pp'],
-      help: "> Recupère la photo d'un profil de sois même ou d'un utilisateur",
+      description:
+        "> Recupère la photo d'un profil de sois même ou d'un utilisateur",
       type: TypeHelp.Autre,
-      cmd: 'pp [mentions]',
       args: [
         new SlashOption()
           .setName('mention')
           .setDescription('La personne')
           .setType(ApplicationCommandOptionType.Mentionable),
       ],
-      slash: true,
-      user: true,
+      slashInteraction: true,
+      userInteraction: true,
     });
   }
 

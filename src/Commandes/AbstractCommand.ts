@@ -3,12 +3,12 @@ import { CommandDetails } from '../types/Command.js';
 import { AppInstances } from '../AppInstances.js';
 
 export default class AbstractCommand {
-  private appInstances: AppInstances;
-  private details: CommandDetails;
+  private readonly appInstances: AppInstances;
+  private readonly details: CommandDetails;
 
   public constructor(appInstances: AppInstances, details: CommandDetails) {
     this.appInstances = appInstances;
-    this.details = { slash: true, ...details };
+    this.details = { slashInteraction: true, ...details };
   }
 
   public getAppInstances() {
@@ -21,7 +21,7 @@ export default class AbstractCommand {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async run(commandInteraction: CommandInteraction): Promise<any> {
-    Promise.reject(commandInteraction);
+    await Promise.reject(commandInteraction);
   }
 
   public toString() {

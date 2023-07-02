@@ -18,11 +18,11 @@ const QUOTE = [
 export default class GogoleCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'gogole',
       name: ['gogole'],
-      help: 'Commande gogole',
-      cmd: 'gogole',
+      description: 'Commande gogole',
       type: TypeHelp.Autre,
-      slash: true,
+      slashInteraction: true,
     });
   }
 

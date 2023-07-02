@@ -13,10 +13,10 @@ import { AppInstances } from '../AppInstances.js';
 export default class ChadCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'chad',
       name: ['chad'],
-      help:
+      description:
         "Envoie un photomontage de soit meme chad ou d'une personne tag en Chad",
-      cmd: 'chad [tag]',
       type: TypeHelp.Autre,
       args: [
         new SlashOption()
@@ -24,8 +24,8 @@ export default class ChadCommand extends AbstractCommand {
           .setDescription('Le chad')
           .setType(ApplicationCommandOptionType.Mentionable),
       ],
-      slash: true,
-      user: true,
+      slashInteraction: true,
+      userInteraction: true,
     });
   }
 

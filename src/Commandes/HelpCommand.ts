@@ -15,11 +15,11 @@ import { AppInstances } from '../AppInstances.js';
 export default class HelpCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
+      id: 'help',
       name: ['help'],
-      cmd: 'help',
       type: TypeHelp.Utils,
-      help: "Appel l'aide",
-      slash: true,
+      description: "Appel l'aide",
+      slashInteraction: true,
     });
   }
 
@@ -31,15 +31,12 @@ export default class HelpCommand extends AbstractCommand {
       components: [],
     };
 
-    const commandsWithHelp = this.getAppInstances()
-      .commandManager.getAll()
-      .filter(
-        (command) => !command.getDetails().nohelp && command.getDetails().type
-      );
-
     const typesHelps = TypeHelp.getValues();
 
-    const typeHelpEmbeds = buildTypeHelpEmbeds(typesHelps, commandsWithHelp);
+    const typeHelpEmbeds = buildTypeHelpEmbeds(
+      typesHelps,
+      this.getAppInstances().commandManager.getAll()
+    );
 
     const row = new ActionRowBuilder<SelectMenuBuilder>().addComponents(
       new SelectMenuBuilder().setCustomId('SelectHelp').setOptions(
@@ -89,15 +86,20 @@ const buildTypeHelpEmbeds = (
   typeHelps: Array<TypeHelp>,
   commands: Array<AbstractCommand>
 ) => {
+  const commandsWithHelp = commands.filter(
+    (command) => !command.getDetails().nohelp && command.getDetails().type
+  );
   const organisedTypeHelps = typeHelps.map((typeHelp) => {
-    const filteredCommands = commands.filter(
+    const filteredCommands = commandsWithHelp.filter(
       (command) => command.getDetails().type === typeHelp
     );
     return { type: typeHelp, commands: filteredCommands };
   });
 
-  return organisedTypeHelps.map(({ type, commands }) =>
-    new EmbedBuilder()
+  return organisedTypeHelps.map(({ type, commands }) => {
+    const reduceCommands = reduceCommandsPerParentId(commands);
+    const groupedCommandsByParentId = groupCommandsByParentId(commands);
+    return new EmbedBuilder()
       .setColor(Colors.DarkPurple)
       .setTitle('Help')
       .setThumbnail(
@@ -107,13 +109,79 @@ const buildTypeHelpEmbeds = (
         `**${type.name}**\n------------------------------\n${type.description}\n------------------------------`
       )
       .addFields(
-        commands.map((v) => {
+        reduceCommands.map((command) => {
           return {
-            name: '/' + v.getDetails().cmd,
-            value: '> ' + v.getDetails().help + '.',
+            name: generateCommandNamePlaceholder(command),
+            value: generateCommandDescription(
+              command,
+              groupedCommandsByParentId.find(
+                (c) => c.parentId === command.getDetails().parentId
+              )?.commandsNames ?? []
+            ),
             inline: false,
           };
         })
+      );
+  });
+};
+
+const generateCommandNamePlaceholder = (command: AbstractCommand) => {
+  let placeholder = '/';
+  if (command.getDetails().parentId) {
+    placeholder += '{commande}';
+  } else {
+    placeholder += command.getDetails().name?.[0] ?? command.getDetails().id;
+  }
+  const args = command.getDetails().args ?? [];
+  if (args.length > 0) {
+    placeholder += ' ';
+    placeholder += args
+      .map((arg) =>
+        arg.required ? '<' + arg.name + '>' : '[' + arg.name + ']'
       )
+      .join(' ');
+  }
+  return placeholder;
+};
+
+const generateCommandDescription = (
+  command: AbstractCommand,
+  groupedCommandsNames: Array<string>
+) => {
+  let description = '> ';
+  description +=
+    command.getDetails().helpDescription ?? command.getDetails().description;
+  if (groupedCommandsNames.length > 0) {
+    description += ' ';
+    description += `[${groupedCommandsNames.join(', ')}]`;
+  }
+  return description;
+};
+
+const groupCommandsByParentId = (commands: Array<AbstractCommand>) => {
+  const reducedCommands = reduceCommandsPerParentId(commands);
+  return reducedCommands
+    .filter((command) => command.getDetails().parentId)
+    .map((uniqCommand) => ({
+      parentId: uniqCommand.getDetails().parentId as string,
+      commandsNames: commands
+        .filter(
+          (command) =>
+            command.getDetails().parentId &&
+            command.getDetails().parentId === uniqCommand.getDetails().parentId
+        )
+        .map((command) => command.getDetails().name?.[0])
+        .filter((name) => name !== undefined) as Array<string>,
+    }));
+};
+
+const reduceCommandsPerParentId = (commands: Array<AbstractCommand>) => {
+  return commands.filter(
+    (command, index) =>
+      !command.getDetails().parentId ||
+      commands.findIndex(
+        (sCommand) =>
+          sCommand.getDetails().parentId === command.getDetails().parentId
+      ) === index
   );
 };
