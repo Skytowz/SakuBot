@@ -17,7 +17,7 @@ import EmbedList from './embedList.js';
 
 export const generateMagaViewerEmbeds = async (
   chap: number,
-  number: number,
+  page: number,
   {
     research,
     langue,
@@ -50,8 +50,8 @@ export const generateMagaViewerEmbeds = async (
   }
   const embedList = chapitre.getEmbedList();
 
-  if (number <= chapitre.nbPages && number > 0) {
-    embedList.index = number - 1;
+  if (page <= chapitre.nbPages && page > 0) {
+    embedList.index = page - 1;
   }
 
   return embedList;

@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  ApplicationCommandOptionType,
-  CacheType,
-  CommandInteraction,
-} from 'discord.js';
+import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import { AppInstances } from '../AppInstances.js';
+import EventError from '../errors/EventError.js';
+
+const WHITELIST = ['452186417334976532', '273756946308530176'];
 
 export default class ClearCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
@@ -28,32 +27,29 @@ export default class ClearCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
-    if (
-      !['452186417334976532', '273756946308530176'].includes(
-        //@ts-ignore
-        commandInteraction.member?.id
-      )
-    )
-      return commandInteraction.reply({
-        content: 'Tu ne peux pas utiliser cette commande',
-        ephemeral: true,
-      });
-    //@ts-ignore
+  public async run(commandInteraction: CommandInteraction) {
+    await commandInteraction.deferReply({ ephemeral: true });
+    if (WHITELIST.includes(String(commandInteraction.member?.user.id))) {
+      throw new EventError('Tu ne peux pas utiliser cette commande');
+    }
+    if (!commandInteraction.isChatInputCommand()) {
+      throw new EventError(
+        "cette action ne peut être effectuée qu'avec une commande"
+      );
+    }
+
     const nombre = commandInteraction.options.getInteger('nombre');
     commandInteraction.channel
       //@ts-ignore
       ?.bulkDelete(nombre)
       .then(() =>
-        commandInteraction.reply({
+        commandInteraction.followUp({
           content: 'Les messages ont bien été supprimé',
-          ephemeral: true,
         })
       )
       .catch(() =>
-        commandInteraction.reply({
+        commandInteraction.followUp({
           content: 'Une erreur est survenu',
-          ephemeral: true,
         })
       );
   }

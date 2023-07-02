@@ -136,9 +136,8 @@ const parseIdsFromCommandInteraction = (
   const ids: Ids = {};
   if (commandInteraction.isMessageContextMenuCommand()) {
     ids.messageId = commandInteraction.targetMessage.id;
-  } else {
-    // @ts-ignore
-    const argument = commandInteraction.options.getString('message');
+  } else if (commandInteraction.isChatInputCommand()) {
+    const argument = commandInteraction.options.getString('message') as string;
     let url;
     try {
       url = new URL(argument);

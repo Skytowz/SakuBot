@@ -1,4 +1,4 @@
-import { CacheType, CommandInteraction, GuildMember } from 'discord.js';
+import { CommandInteraction, GuildMember } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import {
@@ -25,7 +25,7 @@ export default class VocalquitCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
+  public async run(commandInteraction: CommandInteraction) {
     await commandInteraction.deferReply({
       ephemeral: true,
     });

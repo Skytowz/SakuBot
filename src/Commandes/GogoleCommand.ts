@@ -15,6 +15,8 @@ const IMAGES = [
   'https://media.discordapp.net/attachments/991333308988395670/992525237407191102/IMG_20220421_002513.jpg',
 ];
 
+const WHITELIST = ['713837802638278749', '273756946308530176'];
+
 export default class GogoleCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
@@ -27,11 +29,7 @@ export default class GogoleCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction<CacheType>) {
-    if (
-      !['713837802638278749', '273756946308530176'].includes(
-        String(commandInteraction.member?.user.id)
-      )
-    ) {
+    if (!WHITELIST.includes(String(commandInteraction.member?.user.id))) {
       throw new EventError('Tu ne peux pas utiliser cette commande');
     }
 

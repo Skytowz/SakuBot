@@ -78,17 +78,21 @@ export default class MangaLinkCommand extends AbstractCommand {
   public async run(commandInteraction: CommandInteraction) {
     await commandInteraction.deferReply();
 
-    //@ts-ignore
-    const url = stringToURL(commandInteraction.options.getString('url'));
-    //@ts-ignore
+    if (!commandInteraction.isChatInputCommand()) {
+      throw new EventError(
+        "cette action ne peut être effectuée qu'avec une commande"
+      );
+    }
+
+    const url = stringToURL(
+      commandInteraction.options.getString('url') as string
+    );
     const language = commandInteraction.options.getString('langue');
     const languages = language
       ? [language]
       : Object.values(LANGUAGES).map((lang) => lang.value);
-    // @ts-ignore
-    const chapter = commandInteraction.options.getString('chapitre') ?? 1;
-    // @ts-ignore
-    const page = commandInteraction.options.getString('page');
+    const chapter = commandInteraction.options.getInteger('chapitre') ?? 1;
+    const page = commandInteraction.options.getInteger('page') ?? 1;
 
     let id;
     if (!url || url.host !== 'mangadex.org' || !(id = parseUrlPath(url)[1])) {
