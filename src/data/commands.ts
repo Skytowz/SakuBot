@@ -5,7 +5,6 @@ import AnswerCommandData from './AnswerCommand.data.js';
 import MangaCommandData from './MangaCommand.data.js';
 import DanroobuCommandData from './DanroobuCommand.data.js';
 import AbstractCommand from '../Commandes/AbstractCommand.js';
-import AskCommand from '../Commandes/AskCommand.js';
 import ChadCommand from '../Commandes/ChadCommand.js';
 import ChapterLinkCommand from '../Commandes/ChapterLinkCommand.js';
 import ClearCommand from '../Commandes/ClearCommand.js';
@@ -20,7 +19,6 @@ import PinCommand from '../Commandes/PinCommand.js';
 import ImplementableDanroobuCommand from '../Commandes/implementable/ImplementableDanroobuCommand.js';
 
 export default [
-  { command: AskCommand },
   { command: ChadCommand },
   { command: ChapterLinkCommand },
   { command: ClearCommand },
