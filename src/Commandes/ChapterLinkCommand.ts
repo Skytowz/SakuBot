@@ -1,8 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-  CacheType,
-  CommandInteraction,
-} from 'discord.js';
+import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
@@ -34,7 +30,7 @@ export default class ChapterLinkCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
+  public async run(commandInteraction: CommandInteraction) {
     if (!commandInteraction.isChatInputCommand()) {
       throw new EventError(
         "cette action ne peut être effectuée qu'avec une commande"
