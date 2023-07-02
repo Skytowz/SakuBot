@@ -75,7 +75,9 @@ export default class MangaLinkCommand extends AbstractCommand {
     const url = stringToURL(commandInteraction.options.getString('url'));
     //@ts-ignore
     const language = commandInteraction.options.getString('langue');
-    const languages = language ? [language] : Object.values(LANGUAGES);
+    const languages = language
+      ? [language]
+      : Object.values(LANGUAGES).map((lang) => lang.value);
     // @ts-ignore
     const chapter = commandInteraction.options.getString('chapitre') ?? 1;
     // @ts-ignore

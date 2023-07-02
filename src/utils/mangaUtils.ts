@@ -36,18 +36,25 @@ export const send = async (
   }
 ) => {
   let chapitre;
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply();
   let defer = false;
   if (idChap) {
     const data = await getChapitreInfoById(idChap);
     chapitre = await getChapitreById(data);
-    if (typeof chapitre == 'string')
-      return interaction.channel?.send({ content: chapitre });
+    if (typeof chapitre == 'string') {
+      await interaction.deleteReply();
+      await interaction.followUp({ content: chapitre, ephemeral: true });
+      return;
+    }
   } else {
-    if (!chap || chap == '' || Number.isNaN(chap))
-      return interaction.channel?.send({
+    if (!chap || chap == '' || Number.isNaN(chap)) {
+      await interaction.deleteReply();
+      await interaction.followUp({
         content: 'Veuillez rentrer un numéro de chapitre valide',
+        ephemeral: true,
       });
+      return;
+    }
     if (isMangeReader) {
       await interaction.deferReply();
       defer = true;
@@ -68,11 +75,16 @@ export const send = async (
     }
     if (typeof chapitre == 'string') {
       if (defer) {
-        return interaction.channel?.send({
+        await interaction.deleteReply();
+        await interaction.followUp({
           content: chapitre,
+          ephemeral: true,
         });
+        return;
       }
-      return interaction.channel?.send({ content: chapitre });
+      await interaction.deleteReply();
+      await interaction.followUp({ content: chapitre, ephemeral: true });
+      return;
     }
   }
   const embedList = chapitre.getEmbedList();
