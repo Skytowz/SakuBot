@@ -49,7 +49,7 @@ export default class AbstractEvent {
   }
 
   protected async onEvent(commandInteraction: CommandInteraction) {
-    return Promise.reject(commandInteraction);
+    await Promise.reject(commandInteraction);
   }
 
   public toString() {

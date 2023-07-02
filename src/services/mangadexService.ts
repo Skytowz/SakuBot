@@ -5,7 +5,7 @@ import superagent from 'superagent';
 
 export const getChapitre = async (
   manga: string,
-  numero: number | string,
+  numero: number,
   options: CommandDeclarationOptions,
   langue: Array<string>
 ) => {
@@ -16,7 +16,7 @@ export const getChapitre = async (
     let URL = `https://api.mangadex.org/manga/${manga}/feed?translatedLanguage[]=fr&includeExternalUrl=0&limit=500`;
     if (options) {
       options.banteam?.forEach((e) => {
-        if (!e.from || (numero as number) > e.from) {
+        if (!e.from || numero > e.from) {
           URL += `&excludedGroups[]=${e.id}`;
         }
       });
@@ -25,7 +25,7 @@ export const getChapitre = async (
       result = await superagent.get(`${URL}&offset=${offset * 500}`);
       data = result.body.data.find(
         (element: { attributes: { chapter: string } }) =>
-          element.attributes.chapter == numero
+          element.attributes.chapter == String(numero)
       );
       offset++;
     } while (result.body.total > offset * 500 && typeof data == 'undefined');
@@ -41,7 +41,7 @@ export const getChapitre = async (
         .catch((e) => console.error(e));
       data = result?.body.data.find(
         (element: { attributes: { chapter: string } }) =>
-          element.attributes.chapter == numero ||
+          element.attributes.chapter == String(numero) ||
           (numero == 1 && element.attributes.chapter == null)
       );
       offset++;
