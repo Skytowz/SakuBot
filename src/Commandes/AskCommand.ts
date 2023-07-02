@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CacheType, CommandInteraction } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import { sample } from '../utils/arrayUtils.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import { AppInstances } from '../AppInstances.js';
+import EventError from '../errors/EventError.js';
 
 const QUOTE = [
   'Je réponds pas à un Mikodog', //Negatif
@@ -42,8 +42,12 @@ export default class AskCommand extends AbstractCommand {
     });
   }
 
-  public async run(commandInteraction: CommandInteraction<CacheType>) {
-    //@ts-ignore
+  public async run(commandInteraction: CommandInteraction) {
+    if (!commandInteraction.isChatInputCommand()) {
+      throw new EventError(
+        "cette action ne peut être effectuée qu'avec une commande"
+      );
+    }
     const question = commandInteraction.options.getString('question');
     const content =
       (question ? `> **${question}** \n` : '') + `*${sample(QUOTE)}*`;
