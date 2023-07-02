@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { CacheType, CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { sample } from '../utils/arrayUtils.js';
 import { AppInstances } from '../AppInstances.js';
+import EventError from '../errors/EventError.js';
 
-const QUOTE = [
+const IMAGES = [
   'https://media.discordapp.net/attachments/991333308988395670/991448778395631726/IMG_20220402_184149.jpg',
   'https://media.discordapp.net/attachments/991333308988395670/991448778789888090/IMG_20220311_214535.jpg',
   'https://media.discordapp.net/attachments/991333308988395670/991449285809942628/20210629_225506.jpg',
@@ -29,15 +29,12 @@ export default class GogoleCommand extends AbstractCommand {
   public async run(commandInteraction: CommandInteraction<CacheType>) {
     if (
       !['713837802638278749', '273756946308530176'].includes(
-        //@ts-ignore
-        commandInteraction.member?.id
+        String(commandInteraction.member?.user.id)
       )
-    )
-      return commandInteraction.reply({
-        content: 'Tu ne peux pas utiliser cette commande',
-        ephemeral: true,
-      });
-    //@ts-ignore
-    await commandInteraction.reply({ files: [sample(QUOTE)] });
+    ) {
+      throw new EventError('Tu ne peux pas utiliser cette commande');
+    }
+
+    await commandInteraction.reply({ files: [sample(IMAGES)] });
   }
 }
