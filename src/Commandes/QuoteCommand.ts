@@ -11,6 +11,8 @@ import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import { getDateFromTimeStamp } from '../utils/dateUtils.js';
 import { AppInstances } from '../AppInstances.js';
+import FormatError from '../errors/FormatError.js';
+import EventError from '../errors/EventError.js';
 
 export default class QuoteCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
@@ -38,23 +40,14 @@ export default class QuoteCommand extends AbstractCommand {
       targetChannelId = parsedIds.channelId ?? targetChannelId;
       targetMessageId = parsedIds.messageId;
     } catch (e) {
-      let erreurMessage = "Une erreur s'est produite";
-      if (!(e instanceof Error)) {
-        erreurMessage = String(e);
+      if (e instanceof FormatError) {
+        throw new EventError(e.message);
       }
-      await commandInteraction.reply({
-        content: erreurMessage,
-        ephemeral: true,
-      });
-      return;
+      throw e;
     }
 
     if (!targetChannelId || !targetMessageId) {
-      await commandInteraction.reply({
-        content: 'Merci de préciser tout les arguments nécessaires.',
-        ephemeral: true,
-      });
-      return;
+      throw new EventError('Merci de préciser tout les arguments nécessaires.');
     }
 
     let targetChannel: Channel | null | undefined;
@@ -67,11 +60,7 @@ export default class QuoteCommand extends AbstractCommand {
     }
 
     if (!targetChannel) {
-      await commandInteraction.reply({
-        content: 'Channel inexistant',
-        ephemeral: true,
-      });
-      return;
+      throw new EventError("le salon n'existe pas");
     }
 
     let targetMessage;
@@ -83,11 +72,7 @@ export default class QuoteCommand extends AbstractCommand {
     }
 
     if (!targetMessage) {
-      await commandInteraction.reply({
-        content: 'Message inexistant',
-        ephemeral: true,
-      });
-      return;
+      throw new EventError("le message n'existe pas");
     }
 
     const embeds = convertTargetMessageToQuoteEmbeds(
@@ -163,17 +148,19 @@ const parseIdsFromCommandInteraction = (
     if (url?.host === 'discord.com' && url.pathname.startsWith('/channels')) {
       const splitIds = url.pathname.split('/');
       if (splitIds.length != 5) {
-        throw "Erreur, le lien du message n'est pas valide";
+        throw new FormatError("le lien du message n'est pas valide");
       }
       ids.messageId = splitIds.pop();
       ids.channelId = splitIds.pop();
     } else if (url) {
-      throw "Erreur, le lien du message n'est pas valide";
+      throw new FormatError("le lien du message n'est pas valide");
     } else {
       if (!argument.includes('-')) {
         ids.messageId = argument;
       } else if (argument.split(/-/).length != 2) {
-        throw "Erreur, veuillez donner l'id sous la forme <message-channel>-<message-message> ou le lien du message";
+        throw new FormatError(
+          "veuillez donner l'id sous la forme <message-channel>-<message-message> ou le lien du message"
+        );
       } else {
         const splitIds = argument.split(/-/);
         ids.channelId = splitIds[0];

@@ -2,6 +2,7 @@ import { CommandInteraction, GuildMemberRoleManager } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { AppInstances } from '../AppInstances.js';
+import EventError from '../errors/EventError.js';
 
 const WHITELIST = ['780835397008621600', '685583592084340740'];
 
@@ -24,25 +25,13 @@ export default class GetPPCommand extends AbstractCommand {
         WHITELIST.includes(id)
       )
     ) {
-      await commandInteraction.reply({
-        content: 'Tu ne peux pas utiliser cette commande',
-        ephemeral: true,
-      });
-      return;
+      throw new EventError('Tu ne peux pas utiliser cette commande');
     }
     if (!commandInteraction.isMessageContextMenuCommand()) {
-      await commandInteraction.reply({
-        content: "Ceci n'est pas un message",
-        ephemeral: true,
-      });
-      return;
+      throw new EventError("Ceci n'est pas un message");
     }
     if (commandInteraction.targetMessage.pinned) {
-      await commandInteraction.reply({
-        content: 'Le message est deja pin',
-        ephemeral: true,
-      });
-      return;
+      throw new EventError('Le message est deja pin');
     }
 
     await commandInteraction.targetMessage.pin(

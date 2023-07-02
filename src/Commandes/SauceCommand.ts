@@ -14,6 +14,7 @@ import {
   fetchSourceDataFromImageUrl,
   SourceData,
 } from '../services/saucenaoService.js';
+import EventError from '../errors/EventError.js';
 
 export default class SauceCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
@@ -31,9 +32,7 @@ export default class SauceCommand extends AbstractCommand {
     await commandInteraction.deferReply({ ephemeral: true });
 
     if (!commandInteraction.isMessageContextMenuCommand()) {
-      return commandInteraction.editReply({
-        content: "Ceci n'est pas un message",
-      });
+      throw new EventError("Ceci n'est pas un message");
     }
 
     const sourceImageUrl = extractUrlFromMessage(
@@ -41,17 +40,13 @@ export default class SauceCommand extends AbstractCommand {
     );
 
     if (!sourceImageUrl) {
-      return commandInteraction.editReply({
-        content: 'Image ou lien incompatible',
-      });
+      throw new EventError('Image ou lien incompatible');
     }
 
     const result = await fetchSourceDataFromImageUrl(sourceImageUrl);
 
     if (!result) {
-      return commandInteraction.editReply({
-        content: 'Impossible de récupérer la source',
-      });
+      throw new EventError('Impossible de récupérer la source');
     }
 
     const embed = convertImageSourceDataToEmbed(
@@ -61,7 +56,7 @@ export default class SauceCommand extends AbstractCommand {
 
     const row = createButtonRowForImageSourceDataToEmbed(result);
 
-    await commandInteraction.editReply({
+    await commandInteraction.followUp({
       embeds: [embed],
       components: [row],
     });

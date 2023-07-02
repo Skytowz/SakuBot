@@ -10,6 +10,7 @@ import {
   NoSubscriberBehavior,
 } from '@discordjs/voice';
 import { AppInstances } from '../AppInstances.js';
+import EventError from '../errors/EventError.js';
 
 export default class VocalquitCommand extends AbstractCommand {
   private enCours = false;
@@ -25,28 +26,24 @@ export default class VocalquitCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction<CacheType>) {
+    await commandInteraction.deferReply({
+      ephemeral: true,
+    });
+
     if (this.enCours) {
-      await commandInteraction.reply({
-        content: 'Une déco est déjà en cours',
-        ephemeral: true,
-      });
-      return;
+      throw new EventError('Une déco est déjà en cours');
     }
 
     const guildMember = ((await commandInteraction.guild?.members.fetch({
       user: commandInteraction.member?.user.id,
     })) as unknown) as GuildMember;
     if (!guildMember) {
-      return;
+      throw new EventError('Nous ne parvenons pas à vous trouver');
     }
 
     const channelId = guildMember.voice.channelId;
     if (!channelId) {
-      await commandInteraction.reply({
-        content: "Vous n'êtes pas dans un channel vocal",
-        ephemeral: true,
-      });
-      return;
+      throw new EventError("Vous n'êtes pas dans un channel vocal");
     }
 
     const connection = joinVoiceChannel({
@@ -72,15 +69,15 @@ export default class VocalquitCommand extends AbstractCommand {
       connection.disconnect();
     });
 
-    await commandInteraction.deferReply({
-      ephemeral: true,
-    });
-
     this.enCours = true;
-    setTimeout(() => {
+    setTimeout(async () => {
       this.enCours = false;
-      guildMember.voice.disconnect();
-      commandInteraction.editReply({
+      try {
+        await guildMember.voice.disconnect();
+      } catch (e) {
+        /* empty */
+      }
+      await commandInteraction.editReply({
         content: 'Disconnected',
       });
     }, 15500);
