@@ -16,9 +16,10 @@ import SauceCommand from '../Commandes/SauceCommand.js';
 import VocalquitCommand from '../Commandes/VocalquitCommand.js';
 import PinCommand from '../Commandes/PinCommand.js';
 import ImplementableDanroobuCommand from '../Commandes/implementable/ImplementableDanroobuCommand.js';
+import ChadCommand from '../Commandes/ChadCommand.js';
 
 export default [
-  // { command: ChadCommand },
+  { command: ChadCommand },
   { command: ChapterLinkCommand },
   { command: ClearCommand },
   { command: GetPPCommand },
