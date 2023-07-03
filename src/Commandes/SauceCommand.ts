@@ -10,10 +10,9 @@ import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { request } from 'undici';
 import { AppInstances } from '../types/AppInstances.js';
-import {
-  fetchSourceDataFromImageUrl,
-  SourceData,
-} from '../services/saucenaoService.js';
+import SaucenaoService, {
+  SaucenaoSourceData,
+} from '../services/SaucenaoService.js';
 import EventError from '../errors/EventError.js';
 
 export default class SauceCommand extends AbstractCommand {
@@ -43,9 +42,18 @@ export default class SauceCommand extends AbstractCommand {
       throw new EventError('Image ou lien incompatible');
     }
 
-    const result = await fetchSourceDataFromImageUrl(sourceImageUrl);
+    let result;
 
-    if (!result) {
+    try {
+      const saucenaoService = this.getAppInstances().serviceManager.getService(
+        SaucenaoService
+      ) as SaucenaoService;
+      result = (await saucenaoService.fetchSourceDataFromImageUrl(
+        sourceImageUrl
+      )) as SaucenaoSourceData;
+    } catch (e) {
+      this.getAppInstances().logger.error("Une erreur s'est produite");
+      this.getAppInstances().logger.error(e);
       throw new EventError('Impossible de récupérer la source');
     }
 
@@ -82,7 +90,7 @@ export default class SauceCommand extends AbstractCommand {
   }
 }
 
-const createButtonRowForImageSourceDataToEmbed = (data: SourceData) => {
+const createButtonRowForImageSourceDataToEmbed = (data: SaucenaoSourceData) => {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setLabel('Voir')
@@ -97,7 +105,7 @@ const createButtonRowForImageSourceDataToEmbed = (data: SourceData) => {
 };
 
 const convertImageSourceDataToEmbed = (
-  data: SourceData,
+  data: SaucenaoSourceData,
   requestingUserId: string
 ) => {
   const embed = new EmbedBuilder()

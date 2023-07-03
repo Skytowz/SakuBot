@@ -5,6 +5,7 @@ import {
 } from 'discord.js';
 import SlashOption from '../utils/slashOption.ts';
 import TypeHelp from '../entity/typeHelp.ts';
+import { ChapterFetchOptions } from '../services/MangaService.js';
 
 export interface LangOption {
   name: string;
@@ -36,7 +37,21 @@ export interface CommandDetails {
   messageInteraction?: boolean;
   parentId?: string;
   nohelp?: boolean;
-  options?: CommandDeclarationOptions;
+  options?: object;
+}
+
+export interface ImplementableMangaCommandDetails extends CommandDetails {
+  options?: ChapterFetchOptions;
+}
+
+export interface ImplementableDanroobuCommandDetails extends CommandDetails {
+  options?: { research?: string };
+}
+
+export interface ImplementableAnswerCommandDetails extends CommandDetails {
+  options?: {
+    messages: Array<string | InteractionReplyOptions | MessagePayload>;
+  };
 }
 
 export type CommandRun = (

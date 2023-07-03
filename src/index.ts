@@ -6,6 +6,14 @@ import AbstractEvent from './Events/AbstractEvent.js';
 import dotenv from 'dotenv';
 import logger from './logger.js';
 import { CommandDetails } from './types/Command.js';
+import { ServiceManager } from './ServiceManager.js';
+import SaucenaoService from './services/SaucenaoService.js';
+import { AppInstances } from './types/AppInstances.js';
+import CommandService from './services/CommandService.js';
+import DanroobuService from './services/DanroobuService.js';
+import GistService from './services/GistService.js';
+import MangadexService from './services/MangadexService.js';
+import MangaService from './services/MangaService.js';
 
 dotenv.config();
 
@@ -62,7 +70,46 @@ if (process.env.ENV == 'DEV') {
 
 const commandManager = new CommandManager();
 
+const serviceManager = new ServiceManager();
+
 const events: Array<AbstractEvent> = [];
+
+const appInstances: AppInstances = {
+  logger: logger,
+  commandManager: commandManager,
+  serviceManager: serviceManager,
+  client: client,
+  events: events,
+};
+
+commandManager.setAppInstances({
+  ...appInstances,
+  logger: logger.child({}, { msgPrefix: `[CommandManager] : ` }),
+});
+
+serviceManager.setAppInstances({
+  ...appInstances,
+  logger: logger.child({}, { msgPrefix: `[ServiceManager] : ` }),
+});
+
+const servicesClasses = [
+  CommandService,
+  DanroobuService,
+  GistService,
+  MangadexService,
+  SaucenaoService,
+  MangaService
+];
+
+servicesClasses.forEach((serviceClass) => {
+  const serviceLogger = logger.child(
+    {},
+    { msgPrefix: `[${serviceClass.name || 'unknown'}] : ` }
+  );
+  serviceManager.addService(
+    new serviceClass({ ...appInstances, logger: serviceLogger })
+  );
+});
 
 commandsData.forEach(({ command, details }) => {
   const commandLogger = logger.child(
@@ -71,12 +118,7 @@ commandsData.forEach(({ command, details }) => {
   );
   commandManager.addCommand(
     new command(
-      {
-        commandManager: commandManager,
-        client: client,
-        logger: commandLogger,
-        events: events,
-      },
+      { ...appInstances, logger: commandLogger },
       details || ({} as CommandDetails)
     )
   );
@@ -89,12 +131,7 @@ eventsData.forEach(({ event }) => {
   );
   events.push(
     new event(
-      {
-        commandManager: commandManager,
-        client: client,
-        logger: eventLogger,
-        events: events,
-      },
+      { ...appInstances, logger: eventLogger },
       (undefined as unknown) as string
     )
   );

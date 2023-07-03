@@ -9,6 +9,7 @@ import {
 } from '../utils/mangaUtils.js';
 import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
+import MangaService from '../services/MangaService.js';
 
 export default class ChapterLinkCommand extends AbstractCommand {
   public constructor(appInstances: AppInstances) {
@@ -31,6 +32,7 @@ export default class ChapterLinkCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction) {
+    await commandInteraction.deferReply();
     if (!commandInteraction.isChatInputCommand()) {
       throw new EventError(
         "cette action ne peut être effectuée qu'avec une commande"
@@ -45,12 +47,17 @@ export default class ChapterLinkCommand extends AbstractCommand {
 
     let embeds;
     try {
+      const mangaService = this.getAppInstances().serviceManager.getService(
+        MangaService
+      ) as MangaService;
+      const chapter = await mangaService.fetchChapter({
+        chapterNumber: 0,
+        chapterId: id,
+      });
+
       embeds = await generateMagaViewerEmbeds(
-        0,
-        Number(commandInteraction.options.getString('page')),
-        {
-          options: { chapterId: id },
-        }
+        chapter,
+        Number(commandInteraction.options.getString('page'))
       );
     } catch (e) {
       this.getAppInstances().logger.debug("une erreur s'est produite");

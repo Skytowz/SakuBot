@@ -1,6 +1,6 @@
-import { CommandDetails } from '../types/Command.js';
+import { ImplementableDanroobuCommandDetails } from '../types/Command.js';
 
-export default [
+const details: Array<ImplementableDanroobuCommandDetails> = [
   {
     id: 'ai',
     name: ['ai'],
@@ -151,4 +151,6 @@ export default [
       research: 'yamada_ryou',
     },
   },
-] as Array<CommandDetails>;
+];
+
+export default details;

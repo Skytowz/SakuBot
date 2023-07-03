@@ -1,21 +1,25 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import SlashOption from '../../utils/slashOption.js';
-import { generateMagaViewerEmbeds } from '../../utils/mangaUtils.js';
-import { CommandDetails } from '../../types/Command.js';
+import {
+  generateMagaViewerEmbeds,
+  generateMangaViewerButtonBar,
+  initializeMangaViewerInterractions,
+} from '../../utils/mangaUtils.js';
+import { ImplementableMangaCommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import TypeHelp from '../../entity/typeHelp.js';
 import { AppInstances } from '../../types/AppInstances.js';
 import EventError from '../../errors/EventError.js';
+import MangaService from '../../services/MangaService.js';
 
-export default class ImplementableMangaCommand extends AbstractCommand {
+export default class ImplementableMangaCommand extends AbstractCommand<ImplementableMangaCommandDetails> {
   public static readonly abstractId = 'abstract.manga';
 
-  public constructor(appInstances: AppInstances, details: CommandDetails) {
+  public constructor(
+    appInstances: AppInstances,
+    details: ImplementableMangaCommandDetails
+  ) {
     super(appInstances, {
-      // @ts-ignore
-      id: ImplementableMangaCommand.abstractId,
-      helpDescription: "Affiche une page d'un chapitre d'un manga",
       args: [
         new SlashOption(
           'chapitre',
@@ -32,18 +36,32 @@ export default class ImplementableMangaCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction) {
+    await commandInteraction.deferReply();
+
     if (!commandInteraction.isChatInputCommand()) {
       throw new EventError(
         "cette action ne peut être effectuée qu'avec une commande"
       );
     }
-    await generateMagaViewerEmbeds(
-      Number(commandInteraction.options.getString('chapitre')),
-      Number(commandInteraction.options.getString('page')),
-      {
-        research: this.getDetails().options?.chapterId,
-        options: this.getDetails().options,
-      }
+
+    const mangaService = this.getAppInstances().serviceManager.getService(
+      MangaService
+    ) as MangaService;
+
+    const chapter = await mangaService.fetchChapter({
+      ...this.getDetails().options,
+      chapterNumber: Number(commandInteraction.options.getString('chapitre')),
+    });
+
+    const embeds = await generateMagaViewerEmbeds(
+      chapter,
+      Number(commandInteraction.options.getString('page'))
     );
+
+    const buttonBar = await generateMangaViewerButtonBar(embeds);
+
+    await commandInteraction.followUp(buttonBar);
+
+    await initializeMangaViewerInterractions(commandInteraction, embeds);
   }
 }

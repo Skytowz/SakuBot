@@ -1,12 +1,26 @@
 import { REST } from 'discord.js';
 import AbstractCommand from './Commandes/AbstractCommand.js';
-import { registerCommands } from './services/commandService.js';
+import { AppInstances } from './types/AppInstances.js';
+import CommandService from './services/CommandService.js';
 
 export class CommandManager {
-  private commands: Array<AbstractCommand> = [];
+  private appInstances!: AppInstances;
+  private readonly commands;
 
-  public constructor(commands: Array<AbstractCommand> = []) {
-    if (commands) this.commands = commands;
+  public constructor(
+    appInstances?: AppInstances,
+    commands: Array<AbstractCommand> = []
+  ) {
+    this.appInstances = appInstances as AppInstances;
+    this.commands = commands;
+  }
+
+  public getAppInstances() {
+    return this.appInstances;
+  }
+
+  public setAppInstances(appInstances: AppInstances) {
+    this.appInstances = appInstances;
   }
 
   public getAll() {
@@ -49,6 +63,9 @@ export class CommandManager {
   }
 
   public async registerCommands(rest: REST) {
-    return registerCommands(rest, this.commands);
+    const commandService = this.appInstances.serviceManager.getService(
+      CommandService
+    ) as CommandService;
+    return commandService.registerCommands(rest, this.commands);
   }
 }

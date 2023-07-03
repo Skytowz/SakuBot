@@ -1,4 +1,7 @@
-export type SourceData = {
+import AbstractService from './AbstractService.js';
+import { AppInstances } from '../types/AppInstances.js';
+
+export type SaucenaoSourceData = {
   title?: string;
   source?: string;
   index_name?: string;
@@ -19,10 +22,12 @@ type RawResult = Array<{
   header: { [key: string]: string };
 }>;
 
-export const fetchSourceDataFromImageUrl = async (
-  imageUrl: string
-): Promise<SourceData | undefined> => {
-  try {
+export default class SaucenaoService extends AbstractService {
+  public constructor(appInstances: AppInstances) {
+    super(appInstances);
+  }
+
+  public async fetchSourceDataFromImageUrl(imageUrl: string) {
     const response = await fetch(
       `https://saucenao.com/search.php?db=999&output_type=2&numres=50&api_key=4f94dcf41458ba2601b9d09fe7d4107a7afd9071&url=${encodeURIComponent(
         imageUrl
@@ -41,10 +46,6 @@ export const fetchSourceDataFromImageUrl = async (
       ...res.data,
       ...res.header,
       ext_url: res.data.ext_urls && res.data.ext_urls[0],
-    };
-  } catch (e) {
-    /* empty */
+    } as SaucenaoSourceData;
   }
-
-  return;
-};
+}

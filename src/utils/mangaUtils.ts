@@ -1,12 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
-  getChapitre,
-  getChapitreById,
-  getChapitreInfoById,
-} from '../services/mangadexService.js';
-import { CommandDeclarationOptions } from '../types/Command.js';
-import { getChapitre as getChapitreGist } from '../services/gistService.js';
-import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
@@ -14,40 +7,12 @@ import {
   InteractionReplyOptions,
 } from 'discord.js';
 import EmbedList from './embedList.js';
+import Chapitre from '../entity/Chapitre.js';
 
 export const generateMagaViewerEmbeds = async (
-  chap: number,
-  page: number,
-  {
-    research,
-    langue,
-    options,
-  }: {
-    research?: string;
-    langue?: Array<string>;
-    options?: CommandDeclarationOptions;
-  }
+  chapitre: Chapitre,
+  page: number
 ) => {
-  let chapitre;
-  if (options?.chapterId) {
-    const data = await getChapitreInfoById(options.chapterId);
-    chapitre = await getChapitreById(data);
-  } else {
-    if (options?.cubari) {
-      chapitre = await getChapitreGist(
-        research as string,
-        chap,
-        options.cubari
-      );
-    } else {
-      chapitre = await getChapitre(
-        research as string,
-        chap,
-        options as CommandDeclarationOptions,
-        langue || []
-      );
-    }
-  }
   const embedList = chapitre.getEmbedList();
 
   if (page <= chapitre.nbPages && page > 0) {

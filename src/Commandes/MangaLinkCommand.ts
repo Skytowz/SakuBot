@@ -11,6 +11,7 @@ import {
 import { AppInstances } from '../types/AppInstances.js';
 import { parseUrlPath, stringToURL } from '../utils/urlUtils.js';
 import EventError from '../errors/EventError.js';
+import MangaService from '../services/MangaService.js';
 
 const LANGUAGES = [
   {
@@ -91,8 +92,9 @@ export default class MangaLinkCommand extends AbstractCommand {
     const languages = language
       ? [language]
       : Object.values(LANGUAGES).map((lang) => lang.value);
-    const chapter = commandInteraction.options.getInteger('chapitre') ?? 1;
-    const page = commandInteraction.options.getInteger('page') ?? 1;
+    const chapterNumber =
+      commandInteraction.options.getInteger('chapitre') ?? 1;
+    const pageNumber = commandInteraction.options.getInteger('page') ?? 1;
 
     let id;
     if (!url || url.host !== 'mangadex.org' || !(id = parseUrlPath(url)[1])) {
@@ -101,10 +103,15 @@ export default class MangaLinkCommand extends AbstractCommand {
 
     let embeds;
     try {
-      embeds = await generateMagaViewerEmbeds(chapter, page, {
+      const mangaService = this.getAppInstances().serviceManager.getService(
+        MangaService
+      ) as MangaService;
+      const chapter = await mangaService.fetchChapter({
+        chapterNumber: chapterNumber,
         research: id,
-        langue: languages,
+        languages: languages,
       });
+      embeds = await generateMagaViewerEmbeds(chapter, pageNumber);
     } catch (e) {
       this.getAppInstances().logger.debug("une erreur s'est produite");
       this.getAppInstances().logger.debug(e);

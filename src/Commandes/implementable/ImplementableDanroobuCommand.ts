@@ -1,17 +1,20 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import SlashOption from '../../utils/slashOption.js';
-import { CommandDetails } from '../../types/Command.js';
+import { ImplementableDanroobuCommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
-import { getGeneralImageByTag } from '../../services/danroobuService.js';
 import { AppInstances } from '../../types/AppInstances.js';
 import TypeHelp from '../../entity/typeHelp.js';
 import EventError from '../../errors/EventError.js';
+import DanroobuService from '../../services/DanroobuService.js';
 
-export default class ImplementableDanroobuCommand extends AbstractCommand {
+export default class ImplementableDanroobuCommand extends AbstractCommand<ImplementableDanroobuCommandDetails> {
   public static readonly abstractId = 'abstract.danroobu';
 
-  public constructor(appInstances: AppInstances, details: CommandDetails) {
+  public constructor(
+    appInstances: AppInstances,
+    details: ImplementableDanroobuCommandDetails,
+  ) {
     super(appInstances, {
       // @ts-ignore
       id: ImplementableDanroobuCommand.abstractId,
@@ -33,17 +36,20 @@ export default class ImplementableDanroobuCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction) {
+    const danroobuService = this.getAppInstances().serviceManager.getService(
+      DanroobuService,
+    ) as DanroobuService;
     if (!commandInteraction.isChatInputCommand()) {
       throw new EventError(
-        "cette action ne peut être effectuée qu'avec une commande"
+        'cette action ne peut être effectuée qu\'avec une commande',
       );
     }
     const solo = !!commandInteraction.options.getBoolean('solo');
     const sensitive = !!commandInteraction.options.getBoolean('sensitive');
-    const url = await getGeneralImageByTag(
+    const url = await danroobuService.getGeneralImageByTag(
       this.getDetails().options?.research as string,
       solo,
-      sensitive
+      sensitive,
     );
     if (url && sensitive) {
       await commandInteraction.deferReply();
