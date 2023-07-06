@@ -14,6 +14,8 @@ import DanroobuService from './services/DanroobuService.js';
 import GistService from './services/GistService.js';
 import MangadexService from './services/MangadexService.js';
 import MangaService from './services/MangaService.js';
+import ResourcesService from './services/ResourcesService.js';
+import CommandInteractionService from './services/CommandInteractionService.js';
 
 dotenv.config();
 
@@ -98,7 +100,9 @@ const servicesClasses = [
   GistService,
   MangadexService,
   SaucenaoService,
-  MangaService
+  MangaService,
+  ResourcesService,
+  CommandInteractionService,
 ];
 
 servicesClasses.forEach((serviceClass) => {

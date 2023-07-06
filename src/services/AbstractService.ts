@@ -1,9 +1,10 @@
 import { AppInstances } from '../types/AppInstances.js';
 
+// noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
 export default abstract class AbstractService {
-  private appInstances: AppInstances;
+  private readonly appInstances: AppInstances;
 
-  protected constructor(appInstances: AppInstances) {
+  public constructor(appInstances: AppInstances) {
     this.appInstances = appInstances;
   }
 

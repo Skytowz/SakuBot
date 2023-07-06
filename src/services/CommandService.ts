@@ -1,5 +1,6 @@
 import {
   ApplicationCommandType,
+  CommandInteraction,
   ContextMenuCommandBuilder,
   REST,
   Routes,
@@ -8,6 +9,8 @@ import AbstractCommand from '../Commandes/AbstractCommand.js';
 import SlashCommand from '../utils/slashCommand.js';
 import AbstractService from './AbstractService.js';
 import { AppInstances } from '../types/AppInstances.js';
+import EventError from '../errors/EventError.js';
+import CommandInteractionService from './CommandInteractionService.js';
 
 export default class CommandService extends AbstractService {
   public constructor(appInstances: AppInstances) {

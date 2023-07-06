@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CommandInteraction, InteractionReplyOptions, MessagePayload } from 'discord.js';
+import {
+  CommandInteraction,
+  InteractionReplyOptions,
+  MessagePayload,
+} from 'discord.js';
 import { sample } from '../../utils/arrayUtils.js';
 import { ImplementableAnswerCommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
@@ -11,7 +15,7 @@ export default class ImplementableAnswerCommand extends AbstractCommand<Implemen
 
   public constructor(
     appInstances: AppInstances,
-    details: ImplementableAnswerCommandDetails,
+    details: ImplementableAnswerCommandDetails
   ) {
     super(appInstances, {
       // @ts-ignore
@@ -27,8 +31,8 @@ export default class ImplementableAnswerCommand extends AbstractCommand<Implemen
       sample(
         this.getDetails().options?.messages as Array<
           string | InteractionReplyOptions | MessagePayload
-        >,
-      ),
+        >
+      )
     );
   }
 }

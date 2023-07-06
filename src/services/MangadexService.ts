@@ -13,7 +13,7 @@ export default class MangadexService extends AbstractService {
     mangaId: string,
     numero: number,
     languages: Array<string>,
-    bannedTeams: Array<string>,
+    bannedTeams: Array<string>
   ) {
     let offset = 0;
     let data;
@@ -27,7 +27,7 @@ export default class MangadexService extends AbstractService {
         result = await superagent.get(`${URL}&offset=${offset * 500}`);
         data = result.body.data.find(
           (element: { attributes: { chapter: string } }) =>
-            element.attributes.chapter == String(numero),
+            element.attributes.chapter == String(numero)
         );
         offset++;
       } while (result.body.total > offset * 500 && typeof data == 'undefined');
@@ -38,13 +38,13 @@ export default class MangadexService extends AbstractService {
           .get(
             `https://api.mangadex.org/manga/${mangaId}/feed?${languages
               .map((e) => `translatedLanguage[]=${e}&`)
-              .join('')}includeExternalUrl=0&limit=500&offset=${offset * 500}`,
+              .join('')}includeExternalUrl=0&limit=500&offset=${offset * 500}`
           )
           .catch((e) => console.error(e));
         data = result?.body.data.find(
           (element: { attributes: { chapter: string } }) =>
             element.attributes.chapter == String(numero) ||
-            (numero == 1 && element.attributes.chapter == null),
+            (numero == 1 && element.attributes.chapter == null)
         );
         offset++;
       } while (result?.body.total > offset * 500 && typeof data == 'undefined');
@@ -61,7 +61,7 @@ export default class MangadexService extends AbstractService {
   }) {
     const data = await superagent
       .get(
-        `https://api.mangadex.org/at-home/server/${chapitre.id}?forcePort443=false`,
+        `https://api.mangadex.org/at-home/server/${chapitre.id}?forcePort443=false`
       )
       .then((res) => res.body.chapter);
     return new Chapitre(
@@ -76,7 +76,7 @@ export default class MangadexService extends AbstractService {
           .toString(36)
           .substring(2)}`,
       `https://mangadex.org/chapter/${chapitre.id}`,
-      [],
+      []
     );
   }
 

@@ -56,12 +56,19 @@ export class ServiceManager {
     return !!this.services.splice(this.getServiceInstanceIndex(service), 1);
   }
 
-  public getService(serviceClass: typeof AbstractService) {
-    if (serviceClass === AbstractService) {
-      return undefined;
-    }
-    return this.services.find(
-      (service) => (service as unknown) instanceof serviceClass
+  public getService<
+    T extends new (
+      ...args: ConstructorParameters<typeof AbstractService>
+    ) => AbstractService
+  >(serviceClass: T): InstanceType<T> {
+    const service = this.services.find(
+      (service) => service instanceof serviceClass
     );
+    if (!service || serviceClass === AbstractService) {
+      throw new Error(
+        'instance of service ' + serviceClass.name + ' not found'
+      );
+    }
+    return service as InstanceType<T>;
   }
 }

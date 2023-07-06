@@ -13,7 +13,7 @@ export default class ImplementableDanroobuCommand extends AbstractCommand<Implem
 
   public constructor(
     appInstances: AppInstances,
-    details: ImplementableDanroobuCommandDetails,
+    details: ImplementableDanroobuCommandDetails
   ) {
     super(appInstances, {
       // @ts-ignore
@@ -37,11 +37,11 @@ export default class ImplementableDanroobuCommand extends AbstractCommand<Implem
 
   public async run(commandInteraction: CommandInteraction) {
     const danroobuService = this.getAppInstances().serviceManager.getService(
-      DanroobuService,
+      DanroobuService
     ) as DanroobuService;
     if (!commandInteraction.isChatInputCommand()) {
       throw new EventError(
-        'cette action ne peut être effectuée qu\'avec une commande',
+        "cette action ne peut être effectuée qu'avec une commande"
       );
     }
     const solo = !!commandInteraction.options.getBoolean('solo');
@@ -49,7 +49,7 @@ export default class ImplementableDanroobuCommand extends AbstractCommand<Implem
     const url = await danroobuService.getGeneralImageByTag(
       this.getDetails().options?.research as string,
       solo,
-      sensitive,
+      sensitive
     );
     if (url && sensitive) {
       await commandInteraction.deferReply();

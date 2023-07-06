@@ -1,19 +1,18 @@
-import { CommandInteraction, GuildMember } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import {
   AudioPlayerStatus,
-  createAudioPlayer,
-  createAudioResource,
   DiscordGatewayAdapterCreator,
   joinVoiceChannel,
-  NoSubscriberBehavior,
 } from '@discordjs/voice';
 import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
+import CommandInteractionService from '../services/CommandInteractionService.js';
+import ResourcesService from '../services/ResourcesService.js';
 
 export default class VocalquitCommand extends AbstractCommand {
-  private enCours = false;
+  private available = true;
 
   public constructor(appInstances: AppInstances) {
     super(appInstances, {
@@ -30,16 +29,13 @@ export default class VocalquitCommand extends AbstractCommand {
       ephemeral: true,
     });
 
-    if (this.enCours) {
-      throw new EventError('Une déco est déjà en cours');
-    }
+    const commandInteractionService = this.getAppInstances().serviceManager.getService(
+      CommandInteractionService
+    );
 
-    const guildMember = ((await commandInteraction.guild?.members.fetch({
-      user: commandInteraction.member?.user.id,
-    })) as unknown) as GuildMember;
-    if (!guildMember) {
-      throw new EventError('Nous ne parvenons pas à vous trouver');
-    }
+    const guildMember = await commandInteractionService.checkDiscordGuildMember(
+      commandInteraction
+    );
 
     const channelId = guildMember.voice.channelId;
     if (!channelId) {
@@ -53,29 +49,32 @@ export default class VocalquitCommand extends AbstractCommand {
         .voiceAdapterCreator as unknown) as DiscordGatewayAdapterCreator,
     });
 
-    const player = createAudioPlayer({
-      behaviors: {
-        noSubscriber: NoSubscriberBehavior.Pause,
-      },
-    });
+    const resourcesService = this.getAppInstances().serviceManager.getService(
+      ResourcesService
+    );
 
-    const ressource = createAudioResource('./ressources/outro.mp3');
-
-    player.play(ressource);
-
-    connection.subscribe(player);
+    const player = resourcesService.playAudioResource(
+      connection,
+      './ressources/outro.mp3'
+    );
 
     player.on(AudioPlayerStatus.Idle, () => {
       connection.disconnect();
     });
 
-    this.enCours = true;
+    if (!this.available) {
+      throw new EventError('Une déco est déjà en cours');
+    }
+
+    this.available = false;
     setTimeout(async () => {
-      this.enCours = false;
+      this.available = true;
       try {
         await guildMember.voice.disconnect();
       } catch (e) {
-        /* empty */
+        throw new EventError(
+          "Une erreur est survenue et nous n'avons pas pu vous déconnecter"
+        );
       }
       await commandInteraction.editReply({
         content: 'Disconnected',
