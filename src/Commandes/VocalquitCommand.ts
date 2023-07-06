@@ -29,6 +29,10 @@ export default class VocalquitCommand extends AbstractCommand {
       ephemeral: true,
     });
 
+    if (!this.available) {
+      throw new EventError('Une déco est déjà en cours');
+    }
+
     const commandInteractionService = this.getAppInstances().serviceManager.getService(
       CommandInteractionService
     );
@@ -61,10 +65,6 @@ export default class VocalquitCommand extends AbstractCommand {
     player.on(AudioPlayerStatus.Idle, () => {
       connection.disconnect();
     });
-
-    if (!this.available) {
-      throw new EventError('Une déco est déjà en cours');
-    }
 
     this.available = false;
     setTimeout(async () => {
