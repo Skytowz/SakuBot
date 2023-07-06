@@ -56,11 +56,9 @@ export class ServiceManager {
     return !!this.services.splice(this.getServiceInstanceIndex(service), 1);
   }
 
-  public getService<
-    T extends new (
-      ...args: ConstructorParameters<typeof AbstractService>
-    ) => AbstractService
-  >(serviceClass: T): InstanceType<T> {
+  public getService<T extends AbstractServiceClassType>(
+    serviceClass: T
+  ): InstanceType<T> {
     const service = this.services.find(
       (service) => service instanceof serviceClass
     );
@@ -72,3 +70,7 @@ export class ServiceManager {
     return service as InstanceType<T>;
   }
 }
+
+export type AbstractServiceClassType = new (
+  ...args: ConstructorParameters<typeof AbstractService>
+) => AbstractService;
