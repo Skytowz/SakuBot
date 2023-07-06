@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
+import { ApplicationCommandOptionType, CommandInteraction, GuildMember } from 'discord.js';
 import AbstractCommand from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
@@ -13,7 +12,7 @@ export default class ChadCommand extends AbstractCommand {
       id: 'chad',
       name: ['chad'],
       description:
-        "Envoie un photomontage de soit meme chad ou d'une personne tag en Chad",
+        'Envoie un photomontage de soit meme chad ou d\'une personne tag en Chad',
       type: TypeHelp.Autre,
       args: [
         new SlashOption()
@@ -35,14 +34,14 @@ export default class ChadCommand extends AbstractCommand {
       commandInteraction.isChatInputCommand() &&
       commandInteraction.options.getMentionable('mention')
     ) {
-      user = commandInteraction.options.getMentionable('mention');
+      user = (commandInteraction.options.getMentionable('mention') as GuildMember).user;
     } else {
       user = commandInteraction.user;
     }
 
-    const url = getUserAvatarUrl(user);
+    const url = user.avatarURL({ extension: 'png' });
     if (!url) {
-      throw new EventError("Cet utilisateur n'as pas de photo de profil");
+      throw new EventError('Cet utilisateur n\'as pas de photo de profil');
     }
 
     const canvas = Canvas.createCanvas(678, 761);
@@ -56,20 +55,11 @@ export default class ChadCommand extends AbstractCommand {
   }
 }
 
-const getUserAvatarUrl = (user: unknown) => {
-  return (
-    //@ts-ignore
-    user?.avatarURL({ format: 'png' }) ??
-    //@ts-ignore
-    user?.user?.avatarURL({ format: 'png' })
-  );
-};
-
 const initializeContext = async (canvas: Canvas.Canvas) => {
   const context = canvas.getContext('2d');
 
   const background = await Canvas.loadImage(
-    'https://media.discordapp.net/attachments/991387297767510167/1017410101574914088/unknown.png?width=498&height=559'
+    'https://media.discordapp.net/attachments/991387297767510167/1017410101574914088/unknown.png?width=498&height=559',
   );
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
   return context;

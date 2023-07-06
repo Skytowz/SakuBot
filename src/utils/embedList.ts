@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Embed from './embed.js';
-import { mod } from './number.js';
+import { mod } from './numberUtils.js';
 
 export default class EmbedList {
   public embeds: Array<Embed> = [];
