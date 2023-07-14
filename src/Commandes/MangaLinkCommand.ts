@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
-import AbstractCommand from './AbstractCommand.js';
+import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import {
@@ -8,10 +8,10 @@ import {
   generateMangaViewerButtonBar,
   initializeMangaViewerInterractions,
 } from '../utils/mangaUtils.js';
-import { AppInstances } from '../types/AppInstances.js';
 import { parseUrlPath, stringToURL } from '../utils/urlUtils.js';
 import EventError from '../errors/EventError.js';
 import MangaService from '../services/MangaService.js';
+import injector from 'wire-dependency-injection';
 
 const LANGUAGES = [
   {
@@ -49,8 +49,13 @@ const LANGUAGES = [
 ];
 
 export default class MangaLinkCommand extends AbstractCommand {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances, {
+  private mangaService?: MangaService = injector.autoWire(
+    'mangaService',
+    (b) => (this.mangaService = b)
+  );
+
+  public constructor() {
+    super({
       id: 'mangadex',
       name: ['manga'],
       description: "Affiche n'importe quel manga de mangadex",
@@ -103,9 +108,7 @@ export default class MangaLinkCommand extends AbstractCommand {
 
     let embeds;
     try {
-      const mangaService = this.getAppInstances().serviceManager.getService(
-        MangaService
-      ) as MangaService;
+      const mangaService = this.mangaService as MangaService;
       const chapter = await mangaService.fetchChapter({
         chapterNumber: chapterNumber,
         research: id,
@@ -113,8 +116,8 @@ export default class MangaLinkCommand extends AbstractCommand {
       });
       embeds = await generateMagaViewerEmbeds(chapter, pageNumber);
     } catch (e) {
-      this.getAppInstances().logger.debug("une erreur s'est produite");
-      this.getAppInstances().logger.debug(e);
+      this.logger?.debug("une erreur s'est produite");
+      this.logger?.debug(e);
       throw new EventError('chapitre invalide');
     }
 
@@ -125,3 +128,5 @@ export default class MangaLinkCommand extends AbstractCommand {
     await initializeMangaViewerInterractions(commandInteraction, embeds);
   }
 }
+
+injector.registerBean('mangaLinkCommand', MangaLinkCommand, COMMAND_BEAN_TYPE);

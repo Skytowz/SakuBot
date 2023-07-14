@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
-import AbstractCommand from './AbstractCommand.js';
+import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
-import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
+import injector from 'wire-dependency-injection';
 
 const WHITELIST = ['452186417334976532', '273756946308530176'];
 
 export default class ClearCommand extends AbstractCommand {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances, {
+  public constructor() {
+    super({
       id: 'clear',
       name: ['clear'],
       description: 'Clear un certain nombre de message',
@@ -54,3 +54,5 @@ export default class ClearCommand extends AbstractCommand {
       );
   }
 }
+
+injector.registerBean('clearCommand', ClearCommand, COMMAND_BEAN_TYPE);

@@ -3,16 +3,16 @@ import {
   CommandInteraction,
   GuildMember,
 } from 'discord.js';
-import AbstractCommand from './AbstractCommand.js';
+import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import Canvas from '@napi-rs/canvas';
-import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
+import injector from 'wire-dependency-injection';
 
 export default class ChadCommand extends AbstractCommand {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances, {
+  public constructor() {
+    super({
       id: 'chad',
       name: ['chad'],
       description:
@@ -75,3 +75,5 @@ const drawHead = async (context: Canvas.SKRSContext2D, url: string) => {
   const avatar = await Canvas.loadImage(url + '?size=4096');
   context.drawImage(avatar, 150, 60, 390, 390);
 };
+
+injector.registerBean('chadCommand', ChadCommand, COMMAND_BEAN_TYPE);

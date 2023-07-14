@@ -1,22 +1,15 @@
 import {
   ApplicationCommandType,
-  CommandInteraction,
   ContextMenuCommandBuilder,
   REST,
   Routes,
 } from 'discord.js';
 import AbstractCommand from '../Commandes/AbstractCommand.js';
 import SlashCommand from '../utils/slashCommand.js';
-import AbstractService from './AbstractService.js';
-import { AppInstances } from '../types/AppInstances.js';
-import EventError from '../errors/EventError.js';
-import CommandInteractionService from './CommandInteractionService.js';
+import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
+import injector from 'wire-dependency-injection';
 
 export default class CommandService extends AbstractService {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances);
-  }
-
   public async registerCommands(rest: REST, commands: Array<AbstractCommand>) {
     const convertedCommands = this.convertCommands(commands);
 
@@ -79,3 +72,5 @@ export default class CommandService extends AbstractService {
     );
   }
 }
+
+injector.registerBean('commandService', CommandService, SERVICE_BEAN_TYPE);

@@ -8,13 +8,13 @@ import {
   InteractionReplyOptions,
   SelectMenuBuilder,
 } from 'discord.js';
-import AbstractCommand from './AbstractCommand.js';
+import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import { AppInstances } from '../types/AppInstances.js';
+import injector from 'wire-dependency-injection';
 
 export default class HelpCommand extends AbstractCommand {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances, {
+  public constructor() {
+    super({
       id: 'help',
       name: ['help'],
       type: TypeHelp.Utils,
@@ -33,10 +33,13 @@ export default class HelpCommand extends AbstractCommand {
 
     const typesHelps = TypeHelp.getValues();
 
-    const typeHelpEmbeds = buildTypeHelpEmbeds(
-      typesHelps,
-      this.getAppInstances().commandManager.getAll()
-    );
+    const commands = injector
+      .getContainer()
+      ?.getBeans()
+      .filter((b) => b.getType() === COMMAND_BEAN_TYPE)
+      ?.map((b) => b.getInstance()) as Array<AbstractCommand>;
+
+    const typeHelpEmbeds = buildTypeHelpEmbeds(typesHelps, commands);
 
     const row = new ActionRowBuilder<SelectMenuBuilder>().addComponents(
       new SelectMenuBuilder().setCustomId('SelectHelp').setOptions(
@@ -185,3 +188,5 @@ const reduceCommandsPerParentId = (commands: Array<AbstractCommand>) => {
       ) === index
   );
 };
+
+injector.registerBean('helpCommand', HelpCommand, COMMAND_BEAN_TYPE);

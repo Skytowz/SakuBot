@@ -1,7 +1,7 @@
-import AbstractService from './AbstractService.js';
-import { AppInstances } from '../types/AppInstances.js';
+import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import GistService from './GistService.js';
 import MangadexService from './MangadexService.js';
+import injector from 'wire-dependency-injection';
 
 export interface ChapterFetchOptions {
   chapterId?: string;
@@ -13,17 +13,18 @@ export interface ChapterFetchOptions {
 }
 
 export default class MangaService extends AbstractService {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances);
-  }
+  private mangadexService?: MangadexService = injector.autoWire(
+    'mangadexService',
+    (b) => (this.mangadexService = b)
+  );
+  private gistService?: GistService = injector.autoWire(
+    'gistService',
+    (b) => (this.gistService = b)
+  );
 
   public async fetchChapter(options: ChapterFetchOptions) {
-    const mangadexService = this.getAppInstances().serviceManager.getService(
-      MangadexService
-    ) as MangadexService;
-    const gistService = this.getAppInstances().serviceManager.getService(
-      GistService
-    ) as GistService;
+    const mangadexService = this.mangadexService as MangadexService;
+    const gistService = this.gistService as GistService;
     let chapitre;
     if (options.chapterId) {
       const data = await mangadexService.getChapitreInfoById(options.chapterId);
@@ -47,3 +48,5 @@ export default class MangaService extends AbstractService {
     return chapitre;
   }
 }
+
+injector.registerBean('mangaService', MangaService, SERVICE_BEAN_TYPE);

@@ -1,14 +1,14 @@
 import { CommandInteraction, GuildMemberRoleManager } from 'discord.js';
-import AbstractCommand from './AbstractCommand.js';
+import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
+import injector from 'wire-dependency-injection';
 
 const WHITELIST = ['780835397008621600', '685583592084340740'];
 
-export default class GetPPCommand extends AbstractCommand {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances, {
+export default class PinCommand extends AbstractCommand {
+  public constructor() {
+    super({
       id: 'pin',
       name: ['pin'],
       description: 'pin le message',
@@ -42,3 +42,5 @@ export default class GetPPCommand extends AbstractCommand {
     });
   }
 }
+
+injector.registerBean('pinCommand', PinCommand, COMMAND_BEAN_TYPE);

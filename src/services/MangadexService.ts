@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Chapitre from '../entity/Chapitre.js';
 import superagent from 'superagent';
-import AbstractService from './AbstractService.js';
-import { AppInstances } from '../types/AppInstances.js';
+import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
+import injector from 'wire-dependency-injection';
 
 export default class MangadexService extends AbstractService {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances);
-  }
-
   public async getChapitre(
     mangaId: string,
     numero: number,
@@ -86,3 +82,5 @@ export default class MangadexService extends AbstractService {
       .then((res) => res.body.data);
   }
 }
+
+injector.registerBean('mangadexService', MangadexService, SERVICE_BEAN_TYPE);

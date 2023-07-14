@@ -1,11 +1,11 @@
-import AbstractService from './AbstractService.js';
-import { AppInstances } from '../types/AppInstances.js';
+import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
   EmbedBuilder,
 } from 'discord.js';
+import injector from 'wire-dependency-injection';
 
 export type SaucenaoSourceData = {
   title?: string;
@@ -29,10 +29,6 @@ type RawResult = Array<{
 }>;
 
 export default class SaucenaoService extends AbstractService {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances);
-  }
-
   public async fetchSourceDataFromImageUrl(imageUrl: URL) {
     const response = await fetch(
       `https://saucenao.com/search.php?db=999&output_type=2&numres=50&api_key=4f94dcf41458ba2601b9d09fe7d4107a7afd9071&url=${encodeURIComponent(
@@ -101,3 +97,5 @@ export default class SaucenaoService extends AbstractService {
     );
   }
 }
+
+injector.registerBean('saucenaoService', SaucenaoService, SERVICE_BEAN_TYPE);

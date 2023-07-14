@@ -1,14 +1,3 @@
-import { AppInstances } from '../types/AppInstances.js';
+export default abstract class AbstractService {}
 
-// noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
-export default abstract class AbstractService {
-  private readonly appInstances: AppInstances;
-
-  public constructor(appInstances: AppInstances) {
-    this.appInstances = appInstances;
-  }
-
-  public getAppInstances() {
-    return this.appInstances;
-  }
-}
+export const SERVICE_BEAN_TYPE = 'service';

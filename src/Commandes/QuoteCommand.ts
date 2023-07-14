@@ -6,17 +6,17 @@ import {
   EmbedBuilder,
   Message,
 } from 'discord.js';
-import AbstractCommand from './AbstractCommand.js';
+import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import { getDateFromTimeStamp } from '../utils/dateUtils.js';
-import { AppInstances } from '../types/AppInstances.js';
 import FormatError from '../errors/FormatError.js';
 import EventError from '../errors/EventError.js';
+import injector from 'wire-dependency-injection';
 
 export default class QuoteCommand extends AbstractCommand {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances, {
+  public constructor() {
+    super({
       id: 'quote',
       name: ['quote'],
       description: "Renvoie le contenu d'un message",
@@ -52,9 +52,7 @@ export default class QuoteCommand extends AbstractCommand {
 
     let targetChannel: Channel | null | undefined;
     try {
-      targetChannel = await this.getAppInstances().client.channels.fetch(
-        targetChannelId
-      );
+      targetChannel = await this.client?.channels.fetch(targetChannelId);
     } catch (e) {
       /* empty */
     }
@@ -169,3 +167,5 @@ const parseIdsFromCommandInteraction = (
   }
   return ids;
 };
+
+injector.registerBean('quoteCommand', QuoteCommand, COMMAND_BEAN_TYPE);

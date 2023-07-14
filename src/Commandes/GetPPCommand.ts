@@ -1,13 +1,13 @@
 import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
-import AbstractCommand from './AbstractCommand.js';
+import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
-import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
+import injector from 'wire-dependency-injection';
 
 export default class GetPPCommand extends AbstractCommand {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances, {
+  public constructor() {
+    super({
       id: 'pp',
       name: ['pp'],
       description:
@@ -47,3 +47,5 @@ export default class GetPPCommand extends AbstractCommand {
     await commandInteraction.reply(url + '?size=4096');
   }
 }
+
+injector.registerBean('getPPCommand', GetPPCommand, COMMAND_BEAN_TYPE);

@@ -1,20 +1,24 @@
-import { CommandInteraction } from 'discord.js';
+import { Client, CommandInteraction } from 'discord.js';
 import { CommandDetails } from '../types/Command.js';
-import { AppInstances } from '../types/AppInstances.js';
+import Logger from '../logger.js';
+import injector from 'wire-dependency-injection';
 
 export default class AbstractCommand<
   CD extends CommandDetails = CommandDetails
 > {
-  private readonly appInstances: AppInstances;
   private readonly details: CD;
 
-  public constructor(appInstances: AppInstances, details: CD) {
-    this.appInstances = appInstances;
-    this.details = { slashInteraction: true, ...details };
-  }
+  protected logger?: typeof Logger = injector.autoWire(
+    'logger',
+    (b) => (this.logger = b)
+  );
+  protected client?: Client = injector.autoWire(
+    'client',
+    (b) => (this.client = b)
+  );
 
-  public getAppInstances() {
-    return this.appInstances;
+  public constructor(details: CD) {
+    this.details = { slashInteraction: true, ...details };
   }
 
   public getDetails() {
@@ -33,3 +37,5 @@ export default class AbstractCommand<
     }`;
   }
 }
+
+export const COMMAND_BEAN_TYPE = 'command';

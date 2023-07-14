@@ -3,19 +3,21 @@ import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import SlashOption from '../../utils/slashOption.js';
 import { ImplementableDanroobuCommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
-import { AppInstances } from '../../types/AppInstances.js';
 import TypeHelp from '../../entity/typeHelp.js';
 import EventError from '../../errors/EventError.js';
 import DanroobuService from '../../services/DanroobuService.js';
+import injector from 'wire-dependency-injection';
 
 export default class ImplementableDanroobuCommand extends AbstractCommand<ImplementableDanroobuCommandDetails> {
   public static readonly abstractId = 'abstract.danroobu';
 
-  public constructor(
-    appInstances: AppInstances,
-    details: ImplementableDanroobuCommandDetails
-  ) {
-    super(appInstances, {
+  private danroobuService?: DanroobuService = injector.autoWire(
+    'danroobuService',
+    (b) => (this.danroobuService = b)
+  );
+
+  public constructor(details: ImplementableDanroobuCommandDetails) {
+    super({
       // @ts-ignore
       id: ImplementableDanroobuCommand.abstractId,
       helpDescription: 'sert à donner un fanart donroobu aléatoire',
@@ -36,9 +38,7 @@ export default class ImplementableDanroobuCommand extends AbstractCommand<Implem
   }
 
   public async run(commandInteraction: CommandInteraction) {
-    const danroobuService = this.getAppInstances().serviceManager.getService(
-      DanroobuService
-    ) as DanroobuService;
+    const danroobuService = this.danroobuService as DanroobuService;
     if (!commandInteraction.isChatInputCommand()) {
       throw new EventError(
         "cette action ne peut être effectuée qu'avec une commande"

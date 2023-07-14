@@ -1,9 +1,9 @@
 import { CacheType, CommandInteraction } from 'discord.js';
-import AbstractCommand from './AbstractCommand.js';
+import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { sample } from '../utils/arrayUtils.js';
-import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
+import injector from 'wire-dependency-injection';
 
 const IMAGES = [
   'https://media.discordapp.net/attachments/991333308988395670/991448778395631726/IMG_20220402_184149.jpg',
@@ -18,8 +18,8 @@ const IMAGES = [
 const WHITELIST = ['713837802638278749', '273756946308530176'];
 
 export default class GogoleCommand extends AbstractCommand {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances, {
+  public constructor() {
+    super({
       id: 'gogole',
       name: ['gogole'],
       description: 'Commande gogole',
@@ -36,3 +36,5 @@ export default class GogoleCommand extends AbstractCommand {
     await commandInteraction.reply({ files: [sample(IMAGES)] });
   }
 }
+
+injector.registerBean('gogoleCommand', GogoleCommand, COMMAND_BEAN_TYPE);

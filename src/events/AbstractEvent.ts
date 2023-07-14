@@ -1,15 +1,25 @@
-import { CommandInteraction } from 'discord.js';
+import { Client, CommandInteraction } from 'discord.js';
 import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
+import MangadexService from '../services/MangadexService.js';
+import injector from 'wire-dependency-injection';
+import Logger from '../logger.js';
 
 const ERROR_MESAGE = "Une Erreur s'est produite";
 
 export default class AbstractEvent {
-  private readonly appInstances: AppInstances;
   private readonly eventIdentifier;
 
-  public constructor(appInstances: AppInstances, eventIdentifier: string) {
-    this.appInstances = appInstances;
+  protected logger?: typeof Logger = injector.autoWire(
+    'logger',
+    (b) => (this.logger = b)
+  );
+  protected client?: Client = injector.autoWire(
+    'client',
+    (b) => (this.client = b)
+  );
+
+  public constructor(eventIdentifier: string) {
     this.eventIdentifier = eventIdentifier;
   }
 
@@ -17,24 +27,20 @@ export default class AbstractEvent {
     return this.eventIdentifier;
   }
 
-  public getAppInstances() {
-    return this.appInstances;
-  }
-
   public async execute(commandInteraction: CommandInteraction) {
     this.onEvent(commandInteraction).catch(async (error) => {
       let errorMessage = ERROR_MESAGE;
       if (error instanceof EventError) {
-        this.getAppInstances().logger.trace(
+        this.logger?.trace(
           'a managed error occurred while executing a command.'
         );
-        this.getAppInstances().logger.trace(error);
+        this.logger?.trace(error);
         errorMessage = [errorMessage, error.message].join('\n');
       } else {
-        this.getAppInstances().logger.error(
+        this.logger?.error(
           'an unexpected error occurred while executing a command.'
         );
-        this.getAppInstances().logger.error(error);
+        this.logger?.error(error);
       }
       if (!commandInteraction.deferred) {
         await commandInteraction.deferReply({ ephemeral: true });
@@ -56,3 +62,5 @@ export default class AbstractEvent {
     return this.eventIdentifier;
   }
 }
+
+export const EVENT_BEAN_TYPE = 'event';

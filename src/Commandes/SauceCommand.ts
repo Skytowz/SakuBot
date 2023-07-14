@@ -1,14 +1,19 @@
 import { CommandInteraction } from 'discord.js';
-import AbstractCommand from './AbstractCommand.js';
+import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import { AppInstances } from '../types/AppInstances.js';
 import SaucenaoService from '../services/SaucenaoService.js';
 import EventError from '../errors/EventError.js';
 import { extractUrlFromDiscordMessage } from '../utils/urlUtils.js';
+import injector from 'wire-dependency-injection';
 
 export default class SauceCommand extends AbstractCommand {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances, {
+  private saucenaoService?: SaucenaoService = injector.autoWire(
+    'saucenaoService',
+    (b) => (this.saucenaoService = b)
+  );
+
+  public constructor() {
+    super({
       id: 'sauce',
       name: ['sauce'],
       description: "Donne la source d'une image",
@@ -35,17 +40,15 @@ export default class SauceCommand extends AbstractCommand {
 
     let result;
 
-    const saucenaoService = this.getAppInstances().serviceManager.getService(
-      SaucenaoService
-    );
+    const saucenaoService = this.saucenaoService as SaucenaoService;
 
     try {
       result = await saucenaoService.fetchSourceDataFromImageUrl(
         sourceImageUrl
       );
     } catch (e) {
-      this.getAppInstances().logger.error("Une erreur s'est produite");
-      this.getAppInstances().logger.error(e);
+      this.logger?.error("Une erreur s'est produite");
+      this.logger?.error(e);
     }
 
     if (!result) {
@@ -85,3 +88,5 @@ export default class SauceCommand extends AbstractCommand {
     });
   }
 }
+
+injector.registerBean('sauceCommand', SauceCommand, COMMAND_BEAN_TYPE);

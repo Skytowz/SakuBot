@@ -1,12 +1,8 @@
 import superagent from 'superagent';
-import { AppInstances } from '../types/AppInstances.js';
-import AbstractService from './AbstractService.js';
+import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
+import injector from 'wire-dependency-injection';
 
 export default class DanroobuService extends AbstractService {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances);
-  }
-
   public async getGeneralImageByTag(
     name: string,
     solo: boolean,
@@ -26,3 +22,5 @@ export default class DanroobuService extends AbstractService {
       .then((res) => res?.body?.post?.pop()?.file_url);
   }
 }
+
+injector.registerBean('danroobuService', DanroobuService, SERVICE_BEAN_TYPE);

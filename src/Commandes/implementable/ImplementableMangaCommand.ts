@@ -8,18 +8,20 @@ import {
 import { ImplementableMangaCommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
 import TypeHelp from '../../entity/typeHelp.js';
-import { AppInstances } from '../../types/AppInstances.js';
 import EventError from '../../errors/EventError.js';
 import MangaService from '../../services/MangaService.js';
+import injector from 'wire-dependency-injection';
 
 export default class ImplementableMangaCommand extends AbstractCommand<ImplementableMangaCommandDetails> {
   public static readonly abstractId = 'abstract.manga';
 
-  public constructor(
-    appInstances: AppInstances,
-    details: ImplementableMangaCommandDetails
-  ) {
-    super(appInstances, {
+  private mangaService?: MangaService = injector.autoWire(
+    'mangaService',
+    (b) => (this.mangaService = b)
+  );
+
+  public constructor(details: ImplementableMangaCommandDetails) {
+    super({
       args: [
         new SlashOption(
           'chapitre',
@@ -44,9 +46,7 @@ export default class ImplementableMangaCommand extends AbstractCommand<Implement
       );
     }
 
-    const mangaService = this.getAppInstances().serviceManager.getService(
-      MangaService
-    ) as MangaService;
+    const mangaService = this.mangaService as MangaService;
 
     const chapter = await mangaService.fetchChapter({
       ...this.getDetails().options,

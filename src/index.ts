@@ -1,23 +1,19 @@
-import { Client, GatewayIntentBits, REST } from 'discord.js';
-import commandsData from './data/commands.js';
-import eventsData from './data/events.js';
-import { CommandManager } from './CommandManager.js';
-import AbstractEvent from './Events/AbstractEvent.js';
-import dotenv from 'dotenv';
+import './beans.js';
 import logger from './logger.js';
-import { CommandDetails } from './types/Command.js';
-import { ServiceManager } from './ServiceManager.js';
-import SaucenaoService from './services/SaucenaoService.js';
-import { AppInstances } from './types/AppInstances.js';
+import { Client, GatewayIntentBits, REST } from 'discord.js';
+import AbstractEvent, { EVENT_BEAN_TYPE } from './events/AbstractEvent.js';
+import dotenv from 'dotenv';
 import CommandService from './services/CommandService.js';
-import DanroobuService from './services/DanroobuService.js';
-import GistService from './services/GistService.js';
-import MangadexService from './services/MangadexService.js';
-import MangaService from './services/MangaService.js';
-import ResourcesService from './services/ResourcesService.js';
-import CommandInteractionService from './services/CommandInteractionService.js';
+import { registerLoggerBean } from './beans/LoggerBean.js';
+import { registerClientBean } from './beans/ClientBean.js';
+import injector from 'wire-dependency-injection';
+import AbstractCommand, {
+  COMMAND_BEAN_TYPE,
+} from './Commandes/AbstractCommand.js';
 
 dotenv.config();
+
+registerLoggerBean(logger);
 
 const unhandledErrorsThreshold =
   Number(process.env.UNHANDLED_ERRORS_THRESHOLD) || 10;
@@ -60,6 +56,8 @@ const client = new Client({
   ],
 });
 
+registerClientBean(client);
+
 client.on('rateLimit', (data) => {
   if (data.timeout > 1000) process.kill(1);
 });
@@ -70,76 +68,11 @@ if (process.env.ENV == 'DEV') {
   client.login(process.env.TOKEN);
 }
 
-const commandManager = new CommandManager();
-
-const serviceManager = new ServiceManager();
-
-const events: Array<AbstractEvent> = [];
-
-const appInstances: AppInstances = {
-  logger: logger,
-  commandManager: commandManager,
-  serviceManager: serviceManager,
-  client: client,
-  events: events,
-};
-
-commandManager.setAppInstances({
-  ...appInstances,
-  logger: logger.child({}, { msgPrefix: `[CommandManager] : ` }),
-});
-
-serviceManager.setAppInstances({
-  ...appInstances,
-  logger: logger.child({}, { msgPrefix: `[ServiceManager] : ` }),
-});
-
-const servicesClasses = [
-  CommandService,
-  DanroobuService,
-  GistService,
-  MangadexService,
-  SaucenaoService,
-  MangaService,
-  ResourcesService,
-  CommandInteractionService,
-];
-
-servicesClasses.forEach((serviceClass) => {
-  const serviceLogger = logger.child(
-    {},
-    { msgPrefix: `[${serviceClass.name || 'unknown'}] : ` }
-  );
-  serviceManager.addService(
-    new serviceClass({ ...appInstances, logger: serviceLogger })
-  );
-});
-
-commandsData.forEach(({ command, details }) => {
-  const commandLogger = logger.child(
-    {},
-    { msgPrefix: `[${details?.name || 'unknown'}] : ` }
-  );
-  commandManager.addCommand(
-    new command(
-      { ...appInstances, logger: commandLogger },
-      details || ({} as CommandDetails)
-    )
-  );
-});
-
-eventsData.forEach(({ event }) => {
-  const eventLogger = logger.child(
-    {},
-    { msgPrefix: `[${event.name || 'unknown'}] : ` }
-  );
-  events.push(
-    new event(
-      { ...appInstances, logger: eventLogger },
-      (undefined as unknown) as string
-    )
-  );
-});
+const events = injector
+  .getContainer()
+  ?.getBeans()
+  .filter((b) => b.getType() === EVENT_BEAN_TYPE)
+  ?.map((b) => b.getInstance()) as Array<AbstractEvent>;
 
 try {
   logger.info(`Registering ${events.length} application events.`);
@@ -155,23 +88,27 @@ try {
   throw error;
 }
 
+const commands = injector
+  .getContainer()
+  ?.getBeans()
+  .filter((b) => b.getType() === COMMAND_BEAN_TYPE)
+  ?.map((b) => b.getInstance()) as Array<AbstractCommand>;
+
+commands.forEach((c) => console.log(c.getDetails().name));
+
+const commandService = injector.wire('commandService') as CommandService;
+
 (async () => {
   try {
     logger.info(
-      `Starting the refresh of ${
-        commandManager.getAll().length
-      } application (/) commands.`
+      `Starting the refresh of ${commands.length} application (/) commands.`
     );
-    await commandManager.registerCommands(rest);
+    await commandService.registerCommands(rest, commands);
     logger.info(
-      `Successfully loaded ${
-        commandManager.getAll().length
-      } application (/) commands.`
+      `Successfully loaded ${commands.length} application (/) commands.`
     );
     logger.debug({
-      loadedCommands: commandManager
-        .getAll()
-        .map((command) => command.toString()),
+      loadedCommands: commands.map((command) => command.toString()),
     });
   } catch (error) {
     logger.fatal(error);

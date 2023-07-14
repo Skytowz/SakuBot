@@ -1,19 +1,14 @@
-import AbstractService from './AbstractService.js';
-import { AppInstances } from '../types/AppInstances.js';
+import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import {
-  AudioResource,
   createAudioPlayer,
   createAudioResource,
   NoSubscriberBehavior,
   VoiceConnection,
 } from '@discordjs/voice';
 import { Readable } from 'stream';
+import injector from 'wire-dependency-injection';
 
-export default class CommandInteractionService extends AbstractService {
-  public constructor(appInstances: AppInstances) {
-    super(appInstances);
-  }
-
+export default class ResourcesService extends AbstractService {
   public prepareAudioSource(voiceConnection: VoiceConnection) {
     const player = createAudioPlayer({
       behaviors: {
@@ -43,3 +38,5 @@ export default class CommandInteractionService extends AbstractService {
     return player;
   }
 }
+
+injector.registerBean('resourcesService', ResourcesService, SERVICE_BEAN_TYPE);
