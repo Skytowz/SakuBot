@@ -79,6 +79,7 @@ export default class Embed {
     };
     return this;
   }
+
   setVideo(url: string, height = 100, width = 100) {
     this.video = {
       url: url,

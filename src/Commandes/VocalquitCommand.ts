@@ -6,13 +6,10 @@ import {
   DiscordGatewayAdapterCreator,
   joinVoiceChannel,
 } from '@discordjs/voice';
-import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
 import CommandInteractionService from '../services/CommandInteractionService.js';
 import ResourcesService from '../services/ResourcesService.js';
 import injector from 'wire-dependency-injection';
-import SauceCommand from './SauceCommand.js';
-import SaucenaoService from '../services/SaucenaoService.js';
 
 export default class VocalquitCommand extends AbstractCommand {
   private available = true;

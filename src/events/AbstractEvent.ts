@@ -1,7 +1,5 @@
 import { Client, CommandInteraction } from 'discord.js';
-import { AppInstances } from '../types/AppInstances.js';
 import EventError from '../errors/EventError.js';
-import MangadexService from '../services/MangadexService.js';
 import injector from 'wire-dependency-injection';
 import Logger from '../logger.js';
 

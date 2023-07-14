@@ -1,4 +1,4 @@
-import { ActivityType, Client } from 'discord.js';
+import { ActivityType } from 'discord.js';
 import AbstractEvent, { EVENT_BEAN_TYPE } from './AbstractEvent.js';
 import injector from 'wire-dependency-injection';
 

@@ -28,6 +28,7 @@ export default class EmbedList {
     this.index = mod(this.index + 1, this.length);
     this.turnPage(msg);
   }
+
   left(msg: string) {
     this.index = mod(this.index - 1, this.length);
     this.turnPage(msg);
