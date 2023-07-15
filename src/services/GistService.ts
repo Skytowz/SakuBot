@@ -1,7 +1,7 @@
 import Chapitre from '../entity/Chapitre.js';
 import superagent from 'superagent';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
-import injector, { Bean, ClassType } from 'wire-dependency-injection';
+import injector, { Bean } from 'wire-dependency-injection';
 
 export default class GistService extends AbstractService {
   public constructor(bean: Bean) {
@@ -37,8 +37,4 @@ export default class GistService extends AbstractService {
   }
 }
 
-injector.registerBean(
-  GistService as ClassType,
-  GistService.name,
-  SERVICE_BEAN_TYPE
-);
+injector.registerBean(GistService, { type: SERVICE_BEAN_TYPE });

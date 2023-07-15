@@ -7,7 +7,9 @@ import {
 import AbstractCommand from '../Commandes/AbstractCommand.js';
 import SlashCommand from '../utils/slashCommand.js';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
-import injector, { Bean, ClassType } from 'wire-dependency-injection';
+import injector, { Bean } from 'wire-dependency-injection';
+import { DiagnosticsChannel } from 'undici';
+import Error = DiagnosticsChannel.Error;
 
 export default class CommandService extends AbstractService {
   private discordRest?: REST = injector.autoWire(
@@ -15,8 +17,52 @@ export default class CommandService extends AbstractService {
     (b) => (this.discordRest = b)
   );
 
+  private registerCommandQueue: Array<{
+    command: AbstractCommand;
+    callback: (error?: Error) => unknown;
+  }> = [];
+
+  private registerCommandQueueTimer = setTimeout(() => {
+    /**/
+  });
+
   public constructor(bean: Bean) {
     super(bean.getId());
+  }
+
+  public executeRegisterCommandQueue() {
+    const commands = this.registerCommandQueue.map(
+      (element) => element.command
+    );
+    const callbacks = this.registerCommandQueue.map(
+      (element) => element.callback
+    );
+    this.registerCommands(commands)
+      .then(() => callbacks.forEach((c) => c()))
+      .catch((error) => callbacks.forEach((c) => c(error)));
+  }
+
+  public addToRegisterCommandQueue(
+    command: AbstractCommand,
+    callback: (error?: Error) => unknown
+  ) {
+    this.registerCommandQueue.push({ command: command, callback: callback });
+    clearTimeout(this.registerCommandQueueTimer);
+    this.registerCommandQueueTimer = setTimeout(() => {
+      this.executeRegisterCommandQueue();
+    }, 500);
+  }
+
+  public async registerCommand(command: AbstractCommand) {
+    return new Promise((resolve, reject) => {
+      this.addToRegisterCommandQueue(command, (error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(command);
+        }
+      });
+    });
   }
 
   public async registerCommands(commands: Array<AbstractCommand>) {
@@ -81,8 +127,4 @@ export default class CommandService extends AbstractService {
   }
 }
 
-injector.registerBean(
-  CommandService as ClassType,
-  CommandService.name,
-  SERVICE_BEAN_TYPE
-);
+injector.registerBean(CommandService, { type: SERVICE_BEAN_TYPE });

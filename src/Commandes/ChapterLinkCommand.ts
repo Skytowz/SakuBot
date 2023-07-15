@@ -9,11 +9,11 @@ import {
 } from '../utils/mangaUtils.js';
 import EventError from '../errors/EventError.js';
 import MangaService from '../services/MangaService.js';
-import injector, { ClassType } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 export default class ChapterLinkCommand extends AbstractCommand {
   private mangaService?: MangaService = injector.autoWire(
-    MangaService as ClassType,
+    MangaService,
     (b) => (this.mangaService = b)
   );
 
@@ -76,8 +76,6 @@ export default class ChapterLinkCommand extends AbstractCommand {
   }
 }
 
-injector.registerBean(
-  ChapterLinkCommand as ClassType,
-  ChapterLinkCommand.name,
-  COMMAND_BEAN_TYPE
-);
+injector.registerBean(ChapterLinkCommand, {
+  type: COMMAND_BEAN_TYPE,
+});

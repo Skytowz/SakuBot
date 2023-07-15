@@ -3,7 +3,7 @@ import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import { sample } from '../utils/arrayUtils.js';
 import EventError from '../errors/EventError.js';
-import injector, { ClassType } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 const IMAGES = [
   'https://media.discordapp.net/attachments/991333308988395670/991448778395631726/IMG_20220402_184149.jpg',
@@ -37,8 +37,4 @@ export default class GogoleCommand extends AbstractCommand {
   }
 }
 
-injector.registerBean(
-  GogoleCommand as ClassType,
-  GogoleCommand.name,
-  COMMAND_BEAN_TYPE
-);
+injector.registerBean(GogoleCommand, { type: COMMAND_BEAN_TYPE });

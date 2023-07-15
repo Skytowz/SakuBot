@@ -1,7 +1,7 @@
 import { CommandInteraction, GuildMember } from 'discord.js';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import EventError from '../errors/EventError.js';
-import injector, { Bean, ClassType } from 'wire-dependency-injection';
+import injector, { Bean } from 'wire-dependency-injection';
 
 export default class CommandInteractionService extends AbstractService {
   public constructor(bean: Bean) {
@@ -30,8 +30,6 @@ export default class CommandInteractionService extends AbstractService {
   }
 }
 
-injector.registerBean(
-  CommandInteractionService as ClassType,
-  CommandInteractionService.name,
-  SERVICE_BEAN_TYPE
-);
+injector.registerBean(CommandInteractionService, {
+  type: SERVICE_BEAN_TYPE,
+});

@@ -8,7 +8,7 @@ import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import Canvas from '@napi-rs/canvas';
 import EventError from '../errors/EventError.js';
-import injector, { ClassType } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 export default class ChadCommand extends AbstractCommand {
   public constructor() {
@@ -76,8 +76,4 @@ const drawHead = async (context: Canvas.SKRSContext2D, url: string) => {
   context.drawImage(avatar, 150, 60, 390, 390);
 };
 
-injector.registerBean(
-  ChadCommand as ClassType,
-  ChadCommand.name,
-  COMMAND_BEAN_TYPE
-);
+injector.registerBean(ChadCommand, { type: COMMAND_BEAN_TYPE });

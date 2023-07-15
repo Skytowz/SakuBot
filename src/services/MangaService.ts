@@ -1,7 +1,7 @@
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import GistService from './GistService.js';
 import MangadexService from './MangadexService.js';
-import injector, { Bean, ClassType } from 'wire-dependency-injection';
+import injector, { Bean } from 'wire-dependency-injection';
 
 export interface ChapterFetchOptions {
   chapterId?: string;
@@ -18,11 +18,11 @@ export default class MangaService extends AbstractService {
   }
 
   private mangadexService?: MangadexService = injector.autoWire(
-    MangadexService as ClassType,
+    MangadexService,
     (b) => (this.mangadexService = b)
   );
   private gistService?: GistService = injector.autoWire(
-    GistService as ClassType,
+    GistService,
     (b) => (this.gistService = b)
   );
 
@@ -53,8 +53,4 @@ export default class MangaService extends AbstractService {
   }
 }
 
-injector.registerBean(
-  MangaService as ClassType,
-  MangaService.name,
-  SERVICE_BEAN_TYPE
-);
+injector.registerBean(MangaService, { type: SERVICE_BEAN_TYPE });

@@ -2,7 +2,7 @@ import { CommandInteraction, GuildMemberRoleManager } from 'discord.js';
 import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import EventError from '../errors/EventError.js';
-import injector, { ClassType } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 const WHITELIST = ['780835397008621600', '685583592084340740'];
 
@@ -43,8 +43,4 @@ export default class PinCommand extends AbstractCommand {
   }
 }
 
-injector.registerBean(
-  PinCommand as ClassType,
-  PinCommand.name,
-  COMMAND_BEAN_TYPE
-);
+injector.registerBean(PinCommand, { type: COMMAND_BEAN_TYPE });

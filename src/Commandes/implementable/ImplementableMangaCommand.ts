@@ -10,13 +10,13 @@ import AbstractCommand from '../AbstractCommand.js';
 import TypeHelp from '../../entity/typeHelp.js';
 import EventError from '../../errors/EventError.js';
 import MangaService from '../../services/MangaService.js';
-import injector, { ClassType } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 export default class ImplementableMangaCommand extends AbstractCommand<ImplementableMangaCommandDetails> {
   public static readonly abstractId = 'abstract.manga';
 
   private mangaService?: MangaService = injector.autoWire(
-    MangaService as ClassType,
+    MangaService,
     (b) => (this.mangaService = b)
   );
 

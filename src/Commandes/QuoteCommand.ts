@@ -12,7 +12,7 @@ import SlashOption from '../utils/slashOption.js';
 import { getDateFromTimeStamp } from '../utils/dateUtils.js';
 import FormatError from '../errors/FormatError.js';
 import EventError from '../errors/EventError.js';
-import injector, { ClassType } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 export default class QuoteCommand extends AbstractCommand {
   public constructor() {
@@ -168,8 +168,4 @@ const parseIdsFromCommandInteraction = (
   return ids;
 };
 
-injector.registerBean(
-  QuoteCommand as ClassType,
-  QuoteCommand.name,
-  COMMAND_BEAN_TYPE
-);
+injector.registerBean(QuoteCommand, { type: COMMAND_BEAN_TYPE });

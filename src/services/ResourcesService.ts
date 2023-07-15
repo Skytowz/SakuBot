@@ -6,7 +6,7 @@ import {
   VoiceConnection,
 } from '@discordjs/voice';
 import { Readable } from 'stream';
-import injector, { Bean, ClassType } from 'wire-dependency-injection';
+import injector, { Bean } from 'wire-dependency-injection';
 
 export default class ResourcesService extends AbstractService {
   public constructor(bean: Bean) {
@@ -43,8 +43,6 @@ export default class ResourcesService extends AbstractService {
   }
 }
 
-injector.registerBean(
-  ResourcesService as ClassType,
-  ResourcesService.name,
-  SERVICE_BEAN_TYPE
-);
+injector.registerBean(ResourcesService, {
+  type: SERVICE_BEAN_TYPE,
+});

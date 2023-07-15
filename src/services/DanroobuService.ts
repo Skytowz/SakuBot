@@ -1,6 +1,6 @@
 import superagent from 'superagent';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
-import injector, { Bean, ClassType } from 'wire-dependency-injection';
+import injector, { Bean } from 'wire-dependency-injection';
 
 export default class DanroobuService extends AbstractService {
   public constructor(bean: Bean) {
@@ -27,8 +27,6 @@ export default class DanroobuService extends AbstractService {
   }
 }
 
-injector.registerBean(
-  DanroobuService as ClassType,
-  DanroobuService.name,
-  SERVICE_BEAN_TYPE
-);
+injector.registerBean(DanroobuService, {
+  type: SERVICE_BEAN_TYPE,
+});

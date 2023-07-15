@@ -16,15 +16,19 @@ export default class AbstractEvent extends LogChild {
   public constructor(eventIdentifier: string) {
     super('(Event)[' + eventIdentifier + ']: ');
     this.eventIdentifier = eventIdentifier;
-    injector.autoWire('client', (b) => {
-      injector.autoWire('logger', (c) => {
-        this.getLogger().info(`Registering...`);
-        ((b as unknown) as Client).on(this.getEventIdentifier(), (args) =>
-          this.execute(args)
-        );
-        this.getLogger().info(`Registered!`);
-      });
-    });
+    this.register().catch();
+  }
+
+  public async register() {
+    await injector.waitForWire('logger');
+    try {
+      const client = (await injector.waitForWire('client')) as Client;
+      this.getLogger().info(`Registering...`);
+      client.on(this.getEventIdentifier(), (args) => this.execute(args));
+      this.getLogger().info(`Registered!`);
+    } catch (e) {
+      this.getLogger().error('Failed to register', e);
+    }
   }
 
   public getEventIdentifier() {

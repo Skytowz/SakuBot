@@ -11,7 +11,7 @@ import {
 import { parseUrlPath, stringToURL } from '../utils/urlUtils.js';
 import EventError from '../errors/EventError.js';
 import MangaService from '../services/MangaService.js';
-import injector, { ClassType } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 const LANGUAGES = [
   {
@@ -50,7 +50,7 @@ const LANGUAGES = [
 
 export default class MangaLinkCommand extends AbstractCommand {
   private mangaService?: MangaService = injector.autoWire(
-    MangaService as ClassType,
+    MangaService,
     (b) => (this.mangaService = b)
   );
 
@@ -129,8 +129,6 @@ export default class MangaLinkCommand extends AbstractCommand {
   }
 }
 
-injector.registerBean(
-  MangaLinkCommand as ClassType,
-  MangaLinkCommand.name,
-  COMMAND_BEAN_TYPE
-);
+injector.registerBean(MangaLinkCommand, {
+  type: COMMAND_BEAN_TYPE,
+});

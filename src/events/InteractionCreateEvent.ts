@@ -1,6 +1,6 @@
 import { CommandInteraction } from 'discord.js';
 import AbstractEvent, { EVENT_BEAN_TYPE } from './AbstractEvent.js';
-import injector, { ClassType } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 import AbstractCommand, {
   COMMAND_BEAN_TYPE,
 } from '../Commandes/AbstractCommand.js';
@@ -43,8 +43,6 @@ export default class InteractionCreateEvent extends AbstractEvent {
   }
 }
 
-injector.registerBean(
-  InteractionCreateEvent as ClassType,
-  InteractionCreateEvent.name,
-  EVENT_BEAN_TYPE
-);
+injector.registerBean(InteractionCreateEvent, {
+  type: EVENT_BEAN_TYPE,
+});

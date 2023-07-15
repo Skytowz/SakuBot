@@ -7,7 +7,7 @@ import ImplementableDanroobuCommand from './Commandes/implementable/Implementabl
 import AbstractCommand, {
   COMMAND_BEAN_TYPE,
 } from './Commandes/AbstractCommand.js';
-import injector, { Bean, ClassType } from 'wire-dependency-injection';
+import injector, { Bean } from 'wire-dependency-injection';
 
 // Services
 import './services/CommandInteractionService.js';
@@ -50,7 +50,7 @@ import './Commandes/VocalquitCommand.js';
   )
   .forEach((command) => {
     const bean = new Bean(
-      AbstractCommand as ClassType,
+      AbstractCommand,
       command.getDetails().id + 'ImplCommand',
       COMMAND_BEAN_TYPE
     );

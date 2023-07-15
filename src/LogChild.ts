@@ -7,7 +7,7 @@ export default abstract class LogChild {
     (b) => (this.mainLogger = b)
   );
   private logger?: typeof Logger;
-  public constructor(private readonly prefix: string) {}
+  protected constructor(private readonly prefix: string) {}
 
   public getLogger() {
     if (this.logger === undefined) {
