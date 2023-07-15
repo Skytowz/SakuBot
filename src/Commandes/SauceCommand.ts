@@ -4,11 +4,11 @@ import TypeHelp from '../entity/typeHelp.js';
 import SaucenaoService from '../services/SaucenaoService.js';
 import EventError from '../errors/EventError.js';
 import { extractUrlFromDiscordMessage } from '../utils/urlUtils.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 
 export default class SauceCommand extends AbstractCommand {
   private saucenaoService?: SaucenaoService = injector.autoWire(
-    'saucenaoService',
+    SaucenaoService as ClassType,
     (b) => (this.saucenaoService = b)
   );
 
@@ -47,8 +47,8 @@ export default class SauceCommand extends AbstractCommand {
         sourceImageUrl
       );
     } catch (e) {
-      this.logger?.error("Une erreur s'est produite");
-      this.logger?.error(e);
+      this.getLogger().error("Une erreur s'est produite");
+      this.getLogger().error(e);
     }
 
     if (!result) {
@@ -89,4 +89,8 @@ export default class SauceCommand extends AbstractCommand {
   }
 }
 
-injector.registerBean('sauceCommand', SauceCommand, COMMAND_BEAN_TYPE);
+injector.registerBean(
+  SauceCommand as ClassType,
+  SauceCommand.name,
+  COMMAND_BEAN_TYPE
+);

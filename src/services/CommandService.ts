@@ -7,9 +7,13 @@ import {
 import AbstractCommand from '../Commandes/AbstractCommand.js';
 import SlashCommand from '../utils/slashCommand.js';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
-import injector from 'wire-dependency-injection';
+import injector, { Bean, ClassType } from 'wire-dependency-injection';
 
 export default class CommandService extends AbstractService {
+  public constructor(bean: Bean) {
+    super(bean.getId());
+  }
+
   public async registerCommands(rest: REST, commands: Array<AbstractCommand>) {
     const convertedCommands = this.convertCommands(commands);
 
@@ -73,4 +77,8 @@ export default class CommandService extends AbstractService {
   }
 }
 
-injector.registerBean('commandService', CommandService, SERVICE_BEAN_TYPE);
+injector.registerBean(
+  CommandService as ClassType,
+  CommandService.name,
+  SERVICE_BEAN_TYPE
+);

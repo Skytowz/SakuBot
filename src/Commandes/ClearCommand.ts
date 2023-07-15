@@ -4,7 +4,7 @@ import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import EventError from '../errors/EventError.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 
 const WHITELIST = ['452186417334976532', '273756946308530176'];
 
@@ -55,4 +55,8 @@ export default class ClearCommand extends AbstractCommand {
   }
 }
 
-injector.registerBean('clearCommand', ClearCommand, COMMAND_BEAN_TYPE);
+injector.registerBean(
+  ClearCommand as ClassType,
+  ClearCommand.name,
+  COMMAND_BEAN_TYPE
+);

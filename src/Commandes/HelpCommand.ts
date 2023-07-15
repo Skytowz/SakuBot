@@ -10,7 +10,7 @@ import {
 } from 'discord.js';
 import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 
 export default class HelpCommand extends AbstractCommand {
   public constructor() {
@@ -189,4 +189,8 @@ const reduceCommandsPerParentId = (commands: Array<AbstractCommand>) => {
   );
 };
 
-injector.registerBean('helpCommand', HelpCommand, COMMAND_BEAN_TYPE);
+injector.registerBean(
+  HelpCommand as ClassType,
+  HelpCommand.name,
+  COMMAND_BEAN_TYPE
+);

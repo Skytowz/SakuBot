@@ -1,9 +1,13 @@
 import { CommandInteraction, GuildMember } from 'discord.js';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import EventError from '../errors/EventError.js';
-import injector from 'wire-dependency-injection';
+import injector, { Bean, ClassType } from 'wire-dependency-injection';
 
 export default class CommandInteractionService extends AbstractService {
+  public constructor(bean: Bean) {
+    super(bean.getId());
+  }
+
   public async getGuildMember(
     commandInteraction: CommandInteraction
   ): Promise<GuildMember | undefined> {
@@ -27,7 +31,7 @@ export default class CommandInteractionService extends AbstractService {
 }
 
 injector.registerBean(
-  'commandInteractionService',
-  CommandInteractionService,
+  CommandInteractionService as ClassType,
+  CommandInteractionService.name,
   SERVICE_BEAN_TYPE
 );

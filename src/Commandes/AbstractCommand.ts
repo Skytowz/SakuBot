@@ -1,23 +1,20 @@
 import { Client, CommandInteraction } from 'discord.js';
 import { CommandDetails } from '../types/Command.js';
-import Logger from '../logger.js';
 import injector from 'wire-dependency-injection';
+import LogChild from '../LogChild.js';
 
 export default class AbstractCommand<
   CD extends CommandDetails = CommandDetails
-> {
+> extends LogChild {
   private readonly details: CD;
 
-  protected logger?: typeof Logger = injector.autoWire(
-    'logger',
-    (b) => (this.logger = b)
-  );
   protected client?: Client = injector.autoWire(
     'client',
     (b) => (this.client = b)
   );
 
   public constructor(details: CD) {
+    super(details.id + 'Command');
     this.details = { slashInteraction: true, ...details };
   }
 

@@ -3,7 +3,7 @@ import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
 import EventError from '../errors/EventError.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 
 export default class GetPPCommand extends AbstractCommand {
   public constructor() {
@@ -48,4 +48,8 @@ export default class GetPPCommand extends AbstractCommand {
   }
 }
 
-injector.registerBean('getPPCommand', GetPPCommand, COMMAND_BEAN_TYPE);
+injector.registerBean(
+  GetPPCommand as ClassType,
+  GetPPCommand.name,
+  COMMAND_BEAN_TYPE
+);

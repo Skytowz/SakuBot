@@ -9,17 +9,17 @@ import {
 import EventError from '../errors/EventError.js';
 import CommandInteractionService from '../services/CommandInteractionService.js';
 import ResourcesService from '../services/ResourcesService.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 
 export default class VocalquitCommand extends AbstractCommand {
   private available = true;
 
   private commandInteractionService?: CommandInteractionService = injector.autoWire(
-    'commandInteractionService',
+    CommandInteractionService as ClassType,
     (b) => (this.commandInteractionService = b)
   );
   private resourcesService?: ResourcesService = injector.autoWire(
-    'resourcesService',
+    ResourcesService as ClassType,
     (b) => (this.resourcesService = b)
   );
 
@@ -89,4 +89,8 @@ export default class VocalquitCommand extends AbstractCommand {
   }
 }
 
-injector.registerBean('vocalquitCommand', VocalquitCommand, COMMAND_BEAN_TYPE);
+injector.registerBean(
+  VocalquitCommand as ClassType,
+  VocalquitCommand.name,
+  COMMAND_BEAN_TYPE
+);

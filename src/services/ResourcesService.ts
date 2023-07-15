@@ -6,9 +6,13 @@ import {
   VoiceConnection,
 } from '@discordjs/voice';
 import { Readable } from 'stream';
-import injector from 'wire-dependency-injection';
+import injector, { Bean, ClassType } from 'wire-dependency-injection';
 
 export default class ResourcesService extends AbstractService {
+  public constructor(bean: Bean) {
+    super(bean.getId());
+  }
+
   public prepareAudioSource(voiceConnection: VoiceConnection) {
     const player = createAudioPlayer({
       behaviors: {
@@ -39,4 +43,8 @@ export default class ResourcesService extends AbstractService {
   }
 }
 
-injector.registerBean('resourcesService', ResourcesService, SERVICE_BEAN_TYPE);
+injector.registerBean(
+  ResourcesService as ClassType,
+  ResourcesService.name,
+  SERVICE_BEAN_TYPE
+);

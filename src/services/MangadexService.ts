@@ -2,9 +2,13 @@
 import Chapitre from '../entity/Chapitre.js';
 import superagent from 'superagent';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
-import injector from 'wire-dependency-injection';
+import injector, { Bean, ClassType } from 'wire-dependency-injection';
 
 export default class MangadexService extends AbstractService {
+  public constructor(bean: Bean) {
+    super(bean.getId());
+  }
+
   public async getChapitre(
     mangaId: string,
     numero: number,
@@ -83,4 +87,8 @@ export default class MangadexService extends AbstractService {
   }
 }
 
-injector.registerBean('mangadexService', MangadexService, SERVICE_BEAN_TYPE);
+injector.registerBean(
+  MangadexService as ClassType,
+  MangadexService.name,
+  SERVICE_BEAN_TYPE
+);

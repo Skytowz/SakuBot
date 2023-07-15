@@ -1,23 +1,20 @@
 import { Client, CommandInteraction } from 'discord.js';
 import EventError from '../errors/EventError.js';
 import injector from 'wire-dependency-injection';
-import Logger from '../logger.js';
+import LogChild from '../LogChild.js';
 
 const ERROR_MESAGE = "Une Erreur s'est produite";
 
-export default class AbstractEvent {
+export default class AbstractEvent extends LogChild {
   private readonly eventIdentifier;
 
-  protected logger?: typeof Logger = injector.autoWire(
-    'logger',
-    (b) => (this.logger = b)
-  );
   protected client?: Client = injector.autoWire(
     'client',
     (b) => (this.client = b)
   );
 
   public constructor(eventIdentifier: string) {
+    super(eventIdentifier + 'Event');
     this.eventIdentifier = eventIdentifier;
   }
 
@@ -29,16 +26,16 @@ export default class AbstractEvent {
     this.onEvent(commandInteraction).catch(async (error) => {
       let errorMessage = ERROR_MESAGE;
       if (error instanceof EventError) {
-        this.logger?.trace(
+        this.getLogger().trace(
           'a managed error occurred while executing a command.'
         );
-        this.logger?.trace(error);
+        this.getLogger().trace(error);
         errorMessage = [errorMessage, error.message].join('\n');
       } else {
-        this.logger?.error(
+        this.getLogger().error(
           'an unexpected error occurred while executing a command.'
         );
-        this.logger?.error(error);
+        this.getLogger().error(error);
       }
       if (!commandInteraction.deferred) {
         await commandInteraction.deferReply({ ephemeral: true });

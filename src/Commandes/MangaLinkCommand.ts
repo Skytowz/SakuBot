@@ -11,7 +11,7 @@ import {
 import { parseUrlPath, stringToURL } from '../utils/urlUtils.js';
 import EventError from '../errors/EventError.js';
 import MangaService from '../services/MangaService.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 
 const LANGUAGES = [
   {
@@ -50,7 +50,7 @@ const LANGUAGES = [
 
 export default class MangaLinkCommand extends AbstractCommand {
   private mangaService?: MangaService = injector.autoWire(
-    'mangaService',
+    MangaService as ClassType,
     (b) => (this.mangaService = b)
   );
 
@@ -116,8 +116,8 @@ export default class MangaLinkCommand extends AbstractCommand {
       });
       embeds = await generateMagaViewerEmbeds(chapter, pageNumber);
     } catch (e) {
-      this.logger?.debug("une erreur s'est produite");
-      this.logger?.debug(e);
+      this.getLogger().debug("une erreur s'est produite");
+      this.getLogger().debug(e);
       throw new EventError('chapitre invalide');
     }
 
@@ -129,4 +129,8 @@ export default class MangaLinkCommand extends AbstractCommand {
   }
 }
 
-injector.registerBean('mangaLinkCommand', MangaLinkCommand, COMMAND_BEAN_TYPE);
+injector.registerBean(
+  MangaLinkCommand as ClassType,
+  MangaLinkCommand.name,
+  COMMAND_BEAN_TYPE
+);

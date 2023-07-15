@@ -6,13 +6,13 @@ import AbstractCommand from '../AbstractCommand.js';
 import TypeHelp from '../../entity/typeHelp.js';
 import EventError from '../../errors/EventError.js';
 import DanroobuService from '../../services/DanroobuService.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 
 export default class ImplementableDanroobuCommand extends AbstractCommand<ImplementableDanroobuCommandDetails> {
   public static readonly abstractId = 'abstract.danroobu';
 
   private danroobuService?: DanroobuService = injector.autoWire(
-    'danroobuService',
+    DanroobuService as ClassType,
     (b) => (this.danroobuService = b)
   );
 

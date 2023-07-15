@@ -9,11 +9,11 @@ import {
 } from '../utils/mangaUtils.js';
 import EventError from '../errors/EventError.js';
 import MangaService from '../services/MangaService.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 
 export default class ChapterLinkCommand extends AbstractCommand {
   private mangaService?: MangaService = injector.autoWire(
-    'mangaService',
+    MangaService as ClassType,
     (b) => (this.mangaService = b)
   );
 
@@ -63,8 +63,8 @@ export default class ChapterLinkCommand extends AbstractCommand {
         Number(commandInteraction.options.getString('page'))
       );
     } catch (e) {
-      this.logger?.debug("une erreur s'est produite");
-      this.logger?.debug(e);
+      this.getLogger().debug("une erreur s'est produite");
+      this.getLogger().debug(e);
       throw new EventError('chapitre invalide');
     }
 
@@ -77,7 +77,7 @@ export default class ChapterLinkCommand extends AbstractCommand {
 }
 
 injector.registerBean(
-  'chapterLinkCommand',
-  ChapterLinkCommand,
+  ChapterLinkCommand as ClassType,
+  ChapterLinkCommand.name,
   COMMAND_BEAN_TYPE
 );

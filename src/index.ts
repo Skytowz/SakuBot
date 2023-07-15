@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import CommandService from './services/CommandService.js';
 import { registerLoggerBean } from './beans/LoggerBean.js';
 import { registerClientBean } from './beans/ClientBean.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 import AbstractCommand, {
   COMMAND_BEAN_TYPE,
 } from './Commandes/AbstractCommand.js';
@@ -70,13 +70,13 @@ if (process.env.ENV == 'DEV') {
 
 const events = injector
   .getContainer()
-  ?.getBeans()
-  .filter((b) => b.getType() === EVENT_BEAN_TYPE)
+  ?.getBeansByType(EVENT_BEAN_TYPE)
   ?.map((b) => b.getInstance()) as Array<AbstractEvent>;
 
 try {
   logger.info(`Registering ${events.length} application events.`);
   events.forEach((event) => {
+    logger.debug(`${event.getEventIdentifier()}`);
     client.on(event.getEventIdentifier(), (args) => event.execute(args));
   });
   logger.info(`Successfully registered ${events.length} application events.`);
@@ -90,13 +90,12 @@ try {
 
 const commands = injector
   .getContainer()
-  ?.getBeans()
-  .filter((b) => b.getType() === COMMAND_BEAN_TYPE)
+  ?.getBeansByType(COMMAND_BEAN_TYPE)
   ?.map((b) => b.getInstance()) as Array<AbstractCommand>;
 
-commands.forEach((c) => console.log(c.getDetails().name));
-
-const commandService = injector.wire('commandService') as CommandService;
+const commandService = injector.wire(
+  CommandService as ClassType
+) as CommandService;
 
 (async () => {
   try {

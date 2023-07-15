@@ -1,9 +1,13 @@
 import Chapitre from '../entity/Chapitre.js';
 import superagent from 'superagent';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
-import injector from 'wire-dependency-injection';
+import injector, { Bean, ClassType } from 'wire-dependency-injection';
 
 export default class GistService extends AbstractService {
+  public constructor(bean: Bean) {
+    super(bean.getId());
+  }
+
   public async getChapitre(manga: string, number: number, cubariId: string) {
     const chapitre = await superagent
       .get(manga)
@@ -33,4 +37,8 @@ export default class GistService extends AbstractService {
   }
 }
 
-injector.registerBean('gistService', GistService, SERVICE_BEAN_TYPE);
+injector.registerBean(
+  GistService as ClassType,
+  GistService.name,
+  SERVICE_BEAN_TYPE
+);

@@ -1,6 +1,6 @@
 import { ActivityType } from 'discord.js';
 import AbstractEvent, { EVENT_BEAN_TYPE } from './AbstractEvent.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 
 export default class ReadyEvent extends AbstractEvent {
   public constructor() {
@@ -11,10 +11,14 @@ export default class ReadyEvent extends AbstractEvent {
     this.client?.user?.setActivity('Saku le best', {
       type: ActivityType.Playing,
     });
-    this.logger?.info(
+    this.getLogger().info(
       `Bot instance (${this.client?.user?.id}) ${this.client?.user?.username}#${this.client?.user?.discriminator} is ready!`
     );
   }
 }
 
-injector.registerBean('readyEvent', ReadyEvent, EVENT_BEAN_TYPE);
+injector.registerBean(
+  ReadyEvent as ClassType,
+  ReadyEvent.name,
+  EVENT_BEAN_TYPE
+);
