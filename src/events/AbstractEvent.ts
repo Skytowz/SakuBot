@@ -14,8 +14,17 @@ export default class AbstractEvent extends LogChild {
   );
 
   public constructor(eventIdentifier: string) {
-    super(eventIdentifier + 'Event');
+    super('(Event)[' + eventIdentifier + ']: ');
     this.eventIdentifier = eventIdentifier;
+    injector.autoWire('client', (b) => {
+      injector.autoWire('logger', (c) => {
+        this.getLogger().info(`Registering...`);
+        ((b as unknown) as Client).on(this.getEventIdentifier(), (args) =>
+          this.execute(args)
+        );
+        this.getLogger().info(`Registered!`);
+      });
+    });
   }
 
   public getEventIdentifier() {

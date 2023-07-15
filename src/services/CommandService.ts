@@ -10,14 +10,19 @@ import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import injector, { Bean, ClassType } from 'wire-dependency-injection';
 
 export default class CommandService extends AbstractService {
+  private discordRest?: REST = injector.autoWire(
+    'discordRest',
+    (b) => (this.discordRest = b)
+  );
+
   public constructor(bean: Bean) {
     super(bean.getId());
   }
 
-  public async registerCommands(rest: REST, commands: Array<AbstractCommand>) {
+  public async registerCommands(commands: Array<AbstractCommand>) {
     const convertedCommands = this.convertCommands(commands);
 
-    await this.registerCommandsIdAPI(rest, convertedCommands);
+    await this.registerCommandsIdAPI(convertedCommands);
 
     return convertedCommands;
   }
@@ -63,10 +68,9 @@ export default class CommandService extends AbstractService {
   }
 
   public async registerCommandsIdAPI(
-    rest: REST,
     commands: Array<ContextMenuCommandBuilder | SlashCommand>
   ) {
-    return rest.put(
+    return this.discordRest?.put(
       Routes.applicationCommands(
         (process.env.ENV == 'DEV'
           ? process.env.APP_ID_DEV

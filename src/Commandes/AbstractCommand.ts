@@ -1,7 +1,8 @@
 import { Client, CommandInteraction } from 'discord.js';
 import { CommandDetails } from '../types/Command.js';
-import injector from 'wire-dependency-injection';
+import injector, { ClassType } from 'wire-dependency-injection';
 import LogChild from '../LogChild.js';
+import CommandService from '../services/CommandService.js';
 
 export default class AbstractCommand<
   CD extends CommandDetails = CommandDetails
@@ -14,8 +15,15 @@ export default class AbstractCommand<
   );
 
   public constructor(details: CD) {
-    super(details.id + 'Command');
+    super('(Command)[' + details.id + ']: ');
     this.details = { slashInteraction: true, ...details };
+    injector.autoWire(CommandService as ClassType, (b) => {
+      injector.autoWire('logger', async (c) => {
+        this.getLogger().info(`Registering...`);
+        await ((b as unknown) as CommandService).registerCommands([this]);
+        this.getLogger().info(`Registered!`);
+      });
+    });
   }
 
   public getDetails() {

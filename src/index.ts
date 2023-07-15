@@ -1,15 +1,10 @@
 import './beans.js';
 import logger from './logger.js';
 import { Client, GatewayIntentBits, REST } from 'discord.js';
-import AbstractEvent, { EVENT_BEAN_TYPE } from './events/AbstractEvent.js';
 import dotenv from 'dotenv';
-import CommandService from './services/CommandService.js';
 import { registerLoggerBean } from './beans/LoggerBean.js';
 import { registerClientBean } from './beans/ClientBean.js';
-import injector, { ClassType } from 'wire-dependency-injection';
-import AbstractCommand, {
-  COMMAND_BEAN_TYPE,
-} from './Commandes/AbstractCommand.js';
+import { registerDiscordRestBean } from './beans/DiscordRestBean.js';
 
 dotenv.config();
 
@@ -44,6 +39,8 @@ const rest = new REST({ version: '10' }).setToken(
     : process.env.TOKEN) as string
 );
 
+registerDiscordRestBean(rest);
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -67,57 +64,3 @@ if (process.env.ENV == 'DEV') {
 } else if (process.env.ENV == 'PROD') {
   client.login(process.env.TOKEN);
 }
-
-const events = injector
-  .getContainer()
-  ?.getBeansByType(EVENT_BEAN_TYPE)
-  ?.map((b) => b.getInstance()) as Array<AbstractEvent>;
-
-try {
-  logger.info(`Registering ${events.length} application events.`);
-  events.forEach((event) => {
-    logger.debug(`${event.getEventIdentifier()}`);
-    client.on(event.getEventIdentifier(), (args) => event.execute(args));
-  });
-  logger.info(`Successfully registered ${events.length} application events.`);
-  logger.debug({
-    loadedEvents: events.map((event) => event.toString()),
-  });
-} catch (error) {
-  logger.fatal(error);
-  throw error;
-}
-
-const commands = injector
-  .getContainer()
-  ?.getBeansByType(COMMAND_BEAN_TYPE)
-  ?.map((b) => b.getInstance()) as Array<AbstractCommand>;
-
-const commandService = injector.wire(
-  CommandService as ClassType
-) as CommandService;
-
-(async () => {
-  try {
-    logger.info(
-      `Starting the refresh of ${commands.length} application (/) commands.`
-    );
-    await commandService.registerCommands(rest, commands);
-    logger.info(
-      `Successfully loaded ${commands.length} application (/) commands.`
-    );
-    logger.debug({
-      loadedCommands: commands.map((command) => command.toString()),
-    });
-  } catch (error) {
-    logger.fatal(error);
-  }
-
-  if (client.isReady()) {
-    logger.info(`Application is fully loaded!`);
-  } else {
-    logger.info(
-      `Application initialization is complete, please wait for the bot to connect!`
-    );
-  }
-})();
