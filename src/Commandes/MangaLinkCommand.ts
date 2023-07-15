@@ -49,7 +49,7 @@ const LANGUAGES = [
 ];
 
 export default class MangaLinkCommand extends AbstractCommand {
-  private mangaService?: MangaService = injector.autoWire(
+  private mangaService: MangaService = injector.autoWire(
     MangaService,
     (b) => (this.mangaService = b)
   );

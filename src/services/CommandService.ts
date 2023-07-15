@@ -12,7 +12,7 @@ import { DiagnosticsChannel } from 'undici';
 import Error = DiagnosticsChannel.Error;
 
 export default class CommandService extends AbstractService {
-  private discordRest?: REST = injector.autoWire(
+  private discordRest: REST = injector.autoWire(
     'discordRest',
     (b) => (this.discordRest = b)
   );

@@ -15,7 +15,7 @@ import injector from 'wire-dependency-injection';
 export default class ImplementableMangaCommand extends AbstractCommand<ImplementableMangaCommandDetails> {
   public static readonly abstractId = 'abstract.manga';
 
-  private mangaService?: MangaService = injector.autoWire(
+  private mangaService: MangaService = injector.autoWire(
     MangaService,
     (b) => (this.mangaService = b)
   );

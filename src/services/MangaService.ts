@@ -17,11 +17,11 @@ export default class MangaService extends AbstractService {
     super(bean.getId());
   }
 
-  private mangadexService?: MangadexService = injector.autoWire(
+  private mangadexService: MangadexService = injector.autoWire(
     MangadexService,
     (b) => (this.mangadexService = b)
   );
-  private gistService?: GistService = injector.autoWire(
+  private gistService: GistService = injector.autoWire(
     GistService,
     (b) => (this.gistService = b)
   );

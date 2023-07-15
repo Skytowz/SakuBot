@@ -9,7 +9,7 @@ export default class AbstractCommand<
 > extends LogChild {
   private readonly details: CD;
 
-  protected client?: Client = injector.autoWire(
+  protected client: Client = injector.autoWire(
     'client',
     (b) => (this.client = b)
   );
@@ -23,9 +23,7 @@ export default class AbstractCommand<
   public async register() {
     await injector.waitForWire('logger');
     try {
-      const commandService = (await injector.waitForWire(
-        CommandService
-      )) as CommandService;
+      const commandService = await injector.waitForWire(CommandService);
       this.getLogger().info(`Registering...`);
       await commandService.registerCommand(this);
       this.getLogger().info(`Registered!`);

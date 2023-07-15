@@ -11,7 +11,7 @@ import injector from 'wire-dependency-injection';
 export default class ImplementableDanroobuCommand extends AbstractCommand<ImplementableDanroobuCommandDetails> {
   public static readonly abstractId = 'abstract.danroobu';
 
-  private danroobuService?: DanroobuService = injector.autoWire(
+  private danroobuService: DanroobuService = injector.autoWire(
     DanroobuService,
     (b) => (this.danroobuService = b)
   );

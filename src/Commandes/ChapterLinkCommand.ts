@@ -12,7 +12,7 @@ import MangaService from '../services/MangaService.js';
 import injector from 'wire-dependency-injection';
 
 export default class ChapterLinkCommand extends AbstractCommand {
-  private mangaService?: MangaService = injector.autoWire(
+  private mangaService: MangaService = injector.autoWire(
     MangaService,
     (b) => (this.mangaService = b)
   );

@@ -14,11 +14,11 @@ import injector from 'wire-dependency-injection';
 export default class VocalquitCommand extends AbstractCommand {
   private available = true;
 
-  private commandInteractionService?: CommandInteractionService = injector.autoWire(
+  private commandInteractionService: CommandInteractionService = injector.autoWire(
     CommandInteractionService,
     (b) => (this.commandInteractionService = b)
   );
-  private resourcesService?: ResourcesService = injector.autoWire(
+  private resourcesService: ResourcesService = injector.autoWire(
     ResourcesService,
     (b) => (this.resourcesService = b)
   );

@@ -2,7 +2,7 @@ import Logger from './logger.js';
 import injector from 'wire-dependency-injection';
 
 export default abstract class LogChild {
-  private mainLogger?: typeof Logger = injector.autoWire(
+  private mainLogger: typeof Logger = injector.autoWire(
     'logger',
     (b) => (this.mainLogger = b)
   );

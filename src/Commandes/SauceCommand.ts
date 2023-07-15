@@ -7,7 +7,7 @@ import { extractUrlFromDiscordMessage } from '../utils/urlUtils.js';
 import injector from 'wire-dependency-injection';
 
 export default class SauceCommand extends AbstractCommand {
-  private saucenaoService?: SaucenaoService = injector.autoWire(
+  private saucenaoService: SaucenaoService = injector.autoWire(
     SaucenaoService,
     (b) => (this.saucenaoService = b)
   );

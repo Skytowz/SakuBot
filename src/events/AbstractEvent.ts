@@ -8,7 +8,7 @@ const ERROR_MESAGE = "Une Erreur s'est produite";
 export default class AbstractEvent extends LogChild {
   private readonly eventIdentifier;
 
-  protected client?: Client = injector.autoWire(
+  protected client: Client = injector.autoWire(
     'client',
     (b) => (this.client = b)
   );
