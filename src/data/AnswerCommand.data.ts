@@ -164,14 +164,6 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     },
   },
   {
-    id: 'scang',
-    name: ['scang'],
-    description: 'Envoi le lien du serveur clone maléfique de ScanR, ScanG',
-    options: {
-      messages: ['https://discord.gg/NYU9wN9KMy'],
-    },
-  },
-  {
     id: 'scanr',
     name: ['scanr'],
     description: 'Envoi le lien du serveur ScanR',
