@@ -24,7 +24,9 @@ export default class MangadexService extends AbstractService {
         URL += `&excludedGroups[]=${teamId}`;
       });
       do {
-        result = await superagent.get(`${URL}&offset=${offset * 500}`);
+        result = await superagent
+          .get(`${URL}&offset=${offset * 500}`)
+          .set('User-Agent', 'Hayasaku Bot');
         data = result.body.data.find(
           (element: { attributes: { chapter: string } }) =>
             element.attributes.chapter == String(numero)
@@ -40,6 +42,7 @@ export default class MangadexService extends AbstractService {
               .map((e) => `translatedLanguage[]=${e}&`)
               .join('')}includeExternalUrl=0&limit=500&offset=${offset * 500}`
           )
+          .set('User-Agent', 'Hayasaku Bot')
           .catch((e) => console.error(e));
         data = result?.body.data.find(
           (element: { attributes: { chapter: string } }) =>
@@ -63,6 +66,7 @@ export default class MangadexService extends AbstractService {
       .get(
         `https://api.mangadex.org/at-home/server/${chapitre.id}?forcePort443=false`
       )
+      .set('User-Agent', 'Hayasaku Bot')
       .then((res) => res.body.chapter);
     return new Chapitre(
       data.dataSaver,
@@ -83,6 +87,7 @@ export default class MangadexService extends AbstractService {
   public async getChapitreInfoById(id: string) {
     return await superagent
       .get(`https://api.mangadex.org/chapter/${id}`)
+      .set('User-Agent', 'Hayasaku Bot')
       .then((res) => res.body.data);
   }
 }
