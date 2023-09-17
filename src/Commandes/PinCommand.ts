@@ -30,16 +30,23 @@ export default class PinCommand extends AbstractCommand {
     if (!commandInteraction.isMessageContextMenuCommand()) {
       throw new EventError("Ceci n'est pas un message");
     }
-    if (commandInteraction.targetMessage.pinned) {
-      throw new EventError('Le message est deja pin');
+    if (!commandInteraction.targetMessage.pinned) {
+      await commandInteraction.targetMessage.pin(
+        `<@${commandInteraction.member?.user.id}> a pin le message.`
+      );
+      await commandInteraction.reply({
+        content: `<@${commandInteraction.member?.user.id}> a pin un message.`,
+        allowedMentions: { repliedUser: false },
+      });
+    } else {
+      await commandInteraction.targetMessage.unpin(
+        `<@${commandInteraction.member?.user.id}> a unpin le message.`
+      );
+      await commandInteraction.reply({
+        content: `<@${commandInteraction.member?.user.id}> a unpin un message.`,
+        allowedMentions: { repliedUser: false },
+      });
     }
-
-    await commandInteraction.targetMessage.pin(
-      `<@${commandInteraction.member?.user.id}> a pin le message.`
-    );
-    await commandInteraction.reply({
-      content: `<@${commandInteraction.member?.user.id}> a pin un message.`,
-    });
   }
 }
 
