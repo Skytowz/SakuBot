@@ -1,4 +1,11 @@
-node_modules
-.env
-package-lock.json
-Commandes/leave.js
+#IDE
+.vscode/
+.idea/
+#local
+node_modules/
+dist/
+logs/
+*.tgz
+#secrets
+*.env
+!example.env

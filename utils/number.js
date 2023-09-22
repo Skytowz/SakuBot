@@ -1,1 +1,0 @@
-module.exports.mod = (number,div) => ((number % div) + div) % div;

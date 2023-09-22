@@ -1,8 +1,8 @@
 name: Actions - Build / Deployments
 run-name: Build / Deployments
-on: 
+on:
   push:
-    branches: 
+    branches:
       - master
       - develop
 jobs:
