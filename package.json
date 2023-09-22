@@ -23,7 +23,6 @@
     "@discordjs/opus": "^0.8.0",
     "@discordjs/voice": "^0.11.0",
     "@napi-rs/canvas": "^0.1.29",
-    "@napi-rs/canvas-win32-x64-msvc": "^0.1.44",
     "@napi-rs/image": "^1.4.1",
     "discord-api-types": "^0.37.5",
     "discord.js": "^14.8.0",
