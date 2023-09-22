@@ -45,7 +45,7 @@ export interface ImplementableMangaCommandDetails extends CommandDetails {
 }
 
 export interface ImplementableDanroobuCommandDetails extends CommandDetails {
-  options?: { research?: string };
+  options?: { research?: string; allResult?: boolean };
 }
 
 export interface ImplementableAnswerCommandDetails extends CommandDetails {

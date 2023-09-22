@@ -151,6 +151,16 @@ const details: Array<ImplementableDanroobuCommandDetails> = [
       research: 'yamada_ryou',
     },
   },
+  {
+    id: 'yurigera',
+    name: ['yurigera'],
+    description:
+      'Affiche une image random de la GOAT (Meilleure fanart que ça tu meurs)',
+    options: {
+      research: 'yurigera_8959',
+      allResult: true,
+    },
+  },
 ];
 
 export default details;

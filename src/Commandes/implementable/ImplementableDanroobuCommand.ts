@@ -46,12 +46,14 @@ export default class ImplementableDanroobuCommand extends AbstractCommand<Implem
     }
     const solo = !!commandInteraction.options.getBoolean('solo');
     const sensitive = !!commandInteraction.options.getBoolean('sensitive');
+    const allResult = !!this.getDetails().options?.allResult;
     const url = await danroobuService.getGeneralImageByTag(
       this.getDetails().options?.research as string,
       solo,
-      sensitive
+      sensitive,
+      allResult
     );
-    if (url && sensitive) {
+    if (url && sensitive && !allResult) {
       await commandInteraction.deferReply();
       await commandInteraction.editReply({
         files: [{ attachment: url, name: 'SPOILER_image.jpg', spoiler: true }],

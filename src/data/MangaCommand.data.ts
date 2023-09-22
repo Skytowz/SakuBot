@@ -95,8 +95,8 @@ const details: Array<ImplementableMangaCommandDetails> = [
     },
   },
   {
-    id: 'sbc',
-    name: ['sbc'],
+    id: 'stablo',
+    name: ['sbc', 'stablochap'],
     description:
       "Affiche une page d'un chapitre de Uma Musume Pretty Derby: Star Blossom",
     options: {
