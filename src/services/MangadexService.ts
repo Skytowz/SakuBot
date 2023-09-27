@@ -4,6 +4,7 @@ import superagent from 'superagent';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import injector, { Bean } from 'wire-dependency-injection';
 import { AttachmentBuilder } from 'discord.js';
+import fetch from 'node-fetch';
 
 export default class MangadexService extends AbstractService {
   public constructor(bean: Bean) {
