@@ -10,6 +10,15 @@ const details: Array<ImplementableMangaCommandDetails> = [
     },
   },
   {
+    id: 'amagamichap',
+    name: ['amagamichap'],
+    description:
+      "Affiche une page d'un chapitre de How I Married an Amagami Sister",
+    options: {
+      research: '0f6003ca-e7f3-43ce-bfd2-0694146994be',
+    },
+  },
+  {
     id: 'bocchichap',
     name: ['bocchichap'],
     description: "Affiche une page d'un chapitre de Bocchi the Rock!",
@@ -27,6 +36,14 @@ const details: Array<ImplementableMangaCommandDetails> = [
     },
   },
   {
+    id: 'chimerachap',
+    name: ['chimerachap'],
+    description: "Affiche une page d'un chapitre de Kyokutou Chimeratica",
+    options: {
+      research: '5786e730-541b-4e35-9c2f-9932784fc1c3',
+    },
+  },
+  {
     id: 'crocochap',
     name: ['crocochap'],
     description: "Affiche une page d'un chapitre de Croco",
@@ -38,7 +55,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   {
     id: 'dkaguchap',
     name: ['dkaguchap'],
-    description: "Affiche une page d'un chapitre de Kaguya-sama",
+    description: "Affiche une page d'un chapitre du Doujin Kaguya-sama",
     options: {
       research: 'a84264f6-a979-4573-89b3-09dd5c050c2b',
     },
@@ -49,6 +66,22 @@ const details: Array<ImplementableMangaCommandDetails> = [
     description: "Affiche une page d'un chapitre de Kaguya-sama",
     options: {
       research: '37f5cce0-8070-4ada-96e5-fa24b1bd4ff9',
+    },
+  },
+  {
+    id: 'kikurichap',
+    name: ['kikurichap'],
+    description: "Affiche une page d'un chapitre de Kikuri the Rock",
+    options: {
+      research: '56901ae8-aece-4983-96c3-94751c96a8bb',
+    },
+  },
+  {
+    id: 'materchap',
+    name: ['materchap'],
+    description: "Affiche une page d'un chapitre de Maternelle WARS",
+    options: {
+      research: 'f8f3f045-01b5-4216-8f41-d947d8b448b0',
     },
   },
   {
@@ -68,22 +101,6 @@ const details: Array<ImplementableMangaCommandDetails> = [
     options: {
       bannedTeams: ['fca36086-ea94-4d1b-803d-cc22dab6a570'],
       research: 'ea3fc681-51fd-44d9-a83d-297c4c28e11b',
-    },
-  },
-  {
-    id: 'sbrchap',
-    name: ['sbrchap'],
-    description: "Affiche une page d'un chapitre de Jojo's Steel Ball Run",
-    options: {
-      research: '1044287a-73df-48d0-b0b2-5327f32dd651',
-    },
-  },
-  {
-    id: 'ssdc',
-    name: ['ssdc'],
-    description: "Affiche une page d'un chapitre de Sensei, Suki Desu",
-    options: {
-      research: '617f648f-1000-4c4e-b1a3-42862f929dfd',
     },
   },
   {
@@ -109,14 +126,6 @@ const details: Array<ImplementableMangaCommandDetails> = [
     description: "Affiche une page d'un chapitre de Tawawa",
     options: {
       research: '6b27cbd8-4cc6-40ca-b010-928da4540be8',
-    },
-  },
-  {
-    id: 'umachap',
-    name: ['umachap'],
-    description: "Affiche une page d'un chapitre de Uma Musume",
-    options: {
-      research: 'a9dd451c-3c45-4d66-a818-4e1b78855838',
     },
   },
   {
