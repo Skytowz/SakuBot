@@ -3,6 +3,7 @@ import Chapitre from '../entity/Chapitre.js';
 import superagent from 'superagent';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import injector, { Bean } from 'wire-dependency-injection';
+import { AttachmentBuilder } from 'discord.js';
 
 export default class MangadexService extends AbstractService {
   public constructor(bean: Bean) {
@@ -60,7 +61,7 @@ export default class MangadexService extends AbstractService {
 
   public async getChapitreById(chapitre: {
     id: string;
-    attributes: { chapter: number; title: string; pages: number };
+    attributes: { chapter: number | string; title: string; pages: number };
   }) {
     const data = await superagent
       .get(
@@ -68,19 +69,26 @@ export default class MangadexService extends AbstractService {
       )
       .set('User-Agent', 'Hayasaku Bot')
       .then((res) => res.body.chapter);
+
+    const files: Array<Promise<AttachmentBuilder>> = data.dataSaver.map(
+      async (pageName: string) => {
+        const img = await fetch(
+          `https://uploads.mangadex.org/data-saver/${data.hash}/${pageName}`
+        );
+        return new AttachmentBuilder(Buffer.from(await img.arrayBuffer()), {
+          name: `${pageName}.jpg`,
+        });
+      }
+    );
+
     return new Chapitre(
       data.dataSaver,
-      chapitre.attributes.chapter,
+      chapitre.attributes.chapter as string,
       chapitre.attributes.title,
       chapitre.attributes.pages,
-      (num) =>
-        `https://uploads.mangadex.org/data-saver/${data.hash}/${num}?x=${(
-          Math.random() + 1
-        )
-          .toString(36)
-          .substring(2)}`,
+      (page) => `attachment://${page}.jpg`,
       `https://mangadex.org/chapter/${chapitre.id}`,
-      []
+      files
     );
   }
 
