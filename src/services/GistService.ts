@@ -21,13 +21,13 @@ export default class GistService extends AbstractService {
 
   public async getChapitreById(
     chapitre: { title: string; groups: Array<Array<string>> },
-    number: number,
+    number: number | string,
     cubariId: string
   ) {
     const pages = Object.values(chapitre.groups).pop();
     return new Chapitre(
       pages as Array<string>,
-      number,
+      number as string,
       chapitre.title,
       (pages as Array<unknown>).length,
       (page) => page,

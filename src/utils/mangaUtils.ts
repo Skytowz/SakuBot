@@ -6,26 +6,28 @@ import {
   CommandInteraction,
   InteractionReplyOptions,
 } from 'discord.js';
-import EmbedList from './embedList.js';
 import Chapitre from '../entity/Chapitre.js';
+import PageChapitreList from './pageChapitreList.js';
 
 export const generateMagaViewerEmbeds = async (
   chapitre: Chapitre,
   page: number
 ) => {
-  const embedList = chapitre.getEmbedList();
+  const pageChapitreList = chapitre.getPageChapitreList();
 
   if (page <= chapitre.nbPages && page > 0) {
-    embedList.index = page - 1;
+    pageChapitreList.index = page - 1;
   }
 
-  return embedList;
+  return pageChapitreList;
 };
 
-export const generateMangaViewerButtonBar = (embedList: EmbedList) => {
-  const content = embedList.getContent() as InteractionReplyOptions;
+export const generateMangaViewerButtonBar = async (
+  pageChapitreList: PageChapitreList
+) => {
+  const content = (await pageChapitreList.getContent()) as InteractionReplyOptions;
 
-  if (embedList.length > 1) {
+  if (pageChapitreList.length > 1) {
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setCustomId('before')
@@ -48,11 +50,11 @@ export const generateMangaViewerButtonBar = (embedList: EmbedList) => {
 
 export const initializeMangaViewerInterractions = async (
   commandInteraction: CommandInteraction,
-  embedList: EmbedList
+  pageChapitreList: PageChapitreList
 ) => {
   const msg = await commandInteraction.fetchReply();
 
-  if (embedList.length > 1) {
+  if (pageChapitreList.length > 1) {
     const interact = msg.createMessageComponentCollector({ time: 180000 });
 
     interact.on('collect', async (i) => {
@@ -64,10 +66,10 @@ export const initializeMangaViewerInterractions = async (
         return;
       } else if (i.customId === 'before') {
         //@ts-ignore
-        embedList.left(i);
+        pageChapitreList.left(i);
       } else if (i.customId === 'next') {
         //@ts-ignore
-        embedList.right(i);
+        pageChapitreList.right(i);
       } else if (i.customId === 'lock') {
         interact.stop();
       }

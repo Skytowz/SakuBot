@@ -1,22 +1,22 @@
-import { Colors } from 'discord.js';
+import { AttachmentBuilder, Colors } from 'discord.js';
 import Embed from '../utils/embed.js';
-import EmbedList from '../utils/embedList.js';
+import PageChapitreList from '../utils/pageChapitreList.js';
 
 export default class Chapitre {
   constructor(
-    public pages: Array<number | string>,
-    public numero: number | string,
+    public pages: Array<string>,
+    public numero: string,
     public titre: string,
     public nbPages: number,
-    public baseImage: (element: number | string) => number | string,
+    public baseImage: (num: string) => string,
     public url: string,
-    public files: Array<string>
+    public files: Array<Promise<AttachmentBuilder>>
   ) {}
 
-  getEmbedList() {
+  getPageChapitreList() {
     const embeds = this.pages.map((element, index) => {
       return new Embed()
-        .setImage(this.baseImage(element) as string)
+        .setImage(this.baseImage(element))
         .setTitle(this.titre)
         .setDescription(
           `[Lien](${this.url}/${index + 1}) |${
@@ -25,6 +25,6 @@ export default class Chapitre {
         )
         .setColor(Colors.DarkButNotBlack);
     });
-    return new EmbedList(embeds, embeds.length, 0, this.files);
+    return new PageChapitreList(embeds, embeds.length, 0, this.files);
   }
 }
