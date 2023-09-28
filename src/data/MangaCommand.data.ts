@@ -3,7 +3,7 @@ import { ImplementableMangaCommandDetails } from '../types/Command.js';
 const details: Array<ImplementableMangaCommandDetails> = [
   {
     id: '4komachap',
-    name: ['4komachap'],
+    name: ['4kc'],
     description: "Affiche une page d'un chapitre du 4koma de Kaguya-sama",
     options: {
       research: 'de4b3c43-5243-4399-9fc3-68a3c0747138',
@@ -11,7 +11,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'amagamichap',
-    name: ['amagamichap'],
+    name: ['asc'],
     description:
       "Affiche une page d'un chapitre de How I Married an Amagami Sister",
     options: {
@@ -20,7 +20,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'bocchichap',
-    name: ['bocchichap'],
+    name: ['brc'],
     description: "Affiche une page d'un chapitre de Bocchi the Rock!",
     options: {
       research: '2e0fdb3b-632c-4f8f-a311-5b56952db647',
@@ -37,7 +37,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'chimerachap',
-    name: ['chimerachap'],
+    name: ['chc'],
     description: "Affiche une page d'un chapitre de Kyokutou Chimeratica",
     options: {
       research: '5786e730-541b-4e35-9c2f-9932784fc1c3',
@@ -45,7 +45,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'crocochap',
-    name: ['crocochap'],
+    name: ['crc'],
     description: "Affiche une page d'un chapitre de Croco",
     options: {
       bannedTeams: ['31a074d2-dc0e-4983-b646-0f6a1a8104a9'],
@@ -54,7 +54,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'dkaguchap',
-    name: ['dkaguchap'],
+    name: ['dkc'],
     description: "Affiche une page d'un chapitre du Doujin Kaguya-sama",
     options: {
       research: 'a84264f6-a979-4573-89b3-09dd5c050c2b',
@@ -62,7 +62,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'kaguchap',
-    name: ['kaguchap'],
+    name: ['kc'],
     description: "Affiche une page d'un chapitre de Kaguya-sama",
     options: {
       research: '37f5cce0-8070-4ada-96e5-fa24b1bd4ff9',
@@ -70,7 +70,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'kikurichap',
-    name: ['kikurichap'],
+    name: ['krc'],
     description: "Affiche une page d'un chapitre de Kikuri the Rock",
     options: {
       research: '56901ae8-aece-4983-96c3-94751c96a8bb',
@@ -78,7 +78,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'materchap',
-    name: ['materchap'],
+    name: ['mtc'],
     description: "Affiche une page d'un chapitre de Maternelle WARS",
     options: {
       research: 'f8f3f045-01b5-4216-8f41-d947d8b448b0',
@@ -86,7 +86,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'onkchap',
-    name: ['onkchap'],
+    name: ['onkc'],
     description: "Affiche une page d'un chapitre d'Oshi no Ko",
     options: {
       research:
@@ -96,7 +96,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'renaichap',
-    name: ['renaichap'],
+    name: ['rc'],
     description: "Affiche une page d'un chapitre de Renai Daikou",
     options: {
       bannedTeams: ['fca36086-ea94-4d1b-803d-cc22dab6a570'],
@@ -105,7 +105,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'sentaichap',
-    name: ['sentaichap'],
+    name: ['stc'],
     description: "Affiche une page d'un chapitre de Sentai Daishikkaku",
     options: {
       research: '7878c129-a33d-4bf9-b5d2-ff98cbe85bd6',
@@ -113,7 +113,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'stablo',
-    name: ['sbc', 'stablochap'],
+    name: ['sbc'],
     description:
       "Affiche une page d'un chapitre de Uma Musume Pretty Derby: Star Blossom",
     options: {
@@ -130,7 +130,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
   },
   {
     id: 'yamadac',
-    name: ['yamadac'],
+    name: ['yc'],
     description:
       "Affiche une page d'un chapitre de Yamada-kun to Lv999 no Koi wo Suru",
     options: {
