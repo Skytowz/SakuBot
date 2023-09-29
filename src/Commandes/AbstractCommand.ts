@@ -1,4 +1,4 @@
-import { Client, CommandInteraction } from 'discord.js';
+import { BaseInteraction, Client, CommandInteraction } from 'discord.js';
 import { CommandDetails } from '../types/Command.js';
 import injector from 'wire-dependency-injection';
 import LogChild from '../LogChild.js';
@@ -36,7 +36,7 @@ export default class AbstractCommand<
     return this.details;
   }
 
-  public async run(commandInteraction: CommandInteraction): Promise<void> {
+  public async run(commandInteraction: BaseInteraction): Promise<void> {
     await Promise.reject(commandInteraction);
   }
 

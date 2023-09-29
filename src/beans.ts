@@ -17,6 +17,7 @@ import './services/GistService.js';
 import './services/MangadexService.js';
 import './services/MangaService.js';
 import './services/ResourcesService.js';
+import './services/supabase/QuoteService.js';
 import './services/SaucenaoService.js';
 
 // Events
@@ -34,6 +35,7 @@ import './Commandes/MangaLinkCommand.js';
 import './Commandes/PinCommand.js';
 import './Commandes/QuoteCommand.js';
 import './Commandes/SauceCommand.js';
+import './Commandes/SaveQuoteCommand.js';
 import './Commandes/VocalquitCommand.js';
 
 ([] as Array<AbstractCommand>)

@@ -35,6 +35,7 @@ export interface CommandDetails {
   slashInteraction?: boolean;
   userInteraction?: boolean;
   messageInteraction?: boolean;
+  modalSubmitInteraction?: boolean;
   parentId?: string;
   nohelp?: boolean;
   options?: object;

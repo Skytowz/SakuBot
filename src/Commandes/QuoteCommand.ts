@@ -1,10 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonInteraction,
+  ButtonStyle,
   Channel,
   Colors,
   CommandInteraction,
   EmbedBuilder,
   Message,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
 } from 'discord.js';
 import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
@@ -13,6 +20,8 @@ import { getDateFromTimeStamp } from '../utils/dateUtils.js';
 import FormatError from '../errors/FormatError.js';
 import EventError from '../errors/EventError.js';
 import injector from 'wire-dependency-injection';
+import { mod } from '../utils/numberUtils.js';
+import { MockAgent } from 'undici';
 
 export default class QuoteCommand extends AbstractCommand {
   public constructor() {
@@ -78,7 +87,16 @@ export default class QuoteCommand extends AbstractCommand {
       targetChannel
     );
 
-    await commandInteraction.reply({ embeds: embeds });
+    const row = createButtonRow();
+
+    await commandInteraction.reply({ embeds: embeds, components: [row] });
+
+    const reply = await commandInteraction.fetchReply();
+    const replyInteraction = reply.createMessageComponentCollector({
+      time: 180000,
+    });
+
+    replyInteraction.on('collect', collect);
   }
 }
 
@@ -166,6 +184,37 @@ const parseIdsFromCommandInteraction = (
     }
   }
   return ids;
+};
+
+const createButtonRow = () => {
+  return new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId('save')
+      .setLabel('❤️')
+      .setStyle(ButtonStyle.Secondary)
+  );
+};
+
+const collect = async (interaction: ButtonInteraction) => {
+  // when the user click on show, we remove the button row and the previous message content, then post the result publicly
+  if (interaction.customId === 'save') {
+    const modal = new ModalBuilder()
+      .setCustomId('savequote')
+      .setTitle('Sauvergarder');
+
+    const nameInput = new TextInputBuilder()
+      .setCustomId('name')
+      .setLabel('Nom du favori')
+      .setStyle(TextInputStyle.Short);
+
+    const actionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
+      nameInput
+    );
+
+    modal.addComponents(actionRow);
+
+    await interaction.showModal(modal);
+  }
 };
 
 injector.registerBean(QuoteCommand, { type: COMMAND_BEAN_TYPE });

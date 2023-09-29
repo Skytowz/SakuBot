@@ -1,4 +1,8 @@
-import { CommandInteraction } from 'discord.js';
+import {
+  BaseInteraction,
+  CommandInteraction,
+  ModalSubmitInteraction,
+} from 'discord.js';
 import AbstractEvent, { EVENT_BEAN_TYPE } from './AbstractEvent.js';
 import injector from 'wire-dependency-injection';
 import AbstractCommand, {
@@ -10,36 +14,48 @@ export default class InteractionCreateEvent extends AbstractEvent {
     super('interactionCreate');
   }
 
-  protected async onEvent(commandInteraction: CommandInteraction) {
+  protected async onEvent(commandInteraction: BaseInteraction) {
     if (
-      commandInteraction.isChatInputCommand() ||
-      commandInteraction.isContextMenuCommand()
+      !(
+        commandInteraction.isChatInputCommand() ||
+        commandInteraction.isContextMenuCommand() ||
+        commandInteraction.isModalSubmit()
+      )
     ) {
-      const commandName = commandInteraction.commandName;
-      const command = injector
-        .getContainer()
-        ?.getBeans()
-        .find(
-          (b) =>
-            b.getType() === COMMAND_BEAN_TYPE &&
-            (b.getInstance() as AbstractCommand)
-              .getDetails()
-              .name?.includes(commandName)
-        )
-        ?.getInstance() as AbstractCommand;
-      if (!command) return;
+      return;
+    }
+    let commandName: string;
+    if (commandInteraction.isModalSubmit()) {
+      commandInteraction as ModalSubmitInteraction;
+      commandName = commandInteraction.customId;
+    } else {
+      commandInteraction as CommandInteraction;
+      commandName = commandInteraction.commandName;
+    }
+    const command = injector
+      .getContainer()
+      ?.getBeans()
+      .find(
+        (b) =>
+          b.getType() === COMMAND_BEAN_TYPE &&
+          (b.getInstance() as AbstractCommand)
+            .getDetails()
+            .name?.includes(commandName)
+      )
+      ?.getInstance() as AbstractCommand;
+    if (!command) return;
 
-      this.getLogger().info(
-        `Executing command [${commandName.toString()}] for user (${
-          commandInteraction.member?.user?.id
-        }) ${commandInteraction.member?.user?.username}#${
-          commandInteraction.member?.user?.discriminator
-        }`
-      );
+    this.getLogger().info(
+      `Executing command [${commandName.toString()}] for user (${
+        commandInteraction.member?.user?.id
+      }) ${commandInteraction.member?.user?.username}#${
+        commandInteraction.member?.user?.discriminator
+      }`
+    );
+    if (commandInteraction.isCommand())
       this.getLogger().debug(commandInteraction.options);
 
-      await command.run(commandInteraction);
-    }
+    await command.run(commandInteraction);
   }
 }
 
