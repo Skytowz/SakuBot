@@ -37,12 +37,33 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     },
   },
   {
+    id: 'dog',
+    name: ['dog'],
+    description: 'La conjecture des mikodogs',
+    options: {
+      messages: [
+        'https://media.discordapp.net/attachments/714214949341102111/991301131290546216/ChartGo.png',
+      ],
+    },
+  },
+  {
     id: 'fatigue',
     name: ['fatigue'],
     description: 'Envoie un banger musical',
     type: TypeHelp.ScanR,
     options: {
       messages: ['https://music.youtube.com/watch?v=E34mR2hB8_o&feature=share'],
+    },
+  },
+  {
+    id: 'fifi',
+    name: ['fifi'],
+    description: 'Commande speciale pour Fifi',
+    type: TypeHelp.ScanR,
+    options: {
+      messages: [
+        'Aigris moi ? serieusement ^^ haha on me l avait pas sortie celle la depuis loooongtemps 🙂 demande a mes potes si je suis aigris tu vas voir les reponses que tu vas te prendre XD rien que la semaine passee j\'étais content donc chuuuuut ferme la aigris de merde car oui toi tu m as tout l air d un bon aigris de merde car souvent vous etes frustrer de ne pas AVOIR RAISON:) ses agreable de se faire comprendre ou entendre par les gens hein? tu peux pas repondre car tu ne sais pas ce que c ou alors tu le sais mais tu as du taper dans ta barre de recherche "comment se fait comprendre" ou "comment se faire entendre" pour comprendre ce que c etait mdddrrr !! c est grave quoiquil en soit.... pour revenir a moi, je pense que je suis le mec le moins aigris de ma bande de 11 meilleurs amis pas psk j ai eu le plus de bonne réponse mais psk j ai le plus jolie phrasé de mes amis 😄 ses pas moi qui le dit, ses eux qui commente sous mes posts twitter "trop belle la phrase que tu as poster hier !" donc apres si tu veux que sa parte plus loi sa peut partir vraiment loi j habite dans la banlieue de niort sa te parle steven sanchez ? ses juste un cousin donc OKLM hahaha on verra si tu parles encore le aigris de merde mdddrrr pk insulter qd on est soi meme aigris tu me feras toujour marrer!!',
+      ],
     },
   },
   {
@@ -111,16 +132,6 @@ const details: Array<ImplementableAnswerCommandDetails> = [
             'https://media.discordapp.net/attachments/991387297767510167/1017068716007108618/1HQFxl4h.jpg',
           ],
         },
-      ],
-    },
-  },
-  {
-    id: 'dog',
-    name: ['dog'],
-    description: 'La conjecture des mikodogs',
-    options: {
-      messages: [
-        'https://media.discordapp.net/attachments/714214949341102111/991301131290546216/ChartGo.png',
       ],
     },
   },
