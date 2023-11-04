@@ -155,6 +155,17 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     },
   },
   {
+    id: 'omega',
+    name: ['omega'],
+    description: 'Envoie un omega banger musical',
+    type: TypeHelp.ScanR,
+    options: {
+      messages: [
+        'https://music.youtube.com/playlist?list=OLAK5uy_lx3uya4JOmoquB7eo_r1GeQiD4amxkNxc',
+      ],
+    },
+  },
+  {
     id: 'sakushi',
     name: ['sakushi'],
     description: 'Commande speciale pour Saku',
