@@ -196,7 +196,7 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     name: ['tierlist'],
     description: 'Envoie le lien de la tierlist',
     options: {
-      messages: ['https://tiermaker.com/create/seanr-tier-list-15178170'],
+      messages: ['https://tiermaker.com/create/scanr-v4-ultimate--569332'],
     },
   },
   {
