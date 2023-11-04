@@ -12,7 +12,7 @@ export default class ReadyEvent extends AbstractEvent {
       type: ActivityType.Playing,
     });
     setTimeout(() => {
-      this.getLogger().info(
+      this.getLogger().error(
         `Bot instance (${this.client?.user?.id}) ${this.client?.user?.username}#${this.client?.user?.discriminator} is ready!`
       );
     }, 1000);
