@@ -38,8 +38,8 @@ export default class GetPPCommand extends AbstractCommand {
     let serveur = commandInteraction.options.get('serveur')?.value as Boolean;
     let user: User | GuildMember;
     if (commandInteraction.isUserContextMenuCommand()) {
-      if (commandInteraction.member)
-        user = commandInteraction.member as GuildMember;
+      if (commandInteraction.targetMember)
+        user = commandInteraction.targetMember as GuildMember;
       else user = commandInteraction.user;
       serveur = true;
     } else if (
