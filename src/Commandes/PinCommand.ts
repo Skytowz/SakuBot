@@ -19,6 +19,7 @@ export default class PinCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction) {
+    await commandInteraction.deferReply({ ephemeral: true });
     if (
       !(commandInteraction.member
         ?.roles as GuildMemberRoleManager).cache.find(({ id }) =>
@@ -30,23 +31,21 @@ export default class PinCommand extends AbstractCommand {
     if (!commandInteraction.isMessageContextMenuCommand()) {
       throw new EventError("Ceci n'est pas un message");
     }
+
+    let message;
+
     if (!commandInteraction.targetMessage.pinned) {
-      await commandInteraction.targetMessage.pin(
-        `<@${commandInteraction.member?.user.id}> a pin le message.`
-      );
-      await commandInteraction.reply({
-        content: `<@${commandInteraction.member?.user.id}> a pin un message.`,
-        allowedMentions: { repliedUser: false },
-      });
+      message = `<@${commandInteraction.member?.user.id}> a pin le message.`;
+      await commandInteraction.targetMessage.pin(message);
     } else {
-      await commandInteraction.targetMessage.unpin(
-        `<@${commandInteraction.member?.user.id}> a unpin le message.`
-      );
-      await commandInteraction.reply({
-        content: `<@${commandInteraction.member?.user.id}> a unpin un message.`,
-        allowedMentions: { repliedUser: false },
-      });
+      message = `<@${commandInteraction.member?.user.id}> a unpin le message.`;
+      await commandInteraction.targetMessage.unpin(message);
     }
+    await commandInteraction.deleteReply();
+    await commandInteraction.targetMessage.reply({
+      content: message,
+      allowedMentions: { repliedUser: false },
+    });
   }
 }
 

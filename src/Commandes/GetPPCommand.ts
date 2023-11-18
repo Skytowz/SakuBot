@@ -1,4 +1,9 @@
-import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
+import {
+  ApplicationCommandOptionType,
+  CommandInteraction,
+  GuildMember,
+  User,
+} from 'discord.js';
 import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
@@ -17,7 +22,12 @@ export default class GetPPCommand extends AbstractCommand {
         new SlashOption()
           .setName('mention')
           .setDescription('La personne')
-          .setType(ApplicationCommandOptionType.Mentionable),
+          .setType(ApplicationCommandOptionType.Mentionable)
+          .setRequired(true),
+        new SlashOption()
+          .setName('serveur')
+          .setDescription('PP de serveur ou non')
+          .setType(ApplicationCommandOptionType.Boolean),
       ],
       slashInteraction: true,
       userInteraction: true,
@@ -25,21 +35,36 @@ export default class GetPPCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction) {
-    let user;
+    let serveur = commandInteraction.options.get('serveur')?.value as Boolean;
+    let user: User | GuildMember;
     if (commandInteraction.isUserContextMenuCommand()) {
-      user = commandInteraction.targetUser;
+      if (commandInteraction.member)
+        user = commandInteraction.member as GuildMember;
+      else user = commandInteraction.user;
+      serveur = true;
     } else if (
       commandInteraction.isChatInputCommand() &&
-      commandInteraction.options.getMentionable('mention')
+      commandInteraction.options.getMentionable('mention') &&
+      commandInteraction.options.getMentionable('mention') instanceof
+        GuildMember
     ) {
-      user = commandInteraction.options.getMentionable('mention');
+      user = commandInteraction.options.getMentionable(
+        'mention'
+      ) as GuildMember;
     } else {
       user = commandInteraction.user;
     }
     // FIXME: find a typesafe way to get the url
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const url = user?.avatarURL() ?? user?.user?.avatarURL();
+
+    this.getLogger().info(serveur);
+
+    let url;
+    if (user) {
+      if (user instanceof GuildMember && !serveur) user = user.user;
+      url = user.displayAvatarURL();
+    }
     if (!url) {
       throw new EventError("Cet utilisateur n'as pas de photo de profil");
     }
