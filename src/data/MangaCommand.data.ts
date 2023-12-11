@@ -61,6 +61,16 @@ const details: Array<ImplementableMangaCommandDetails> = [
     },
   },
   {
+    id: 'girlishnumberchap',
+    name: ['gnc'],
+    description: "Affiche une page d'un chapitre de Girlish Number",
+    options: {
+      research:
+        'https://raw.githubusercontent.com/SeanR-ScanR/GN/master/GirlishNumber.json',
+      cubariId: 'cmF3L1NlYW5SLVNjYW5SL0dOL21hc3Rlci9HaXJsaXNoTnVtYmVyLmpzb24',
+    },
+  },
+  {
     id: 'kaguchap',
     name: ['kc'],
     description: "Affiche une page d'un chapitre de Kaguya-sama",
