@@ -43,13 +43,13 @@ export default class ShowMember extends AbstractCommand {
       commandInteraction.reply({ content: 'ERROR', ephemeral: true });
       return;
     }
-    await commandInteraction.deferReply();
     const role: Role = commandInteraction.options.getRole('role') as Role;
     const guild = commandInteraction.guild;
     if (guild == null) {
       commandInteraction.reply({ content: 'ERROR', ephemeral: true });
       return;
     }
+    await commandInteraction.deferReply();
     await guild.members.fetch();
     const members = role.members;
     const embeds: Embed[] = [];
@@ -76,8 +76,9 @@ export default class ShowMember extends AbstractCommand {
       embeds.push(embed);
     }
     if (embeds.length == 0) {
-      commandInteraction.reply({
-        content: `Il n'y a aucun membre avec le rôle ${role.name}`,
+      await commandInteraction.deleteReply();
+      commandInteraction.followUp({
+        content: `Il n'y a aucun membre avec le rôle <@&${role.id}>`,
         ephemeral: true,
       });
       return;
@@ -102,6 +103,7 @@ export default class ShowMember extends AbstractCommand {
           .setLabel('>')
           .setStyle(ButtonStyle.Secondary)
       );
+      content.ephemeral = false;
       content.components = [row];
     }
     return content;
