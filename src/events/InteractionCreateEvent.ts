@@ -36,7 +36,6 @@ export default class InteractionCreateEvent extends AbstractEvent {
           commandInteraction.member?.user?.discriminator
         }`
       );
-      this.getLogger().debug(commandInteraction.options);
 
       await command.run(commandInteraction);
     }

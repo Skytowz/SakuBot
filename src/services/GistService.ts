@@ -4,8 +4,7 @@ import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import injector, { Bean } from 'wire-dependency-injection';
 
 export default class GistService extends AbstractService {
-
-  private CLIENT_ID : string = "Client-ID b7c69d2903407d9";
+  private CLIENT_ID: string = 'Client-ID b7c69d2903407d9';
 
   public constructor(bean: Bean) {
     super(bean.getId());
@@ -28,7 +27,7 @@ export default class GistService extends AbstractService {
     cubariId: string
   ) {
     let pages = Object.values(chapitre.groups).pop();
-    if(typeof pages === 'string') pages = await this.getPagesImgur(pages);
+    if (typeof pages === 'string') pages = await this.getPagesImgur(pages);
     return new Chapitre(
       pages as Array<string>,
       number as string,
@@ -40,19 +39,17 @@ export default class GistService extends AbstractService {
     );
   }
 
-  public async getPagesImgur(proxy : string){
-    const idImgur : string | undefined = proxy.match(/\/([^\/]*)$/)?.at(1);
-    if(idImgur === undefined) throw new Error("Erreur au niveau du chapitre");
-    return await fetch(
-      `https://api.imgur.com/3/album/${idImgur}/images`,
-      {
-        method:'get',
-        headers:{
-          "Authorization":this.CLIENT_ID
-        }
-      })
-    .then(res => res.json())
-    .then(res => res.data.map((e : any)=>e.link));
+  public async getPagesImgur(proxy: string) {
+    const idImgur: string | undefined = proxy.match(/\/([^\/]*)$/)?.at(1);
+    if (idImgur === undefined) throw new Error('Erreur au niveau du chapitre');
+    return await fetch(`https://api.imgur.com/3/album/${idImgur}/images`, {
+      method: 'get',
+      headers: {
+        Authorization: this.CLIENT_ID,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => res.data.map((e: any) => e.link));
   }
 }
 

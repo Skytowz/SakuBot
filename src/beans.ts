@@ -34,6 +34,7 @@ import './Commandes/MangaLinkCommand.js';
 import './Commandes/PinCommand.js';
 import './Commandes/QuoteCommand.js';
 import './Commandes/SauceCommand.js';
+import './Commandes/showMember.js';
 import './Commandes/VocalquitCommand.js';
 
 ([] as Array<AbstractCommand>)
