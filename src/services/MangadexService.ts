@@ -2,13 +2,19 @@
 import Chapitre from '../entity/Chapitre.js';
 import superagent from 'superagent';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
-import injector, { Bean } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 import { AttachmentBuilder } from 'discord.js';
 import fetch from 'node-fetch';
 
 export default class MangadexService extends AbstractService {
-  public constructor(bean: Bean) {
-    super(bean.getId());
+  static {
+    injector.instance(this.name, this, {
+      category: SERVICE_BEAN_TYPE,
+    });
+  }
+
+  public constructor() {
+    super(MangadexService.name);
   }
 
   public async getChapitre(
@@ -100,7 +106,3 @@ export default class MangadexService extends AbstractService {
       .then((res) => res.body.data);
   }
 }
-
-injector.registerBean(MangadexService, {
-  type: SERVICE_BEAN_TYPE,
-});

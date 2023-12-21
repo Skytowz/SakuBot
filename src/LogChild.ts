@@ -11,10 +11,7 @@ export default abstract class LogChild {
 
   public getLogger() {
     if (this.logger === undefined) {
-      this.logger = (this.mainLogger as typeof Logger).child(
-        {},
-        { msgPrefix: this.prefix }
-      );
+      this.logger = this.mainLogger.child({}, { msgPrefix: this.prefix });
     }
     return this.logger;
   }

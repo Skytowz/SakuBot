@@ -49,12 +49,14 @@ const LANGUAGES = [
 ];
 
 export default class MangaLinkCommand extends AbstractCommand {
-  private mangaService: MangaService = injector.autoWire(
-    MangaService,
-    (b) => (this.mangaService = b)
-  );
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+      wiring: [MangaService.name],
+    });
+  }
 
-  public constructor() {
+  public constructor(private mangaService: MangaService) {
     super({
       id: 'mangadex',
       name: ['manga'],
@@ -108,8 +110,7 @@ export default class MangaLinkCommand extends AbstractCommand {
 
     let embeds;
     try {
-      const mangaService = this.mangaService as MangaService;
-      const chapter = await mangaService.fetchChapter({
+      const chapter = await this.mangaService.fetchChapter({
         chapterNumber: chapterNumber,
         research: id,
         languages: languages,
@@ -128,7 +129,3 @@ export default class MangaLinkCommand extends AbstractCommand {
     await initializeMangaViewerInterractions(commandInteraction, embeds);
   }
 }
-
-injector.registerBean(MangaLinkCommand, {
-  type: COMMAND_BEAN_TYPE,
-});

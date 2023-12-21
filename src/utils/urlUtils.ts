@@ -3,8 +3,8 @@ import { Message } from 'discord.js';
 export const extractUrlFromDiscordMessage = (message: Message) => {
   let rawUrl: string | undefined;
 
-  const sourceImageAttachment = message.attachments.find((value) =>
-    value.contentType?.includes('image')
+  const sourceImageAttachment = message.attachments.find(
+    (value) => value.contentType?.includes('image')
   );
 
   if (sourceImageAttachment) {

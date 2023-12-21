@@ -1,7 +1,7 @@
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import GistService from './GistService.js';
 import MangadexService from './MangadexService.js';
-import injector, { Bean } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 export interface ChapterFetchOptions {
   chapterId?: string;
@@ -13,35 +13,36 @@ export interface ChapterFetchOptions {
 }
 
 export default class MangaService extends AbstractService {
-  public constructor(bean: Bean) {
-    super(bean.getId());
+  static {
+    injector.instance(this.name, this, {
+      category: SERVICE_BEAN_TYPE,
+      wiring: [MangadexService.name, GistService.name],
+    });
   }
 
-  private mangadexService: MangadexService = injector.autoWire(
-    MangadexService,
-    (b) => (this.mangadexService = b)
-  );
-  private gistService: GistService = injector.autoWire(
-    GistService,
-    (b) => (this.gistService = b)
-  );
+  public constructor(
+    private mangadexService: MangadexService,
+    private gistService: GistService
+  ) {
+    super(MangaService.name);
+  }
 
   public async fetchChapter(options: ChapterFetchOptions) {
-    const mangadexService = this.mangadexService as MangadexService;
-    const gistService = this.gistService as GistService;
     let chapitre;
     if (options.chapterId) {
-      const data = await mangadexService.getChapitreInfoById(options.chapterId);
-      chapitre = await mangadexService.getChapitreById(data);
+      const data = await this.mangadexService.getChapitreInfoById(
+        options.chapterId
+      );
+      chapitre = await this.mangadexService.getChapitreById(data);
     } else {
       if (options.cubariId) {
-        chapitre = await gistService.getChapitre(
+        chapitre = await this.gistService.getChapitre(
           options.research as string,
           options.chapterNumber as number,
           options.cubariId
         );
       } else {
-        chapitre = await mangadexService.getChapitre(
+        chapitre = await this.mangadexService.getChapitre(
           options.research as string,
           options.chapterNumber as number,
           options.languages as Array<string>,
@@ -52,5 +53,3 @@ export default class MangaService extends AbstractService {
     return chapitre;
   }
 }
-
-injector.registerBean(MangaService, { type: SERVICE_BEAN_TYPE });

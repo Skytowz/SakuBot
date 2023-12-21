@@ -11,6 +11,12 @@ import EventError from '../errors/EventError.js';
 import injector from 'wire-dependency-injection';
 
 export default class GetPPCommand extends AbstractCommand {
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+    });
+  }
+
   public constructor() {
     super({
       id: 'pp',
@@ -35,7 +41,7 @@ export default class GetPPCommand extends AbstractCommand {
   }
 
   public async run(commandInteraction: CommandInteraction) {
-    let serveur = commandInteraction.options.get('serveur')?.value as Boolean;
+    let serveur = commandInteraction.options.get('serveur')?.value as boolean;
     let user: User | GuildMember;
     if (commandInteraction.isUserContextMenuCommand()) {
       if (commandInteraction.targetMember)
@@ -72,5 +78,3 @@ export default class GetPPCommand extends AbstractCommand {
     await commandInteraction.reply(url + '?size=4096');
   }
 }
-
-injector.registerBean(GetPPCommand, { type: COMMAND_BEAN_TYPE });

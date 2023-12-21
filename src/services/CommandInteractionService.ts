@@ -1,11 +1,18 @@
 import { CommandInteraction, GuildMember } from 'discord.js';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import EventError from '../errors/EventError.js';
-import injector, { Bean } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 export default class CommandInteractionService extends AbstractService {
-  public constructor(bean: Bean) {
-    super(bean.getId());
+  static {
+    injector.instance(this.name, this, {
+      category: SERVICE_BEAN_TYPE,
+      wiring: ['discordRest'],
+    });
+  }
+
+  public constructor() {
+    super(CommandInteractionService.name);
   }
 
   public async getGuildMember(
@@ -29,7 +36,3 @@ export default class CommandInteractionService extends AbstractService {
     return guildMember;
   }
 }
-
-injector.registerBean(CommandInteractionService, {
-  type: SERVICE_BEAN_TYPE,
-});
