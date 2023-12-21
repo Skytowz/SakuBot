@@ -15,6 +15,12 @@ import EventError from '../errors/EventError.js';
 import injector from 'wire-dependency-injection';
 
 export default class QuoteCommand extends AbstractCommand {
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+    });
+  }
+
   public constructor() {
     super({
       id: 'quote',
@@ -167,5 +173,3 @@ const parseIdsFromCommandInteraction = (
   }
   return ids;
 };
-
-injector.registerBean(QuoteCommand, { type: COMMAND_BEAN_TYPE });

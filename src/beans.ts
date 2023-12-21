@@ -7,7 +7,7 @@ import ImplementableDanroobuCommand from './Commandes/implementable/Implementabl
 import AbstractCommand, {
   COMMAND_BEAN_TYPE,
 } from './Commandes/AbstractCommand.js';
-import injector, { Bean } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 // Services
 import './services/CommandInteractionService.js';
@@ -50,11 +50,9 @@ import './Commandes/VocalquitCommand.js';
     )
   )
   .forEach((command) => {
-    const bean = new Bean(
-      AbstractCommand,
+    injector.declare(
       command.getDetails().id + 'ImplCommand',
+      command,
       COMMAND_BEAN_TYPE
     );
-    bean.setInstance(command);
-    injector.registerCookedBean(bean);
   });

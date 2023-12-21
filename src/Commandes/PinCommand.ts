@@ -7,6 +7,12 @@ import injector from 'wire-dependency-injection';
 const WHITELIST = ['780835397008621600', '685583592084340740'];
 
 export default class PinCommand extends AbstractCommand {
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+    });
+  }
+
   public constructor() {
     super({
       id: 'pin',
@@ -21,9 +27,8 @@ export default class PinCommand extends AbstractCommand {
   public async run(commandInteraction: CommandInteraction) {
     await commandInteraction.deferReply({ ephemeral: true });
     if (
-      !(commandInteraction.member
-        ?.roles as GuildMemberRoleManager).cache.find(({ id }) =>
-        WHITELIST.includes(id)
+      !(commandInteraction.member?.roles as GuildMemberRoleManager).cache.find(
+        ({ id }) => WHITELIST.includes(id)
       )
     ) {
       throw new EventError('Tu ne peux pas utiliser cette commande');
@@ -48,5 +53,3 @@ export default class PinCommand extends AbstractCommand {
     });
   }
 }
-
-injector.registerBean(PinCommand, { type: COMMAND_BEAN_TYPE });

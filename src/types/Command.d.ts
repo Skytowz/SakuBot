@@ -17,7 +17,7 @@ export interface CommandDeclarationOptions {
     {
       id: string;
       from?: number;
-    }
+    },
   ];
   research?: string;
   chapterId?: string;

@@ -25,7 +25,8 @@ export const generateMagaViewerEmbeds = async (
 export const generateMangaViewerButtonBar = async (
   pageChapitreList: PageChapitreList
 ) => {
-  const content = (await pageChapitreList.getContent()) as InteractionReplyOptions;
+  const content =
+    (await pageChapitreList.getContent()) as InteractionReplyOptions;
 
   if (pageChapitreList.length > 1) {
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -63,7 +64,6 @@ export const initializeMangaViewerInterractions = async (
           content: 'Tu ne peux pas utiliser cette commande',
           ephemeral: true,
         });
-        return;
       } else if (i.customId === 'before') {
         //@ts-ignore
         pageChapitreList.left(i);
