@@ -7,11 +7,7 @@ import {
   ApplicationCommandOptionType,
   ButtonBuilder,
   ButtonStyle,
-  ChatInputCommandInteraction,
-  Colors,
   CommandInteraction,
-  Guild,
-  GuildMember,
   InteractionReplyOptions,
   Role,
 } from 'discord.js';
@@ -19,6 +15,12 @@ import Embed from '../utils/embed.js';
 import EmbedList from '../utils/embedList.js';
 
 export default class ShowMember extends AbstractCommand {
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+    });
+  }
+
   public constructor() {
     super({
       id: 'members',
@@ -40,13 +42,13 @@ export default class ShowMember extends AbstractCommand {
 
   public async run(commandInteraction: CommandInteraction) {
     if (!commandInteraction.isChatInputCommand()) {
-      commandInteraction.reply({ content: 'ERROR', ephemeral: true });
+      await commandInteraction.reply({ content: 'ERROR', ephemeral: true });
       return;
     }
     const role: Role = commandInteraction.options.getRole('role') as Role;
     const guild = commandInteraction.guild;
     if (guild == null) {
-      commandInteraction.reply({ content: 'ERROR', ephemeral: true });
+      await commandInteraction.reply({ content: 'ERROR', ephemeral: true });
       return;
     }
     await commandInteraction.deferReply();
@@ -77,7 +79,7 @@ export default class ShowMember extends AbstractCommand {
     }
     if (embeds.length == 0) {
       await commandInteraction.deleteReply();
-      commandInteraction.followUp({
+      await commandInteraction.followUp({
         content: `Il n'y a aucun membre avec le rôle <@&${role.id}>`,
         ephemeral: true,
       });
@@ -126,9 +128,11 @@ export default class ShowMember extends AbstractCommand {
           });
           return;
         } else if (i.customId === 'before') {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //@ts-ignore
           embedList.left(i);
         } else if (i.customId === 'next') {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //@ts-ignore
           embedList.right(i);
         }
@@ -140,5 +144,3 @@ export default class ShowMember extends AbstractCommand {
     }
   };
 }
-
-injector.registerBean(ShowMember, { type: COMMAND_BEAN_TYPE });
