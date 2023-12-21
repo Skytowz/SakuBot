@@ -13,6 +13,12 @@ import TypeHelp from '../entity/typeHelp.js';
 import injector from 'wire-dependency-injection';
 
 export default class HelpCommand extends AbstractCommand {
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+    });
+  }
+
   public constructor() {
     super({
       id: 'help',
@@ -33,11 +39,9 @@ export default class HelpCommand extends AbstractCommand {
 
     const typesHelps = TypeHelp.getValues();
 
-    const commands = injector
-      .getContainer()
-      ?.getBeans()
-      .filter((b) => b.getType() === COMMAND_BEAN_TYPE)
-      ?.map((b) => b.getInstance()) as Array<AbstractCommand>;
+    const commands = injector.wire<Array<AbstractCommand>>({
+      category: COMMAND_BEAN_TYPE,
+    });
 
     const typeHelpEmbeds = buildTypeHelpEmbeds(typesHelps, commands);
 
@@ -61,9 +65,10 @@ export default class HelpCommand extends AbstractCommand {
       if (i.customId === 'SelectHelp') {
         i.update({
           embeds: [
-            typeHelpEmbeds.find((embed) =>
-              //@ts-ignore
-              embed.data.description?.startsWith('**' + i.values)
+            typeHelpEmbeds.find(
+              (embed) =>
+                //@ts-ignore
+                embed.data.description?.startsWith('**' + i.values)
             ) as APIEmbed,
           ],
         });
@@ -188,5 +193,3 @@ const reduceCommandsPerParentId = (commands: Array<AbstractCommand>) => {
       ) === index
   );
 };
-
-injector.registerBean(HelpCommand, { type: COMMAND_BEAN_TYPE });

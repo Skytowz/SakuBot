@@ -7,15 +7,17 @@ import {
 import AbstractCommand from '../Commandes/AbstractCommand.js';
 import SlashCommand from '../utils/slashCommand.js';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
-import injector, { Bean } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 import { DiagnosticsChannel } from 'undici';
 import Error = DiagnosticsChannel.Error;
 
 export default class CommandService extends AbstractService {
-  private discordRest: REST = injector.autoWire(
-    'discordRest',
-    (b) => (this.discordRest = b)
-  );
+  static {
+    injector.instance(this.name, this, {
+      category: SERVICE_BEAN_TYPE,
+      wiring: ['discordRest'],
+    });
+  }
 
   private registerCommandQueue: Array<{
     command: AbstractCommand;
@@ -26,8 +28,8 @@ export default class CommandService extends AbstractService {
     /**/
   });
 
-  public constructor(bean: Bean) {
-    super(bean.getId());
+  public constructor(private discordRest: REST) {
+    super(CommandService.name);
   }
 
   public executeRegisterCommandQueue() {
@@ -116,7 +118,7 @@ export default class CommandService extends AbstractService {
   public async registerCommandsIdAPI(
     commands: Array<ContextMenuCommandBuilder | SlashCommand>
   ) {
-    return this.discordRest?.put(
+    return this.discordRest.put(
       Routes.applicationCommands(
         (process.env.ENV == 'DEV'
           ? process.env.APP_ID_DEV
@@ -126,5 +128,3 @@ export default class CommandService extends AbstractService {
     );
   }
 }
-
-injector.registerBean(CommandService, { type: SERVICE_BEAN_TYPE });

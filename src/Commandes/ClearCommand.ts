@@ -9,6 +9,12 @@ import injector from 'wire-dependency-injection';
 const WHITELIST = ['452186417334976532', '273756946308530176'];
 
 export default class ClearCommand extends AbstractCommand {
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+    });
+  }
+
   public constructor() {
     super({
       id: 'clear',
@@ -54,5 +60,3 @@ export default class ClearCommand extends AbstractCommand {
       );
   }
 }
-
-injector.registerBean(ClearCommand, { type: COMMAND_BEAN_TYPE });

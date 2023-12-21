@@ -12,7 +12,7 @@ export default class ImplementableDanroobuCommand extends AbstractCommand<Implem
   public static readonly abstractId = 'abstract.danroobu';
 
   private danroobuService: DanroobuService = injector.autoWire(
-    DanroobuService,
+    DanroobuService.name,
     (b) => (this.danroobuService = b)
   );
 
@@ -38,7 +38,6 @@ export default class ImplementableDanroobuCommand extends AbstractCommand<Implem
   }
 
   public async run(commandInteraction: CommandInteraction) {
-    const danroobuService = this.danroobuService as DanroobuService;
     if (!commandInteraction.isChatInputCommand()) {
       throw new EventError(
         "cette action ne peut être effectuée qu'avec une commande"
@@ -47,7 +46,7 @@ export default class ImplementableDanroobuCommand extends AbstractCommand<Implem
     const solo = !!commandInteraction.options.getBoolean('solo');
     const sensitive = !!commandInteraction.options.getBoolean('sensitive');
     const allResult = !!this.getDetails().options?.allResult;
-    const url = await danroobuService.getGeneralImageByTag(
+    const url = await this.danroobuService.getGeneralImageByTag(
       this.getDetails().options?.research as string,
       solo,
       sensitive,

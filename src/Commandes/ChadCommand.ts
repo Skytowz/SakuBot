@@ -11,6 +11,12 @@ import EventError from '../errors/EventError.js';
 import injector from 'wire-dependency-injection';
 
 export default class ChadCommand extends AbstractCommand {
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+    });
+  }
+
   public constructor() {
     super({
       id: 'chad',
@@ -38,9 +44,9 @@ export default class ChadCommand extends AbstractCommand {
       commandInteraction.isChatInputCommand() &&
       commandInteraction.options.getMentionable('mention')
     ) {
-      user = (commandInteraction.options.getMentionable(
-        'mention'
-      ) as GuildMember).user;
+      user = (
+        commandInteraction.options.getMentionable('mention') as GuildMember
+      ).user;
     } else {
       user = commandInteraction.user;
     }
@@ -75,5 +81,3 @@ const drawHead = async (context: Canvas.SKRSContext2D, url: string) => {
   const avatar = await Canvas.loadImage(url + '?size=4096');
   context.drawImage(avatar, 150, 60, 390, 390);
 };
-
-injector.registerBean(ChadCommand, { type: COMMAND_BEAN_TYPE });

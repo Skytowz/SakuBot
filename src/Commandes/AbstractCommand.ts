@@ -5,7 +5,7 @@ import LogChild from '../LogChild.js';
 import CommandService from '../services/CommandService.js';
 
 export default class AbstractCommand<
-  CD extends CommandDetails = CommandDetails
+  CD extends CommandDetails = CommandDetails,
 > extends LogChild {
   private readonly details: CD;
 
@@ -21,9 +21,11 @@ export default class AbstractCommand<
   }
 
   public async register() {
-    await injector.waitForWire('logger');
+    await injector.asyncWire('logger');
     try {
-      const commandService = await injector.waitForWire(CommandService);
+      const commandService = await injector.asyncWire<CommandService>(
+        CommandService.name
+      );
       this.getLogger().info(`Registering...`);
       await commandService.registerCommand(this);
       this.getLogger().info(`Registered!`);

@@ -6,6 +6,12 @@ import AbstractCommand, {
 } from '../Commandes/AbstractCommand.js';
 
 export default class InteractionCreateEvent extends AbstractEvent {
+  static {
+    injector.instance(this.name, this, {
+      category: EVENT_BEAN_TYPE,
+    });
+  }
+
   public constructor() {
     super('interactionCreate');
   }
@@ -17,31 +23,17 @@ export default class InteractionCreateEvent extends AbstractEvent {
     ) {
       const commandName = commandInteraction.commandName;
       const command = injector
-        .getContainer()
-        ?.getBeans()
-        .find(
-          (b) =>
-            b.getType() === COMMAND_BEAN_TYPE &&
-            (b.getInstance() as AbstractCommand)
-              .getDetails()
-              .name?.includes(commandName)
-        )
-        ?.getInstance() as AbstractCommand;
+        .wire<Array<AbstractCommand>>({ category: COMMAND_BEAN_TYPE })
+        .find((b) => b.getDetails().name?.includes(commandName));
       if (!command) return;
 
       this.getLogger().info(
-        `Executing command [${commandName.toString()}] for user (${
-          commandInteraction.member?.user?.id
-        }) ${commandInteraction.member?.user?.username}#${
-          commandInteraction.member?.user?.discriminator
-        }`
+        `Executing command [${commandName.toString()}] for user (${commandInteraction
+          .member?.user?.id}) ${commandInteraction.member?.user
+          ?.username}#${commandInteraction.member?.user?.discriminator}`
       );
 
       await command.run(commandInteraction);
     }
   }
 }
-
-injector.registerBean(InteractionCreateEvent, {
-  type: EVENT_BEAN_TYPE,
-});
