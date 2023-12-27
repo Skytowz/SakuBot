@@ -33,6 +33,7 @@ import './Commandes/HelpCommand.js';
 import './Commandes/MangaLinkCommand.js';
 import './Commandes/PinCommand.js';
 import './Commandes/QuoteCommand.js';
+import './Commandes/TagVoc.js';
 import './Commandes/SauceCommand.js';
 import './Commandes/showMember.js';
 import './Commandes/VocalquitCommand.js';
