@@ -222,6 +222,17 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     },
   },
   {
+    id: 'yamadaquand',
+    name: ['yamadaquand'],
+    description: 'Info sur la publication de Yamada',
+    type: TypeHelp.ScanR,
+    options: {
+      messages: [
+        'Les chapitres de Yamada sortent le samedi à 18h, on essaye de sortir au minimum un chapitre par semaine.',
+      ],
+    },
+  },
+  {
     id: 'wiki',
     name: ['wiki'],
     description: 'Envoie le wiki de Kaguya-sama',
