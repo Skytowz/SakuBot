@@ -105,6 +105,15 @@ const details: Array<ImplementableMangaCommandDetails> = [
     },
   },
   {
+    id: 'princesschap',
+    name: ['pc'],
+    description:
+      "Affiche une page d'un chapitre de Les Sept Princesses Endormies",
+    options: {
+      research: '912dd3eb-80f2-4659-8986-badb32c847c0',
+    },
+  },
+  {
     id: 'renaichap',
     name: ['rc'],
     description: "Affiche une page d'un chapitre de Renai Daikou",
