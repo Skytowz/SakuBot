@@ -5,7 +5,7 @@ import {
   ButtonStyle,
   EmbedBuilder,
 } from 'discord.js';
-import injector, { Bean } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 export type SaucenaoSourceData = {
   title?: string;
@@ -29,8 +29,14 @@ type RawResult = Array<{
 }>;
 
 export default class SaucenaoService extends AbstractService {
-  public constructor(bean: Bean) {
-    super(bean.getId());
+  static {
+    injector.instance(this.name, this, {
+      category: SERVICE_BEAN_TYPE,
+    });
+  }
+
+  public constructor() {
+    super(SaucenaoService.name);
   }
 
   public async fetchSourceDataFromImageUrl(imageUrl: URL) {
@@ -101,7 +107,3 @@ export default class SaucenaoService extends AbstractService {
     );
   }
 }
-
-injector.registerBean(SaucenaoService, {
-  type: SERVICE_BEAN_TYPE,
-});

@@ -16,7 +16,7 @@ export default class ImplementableMangaCommand extends AbstractCommand<Implement
   public static readonly abstractId = 'abstract.manga';
 
   private mangaService: MangaService = injector.autoWire(
-    MangaService,
+    MangaService.name,
     (b) => (this.mangaService = b)
   );
 
@@ -46,9 +46,7 @@ export default class ImplementableMangaCommand extends AbstractCommand<Implement
       );
     }
 
-    const mangaService = this.mangaService as MangaService;
-
-    const chapter = await mangaService.fetchChapter({
+    const chapter = await this.mangaService.fetchChapter({
       ...this.getDetails().options,
       chapterNumber: Number(commandInteraction.options.getString('chapitre')),
     });

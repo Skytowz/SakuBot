@@ -18,6 +18,12 @@ const IMAGES = [
 const WHITELIST = ['713837802638278749', '273756946308530176'];
 
 export default class GogoleCommand extends AbstractCommand {
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+    });
+  }
+
   public constructor() {
     super({
       id: 'gogole',
@@ -36,5 +42,3 @@ export default class GogoleCommand extends AbstractCommand {
     await commandInteraction.reply({ files: [sample(IMAGES)] });
   }
 }
-
-injector.registerBean(GogoleCommand, { type: COMMAND_BEAN_TYPE });

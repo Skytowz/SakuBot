@@ -20,9 +20,9 @@ export default class AbstractEvent extends LogChild {
   }
 
   public async register() {
-    await injector.waitForWire('logger');
+    await injector.asyncWire('logger');
     try {
-      const client = (await injector.waitForWire('client')) as Client;
+      const client = await injector.asyncWire<Client>('client');
       this.getLogger().info(`Registering...`);
       client.on(this.getEventIdentifier(), (args) => this.execute(args));
       this.getLogger().info(`Registered!`);
