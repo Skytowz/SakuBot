@@ -7,12 +7,14 @@ import { extractUrlFromDiscordMessage } from '../utils/urlUtils.js';
 import injector from 'wire-dependency-injection';
 
 export default class SauceCommand extends AbstractCommand {
-  private saucenaoService: SaucenaoService = injector.autoWire(
-    SaucenaoService,
-    (b) => (this.saucenaoService = b)
-  );
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+      wiring: [SaucenaoService.name],
+    });
+  }
 
-  public constructor() {
+  public constructor(private saucenaoService: SaucenaoService) {
     super({
       id: 'sauce',
       name: ['sauce'],
@@ -40,12 +42,9 @@ export default class SauceCommand extends AbstractCommand {
 
     let result;
 
-    const saucenaoService = this.saucenaoService as SaucenaoService;
-
     try {
-      result = await saucenaoService.fetchSourceDataFromImageUrl(
-        sourceImageUrl
-      );
+      result =
+        await this.saucenaoService.fetchSourceDataFromImageUrl(sourceImageUrl);
     } catch (e) {
       this.getLogger().error("Une erreur s'est produite");
       this.getLogger().error(e);
@@ -55,14 +54,13 @@ export default class SauceCommand extends AbstractCommand {
       throw new EventError('Impossible de récupérer la source');
     }
 
-    const embed = saucenaoService.convertImageSourceDataToEmbed(
+    const embed = this.saucenaoService.convertImageSourceDataToEmbed(
       result,
       commandInteraction.user.id
     );
 
-    const row = saucenaoService.createButtonRowForImageSourceDataToEmbed(
-      result
-    );
+    const row =
+      this.saucenaoService.createButtonRowForImageSourceDataToEmbed(result);
 
     await commandInteraction.followUp({
       embeds: [embed],
@@ -88,5 +86,3 @@ export default class SauceCommand extends AbstractCommand {
     });
   }
 }
-
-injector.registerBean(SauceCommand, { type: COMMAND_BEAN_TYPE });

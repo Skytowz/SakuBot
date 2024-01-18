@@ -1,13 +1,19 @@
 import Chapitre from '../entity/Chapitre.js';
 import superagent from 'superagent';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
-import injector, { Bean } from 'wire-dependency-injection';
+import injector from 'wire-dependency-injection';
 
 export default class GistService extends AbstractService {
-  private CLIENT_ID: string = 'Client-ID b7c69d2903407d9';
+  static {
+    injector.instance(this.name, this, {
+      category: SERVICE_BEAN_TYPE,
+    });
+  }
 
-  public constructor(bean: Bean) {
-    super(bean.getId());
+  private CLIENT_ID = 'Client-ID b7c69d2903407d9';
+
+  public constructor() {
+    super(GistService.name);
   }
 
   public async getChapitre(manga: string, number: number, cubariId: string) {
@@ -40,7 +46,7 @@ export default class GistService extends AbstractService {
   }
 
   public async getPagesImgur(proxy: string) {
-    const idImgur: string | undefined = proxy.match(/\/([^\/]*)$/)?.at(1);
+    const idImgur: string | undefined = proxy.match(/\/([^/]*)$/)?.at(1);
     if (idImgur === undefined) throw new Error('Erreur au niveau du chapitre');
     return await fetch(`https://api.imgur.com/3/album/${idImgur}/images`, {
       method: 'get',
@@ -52,5 +58,3 @@ export default class GistService extends AbstractService {
       .then((res) => res.data.map((e: any) => e.link));
   }
 }
-
-injector.registerBean(GistService, { type: SERVICE_BEAN_TYPE });

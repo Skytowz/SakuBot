@@ -12,18 +12,19 @@ import ResourcesService from '../services/ResourcesService.js';
 import injector from 'wire-dependency-injection';
 
 export default class VocalquitCommand extends AbstractCommand {
+  static {
+    injector.instance(this.name, this, {
+      category: COMMAND_BEAN_TYPE,
+      wiring: [CommandInteractionService.name, ResourcesService.name],
+    });
+  }
+
   private available = true;
 
-  private commandInteractionService: CommandInteractionService = injector.autoWire(
-    CommandInteractionService,
-    (b) => (this.commandInteractionService = b)
-  );
-  private resourcesService: ResourcesService = injector.autoWire(
-    ResourcesService,
-    (b) => (this.resourcesService = b)
-  );
-
-  public constructor() {
+  public constructor(
+    private commandInteractionService: CommandInteractionService,
+    private resourcesService: ResourcesService
+  ) {
     super({
       id: 'quit',
       name: ['quit'],
@@ -42,12 +43,10 @@ export default class VocalquitCommand extends AbstractCommand {
       throw new EventError('Une déco est déjà en cours');
     }
 
-    const commandInteractionService = this
-      .commandInteractionService as CommandInteractionService;
-
-    const guildMember = await commandInteractionService.checkDiscordGuildMember(
-      commandInteraction
-    );
+    const guildMember =
+      await this.commandInteractionService.checkDiscordGuildMember(
+        commandInteraction
+      );
 
     const channelId = guildMember.voice.channelId;
     if (!channelId) {
@@ -57,13 +56,11 @@ export default class VocalquitCommand extends AbstractCommand {
     const connection = joinVoiceChannel({
       channelId: channelId,
       guildId: guildMember.guild.id,
-      adapterCreator: (guildMember.guild
-        .voiceAdapterCreator as unknown) as DiscordGatewayAdapterCreator,
+      adapterCreator: guildMember.guild
+        .voiceAdapterCreator as unknown as DiscordGatewayAdapterCreator,
     });
 
-    const resourcesService = this.resourcesService as ResourcesService;
-
-    const player = resourcesService.playAudioResource(
+    const player = this.resourcesService.playAudioResource(
       connection,
       './ressources/outro.mp3'
     );
@@ -88,7 +85,3 @@ export default class VocalquitCommand extends AbstractCommand {
     }, 15500);
   }
 }
-
-injector.registerBean(VocalquitCommand, {
-  type: COMMAND_BEAN_TYPE,
-});

@@ -20,7 +20,10 @@ export default class TypeHelp {
     "Commande qui affiche une image d'un personnage"
   );
 
-  constructor(public name: string, public description: string) {}
+  constructor(
+    public name: string,
+    public description: string
+  ) {}
 
   static getKeys() {
     return Object.keys(TypeHelp) as Array<keyof TypeHelp>;
