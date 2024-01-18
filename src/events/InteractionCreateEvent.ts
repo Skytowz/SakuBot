@@ -3,7 +3,7 @@ import AbstractEvent, { EVENT_BEAN_TYPE } from './AbstractEvent.js';
 import injector from 'wire-dependency-injection';
 import AbstractCommand, {
   COMMAND_BEAN_TYPE,
-} from '../Commandes/AbstractCommand.js';
+} from '../commandes/AbstractCommand.js';
 
 export default class InteractionCreateEvent extends AbstractEvent {
   static {

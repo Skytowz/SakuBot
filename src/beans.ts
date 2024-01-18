@@ -1,12 +1,12 @@
 import AnswerCommandData from './data/AnswerCommand.data.js';
-import ImplementableAnswerCommand from './Commandes/implementable/ImplementableAnswerCommand.js';
+import ImplementableAnswerCommand from './commandes/implementable/ImplementableAnswerCommand.js';
 import MangaCommandData from './data/MangaCommand.data.js';
-import ImplementableMangaCommand from './Commandes/implementable/ImplementableMangaCommand.js';
+import ImplementableMangaCommand from './commandes/implementable/ImplementableMangaCommand.js';
 import DanroobuCommandData from './data/DanroobuCommand.data.js';
-import ImplementableDanroobuCommand from './Commandes/implementable/ImplementableDanroobuCommand.js';
+import ImplementableDanroobuCommand from './commandes/implementable/ImplementableDanroobuCommand.js';
 import AbstractCommand, {
   COMMAND_BEAN_TYPE,
-} from './Commandes/AbstractCommand.js';
+} from './commandes/AbstractCommand.js';
 import injector from 'wire-dependency-injection';
 
 // Services
@@ -24,19 +24,19 @@ import './events/InteractionCreateEvent.js';
 import './events/ReadyEvent.js';
 
 // Commands
-import './Commandes/ChadCommand.js';
-import './Commandes/ChapterLinkCommand.js';
-import './Commandes/ClearCommand.js';
-import './Commandes/GetPPCommand.js';
-import './Commandes/GogoleCommand.js';
-import './Commandes/HelpCommand.js';
-import './Commandes/MangaLinkCommand.js';
-import './Commandes/PinCommand.js';
-import './Commandes/QuoteCommand.js';
-import './Commandes/TagVoc.js';
-import './Commandes/SauceCommand.js';
-import './Commandes/showMember.js';
-import './Commandes/VocalquitCommand.js';
+import './commandes/ChadCommand.js';
+import './commandes/ChapterLinkCommand.js';
+import './commandes/ClearCommand.js';
+import './commandes/GetPPCommand.js';
+import './commandes/GogoleCommand.js';
+import './commandes/HelpCommand.js';
+import './commandes/MangaLinkCommand.js';
+import './commandes/PinCommand.js';
+import './commandes/QuoteCommand.js';
+import './commandes/TagVoc.js';
+import './commandes/SauceCommand.js';
+import './commandes/ShowMember.js';
+import './commandes/VocalquitCommand.js';
 
 ([] as Array<AbstractCommand>)
   .concat(

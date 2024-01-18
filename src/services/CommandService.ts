@@ -4,7 +4,7 @@ import {
   REST,
   Routes,
 } from 'discord.js';
-import AbstractCommand from '../Commandes/AbstractCommand.js';
+import AbstractCommand from '../commandes/AbstractCommand.js';
 import SlashCommand from '../utils/slashCommand.js';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import injector from 'wire-dependency-injection';
