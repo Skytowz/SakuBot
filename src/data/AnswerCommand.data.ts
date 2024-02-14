@@ -136,6 +136,15 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     },
   },
   {
+    id: 'monetoile',
+    name: ['monetoile'],
+    description: 'Envoie un troisième banger avec Gogo cette fois',
+    type: TypeHelp.ScanR,
+    options: {
+      messages: ['https://music.youtube.com/watch?v=sBiAijeM6Cs'],
+    },
+  },
+  {
     id: 'nijikasimp',
     name: ['nijikasimp'],
     description: 'Ôde à Nijika',
