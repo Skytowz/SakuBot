@@ -14,6 +14,8 @@ import FormatError from '../errors/FormatError.js';
 import EventError from '../errors/EventError.js';
 import injector from 'wire-dependency-injection';
 
+const QUOTE_MESSAGE_LENGTH_LIMIT = 2000;
+
 export default class QuoteCommand extends AbstractCommand {
   static {
     injector.instance(this.name, this, {
@@ -93,10 +95,15 @@ const convertTargetMessageToQuoteEmbeds = (
   targetChannel: Channel
 ) => {
   const iconUrl = targetMessage.author.avatarURL();
+  let messageContent = targetMessage.content;
+  if (messageContent.length > QUOTE_MESSAGE_LENGTH_LIMIT) {
+    messageContent =
+      messageContent.substring(0, QUOTE_MESSAGE_LENGTH_LIMIT - 3) + '...';
+  }
   const mainEmbed = new EmbedBuilder()
     .setColor(Colors.Fuchsia)
     .setDescription(
-      targetMessage.content + `\n\n[Aller au message](${targetMessage.url})`
+      messageContent + `\n\n[Aller au message](${targetMessage.url})`
     )
     .setAuthor({
       name: targetMessage.author.username,
