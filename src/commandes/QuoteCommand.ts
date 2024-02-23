@@ -156,7 +156,7 @@ const parseIdsFromCommandInteraction = (
     } catch (e) {
       /* empty */
     }
-    if (AUTHORIZED_DOMAINS.includes(url?.host) && url.pathname.startsWith('/channels')) {
+    if (url && AUTHORIZED_DOMAINS.includes(url.host) && url.pathname.startsWith('/channels')) {
       const splitIds = url.pathname.split('/');
       if (splitIds.length != 5) {
         throw new FormatError("le lien du message n'est pas valide");
