@@ -15,6 +15,7 @@ import EventError from '../errors/EventError.js';
 import injector from 'wire-dependency-injection';
 
 const QUOTE_MESSAGE_LENGTH_LIMIT = 2000;
+const AUTHORIZED_DOMAINS = ["discord.com", "discordapp.com"];
 
 export default class QuoteCommand extends AbstractCommand {
   static {
@@ -155,7 +156,7 @@ const parseIdsFromCommandInteraction = (
     } catch (e) {
       /* empty */
     }
-    if (url?.host === 'discord.com' && url.pathname.startsWith('/channels')) {
+    if (url && AUTHORIZED_DOMAINS.includes(url.host) && url.pathname.startsWith('/channels')) {
       const splitIds = url.pathname.split('/');
       if (splitIds.length != 5) {
         throw new FormatError("le lien du message n'est pas valide");
