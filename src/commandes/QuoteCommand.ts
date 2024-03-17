@@ -9,13 +9,16 @@ import {
 import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
-import { getDateFromTimeStamp } from '../utils/dateUtils.js';
+import {
+  getDateFromTimeStamp,
+  getDateTimeFromTimeStamp,
+} from '../utils/dateUtils.js';
 import FormatError from '../errors/FormatError.js';
 import EventError from '../errors/EventError.js';
 import injector from 'wire-dependency-injection';
 
 const QUOTE_MESSAGE_LENGTH_LIMIT = 2000;
-const AUTHORIZED_DOMAINS = ["discord.com", "discordapp.com"];
+const AUTHORIZED_DOMAINS = ['discord.com', 'discordapp.com'];
 
 export default class QuoteCommand extends AbstractCommand {
   static {
@@ -116,7 +119,7 @@ const convertTargetMessageToQuoteEmbeds = (
         //@ts-ignore
         targetChannel.name +
         ' | ' +
-        getDateFromTimeStamp(targetMessage.createdTimestamp),
+        getDateTimeFromTimeStamp(targetMessage.createdTimestamp),
     });
 
   if (targetMessage.attachments.size != 0) {
@@ -156,7 +159,11 @@ const parseIdsFromCommandInteraction = (
     } catch (e) {
       /* empty */
     }
-    if (url && AUTHORIZED_DOMAINS.includes(url.host) && url.pathname.startsWith('/channels')) {
+    if (
+      url &&
+      AUTHORIZED_DOMAINS.includes(url.host) &&
+      url.pathname.startsWith('/channels')
+    ) {
       const splitIds = url.pathname.split('/');
       if (splitIds.length != 5) {
         throw new FormatError("le lien du message n'est pas valide");

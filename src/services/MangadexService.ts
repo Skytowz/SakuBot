@@ -5,6 +5,7 @@ import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import injector from 'wire-dependency-injection';
 import { AttachmentBuilder } from 'discord.js';
 import fetch from 'node-fetch';
+import TeamBan from '../entity/TeamBan.js';
 
 export default class MangadexService extends AbstractService {
   static {
@@ -21,14 +22,18 @@ export default class MangadexService extends AbstractService {
     mangaId: string,
     numero: number,
     languages: Array<string>,
-    bannedTeams: Array<string>
+    bannedTeams: Array<TeamBan>
   ) {
+    const idTeamBan = bannedTeams
+      ?.filter((e) => e.isBan(numero))
+      .map((e) => e.id);
+
     let offset = 0;
     let data;
     let result;
     if (!languages || languages.includes('fr')) {
       let URL = `https://api.mangadex.org/manga/${mangaId}/feed?translatedLanguage[]=fr&includeExternalUrl=0&limit=500`;
-      bannedTeams?.forEach((teamId) => {
+      idTeamBan?.forEach((teamId) => {
         URL += `&excludedGroups[]=${teamId}`;
       });
       do {

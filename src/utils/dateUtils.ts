@@ -1,6 +1,9 @@
 export const getDateFromTimeStamp = (timestamp: string | number | Date) => {
   return getDate(new Date(timestamp));
 };
+export const getDateTimeFromTimeStamp = (timestamp: string | number | Date) => {
+  return getDateTime(new Date(timestamp));
+};
 
 export const getDate = (date: Date) => {
   return (
@@ -36,4 +39,20 @@ export const getTimeLeft = (date1: Date, date2: Date) => {
     }`;
   if (res === '') return false;
   return res;
+};
+
+export const getDateTime = (date: Date) => {
+  return (
+    (date.getDate() < 10 ? '0' : '') +
+    date.getDate() +
+    '/' +
+    (date.getMonth() + 1 < 10 ? '0' : '') +
+    (date.getMonth() + 1) +
+    '/' +
+    date.getFullYear() +
+    ' ' +
+    date.getHours() +
+    ':' +
+    date.getMinutes()
+  );
 };
