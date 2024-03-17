@@ -1,3 +1,4 @@
+import TeamBan from '../entity/TeamBan.js';
 import AbstractService, { SERVICE_BEAN_TYPE } from './AbstractService.js';
 import GistService from './GistService.js';
 import MangadexService from './MangadexService.js';
@@ -8,7 +9,7 @@ export interface ChapterFetchOptions {
   cubariId?: string;
   research?: string;
   chapterNumber?: number;
-  bannedTeams?: Array<string>;
+  bannedTeams?: Array<TeamBan>;
   languages?: Array<string>;
 }
 
@@ -29,6 +30,7 @@ export default class MangaService extends AbstractService {
 
   public async fetchChapter(options: ChapterFetchOptions) {
     let chapitre;
+
     if (options.chapterId) {
       const data = await this.mangadexService.getChapitreInfoById(
         options.chapterId
@@ -46,7 +48,7 @@ export default class MangaService extends AbstractService {
           options.research as string,
           options.chapterNumber as number,
           options.languages as Array<string>,
-          options.bannedTeams as Array<string>
+          options.bannedTeams as Array<TeamBan>
         );
       }
     }

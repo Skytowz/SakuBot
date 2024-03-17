@@ -1,3 +1,4 @@
+import TeamBan from '../entity/TeamBan.js';
 import { ImplementableMangaCommandDetails } from '../types/Command.js';
 
 const details: Array<ImplementableMangaCommandDetails> = [
@@ -48,7 +49,7 @@ const details: Array<ImplementableMangaCommandDetails> = [
     name: ['crc'],
     description: "Affiche une page d'un chapitre de Croco",
     options: {
-      bannedTeams: ['31a074d2-dc0e-4983-b646-0f6a1a8104a9'],
+      bannedTeams: [new TeamBan('31a074d2-dc0e-4983-b646-0f6a1a8104a9')],
       research: '3395f559-5f90-4049-9dae-75b8918cadb9',
     },
   },
@@ -118,8 +119,17 @@ const details: Array<ImplementableMangaCommandDetails> = [
     name: ['rc'],
     description: "Affiche une page d'un chapitre de Renai Daikou",
     options: {
-      bannedTeams: ['fca36086-ea94-4d1b-803d-cc22dab6a570'],
+      bannedTeams: [new TeamBan('fca36086-ea94-4d1b-803d-cc22dab6a570')],
       research: 'ea3fc681-51fd-44d9-a83d-297c4c28e11b',
+    },
+  },
+  {
+    id: 'rurichap',
+    name: ['rdc'],
+    description: "Affiche une page d'un chapitre de Ruri Dragon",
+    options: {
+      bannedTeams: [new TeamBan('7881a4b8-2433-4159-9eb4-c3e29cddc680', 7)],
+      research: '141609b6-cf86-4266-904c-6648f389cdc9',
     },
   },
   {
