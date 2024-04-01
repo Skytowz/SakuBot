@@ -28,6 +28,7 @@ import './commandes/ChadCommand.js';
 import './commandes/ChapterLinkCommand.js';
 import './commandes/ClearCommand.js';
 import './commandes/GetPPCommand.js';
+import './commandes/GetSPCommand.js';
 import './commandes/GogoleCommand.js';
 import './commandes/HelpCommand.js';
 import './commandes/MangaLinkCommand.js';
