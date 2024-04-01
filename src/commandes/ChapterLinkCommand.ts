@@ -58,11 +58,16 @@ export default class ChapterLinkCommand extends AbstractCommand {
         chapterNumber: 0,
         chapterId: id,
       });
-
-      embeds = await generateMagaViewerEmbeds(
-        chapter,
-        Number(commandInteraction.options.getString('page'))
-      );
+      let page = Number(commandInteraction.options.getString('page'));
+      if (!page) {
+        page = Number(
+          commandInteraction.options
+            .getString('url')
+            ?.match(/chapter\/[a-zA-Z0-9-]+\/(\d+)/i)
+            ?.at(1)
+        );
+      }
+      embeds = await generateMagaViewerEmbeds(chapter, page);
     } catch (e) {
       this.getLogger().debug("une erreur s'est produite");
       this.getLogger().debug(e);
