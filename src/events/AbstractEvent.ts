@@ -1,4 +1,4 @@
-import { Client, CommandInteraction } from 'discord.js';
+import { Client, CommandInteraction, Message } from 'discord.js';
 import EventError from '../errors/EventError.js';
 import injector from 'wire-dependency-injection';
 import LogChild from '../LogChild.js';
@@ -35,7 +35,7 @@ export default class AbstractEvent extends LogChild {
     return this.eventIdentifier;
   }
 
-  public async execute(commandInteraction: CommandInteraction) {
+  public async execute(commandInteraction: CommandInteraction | Message) {
     this.onEvent(commandInteraction).catch(async (error) => {
       let errorMessage = ERROR_MESAGE;
       if (error instanceof EventError) {
@@ -50,19 +50,24 @@ export default class AbstractEvent extends LogChild {
         );
         this.getLogger().error(error);
       }
-      if (!commandInteraction.deferred) {
-        await commandInteraction.deferReply({ ephemeral: true });
-      } else if (!commandInteraction.ephemeral || commandInteraction.replied) {
-        await commandInteraction.deleteReply();
+      if (commandInteraction instanceof CommandInteraction) {
+        if (!commandInteraction.deferred) {
+          await commandInteraction.deferReply({ ephemeral: true });
+        } else if (
+          !commandInteraction.ephemeral ||
+          commandInteraction.replied
+        ) {
+          await commandInteraction.deleteReply();
+        }
+        await commandInteraction.followUp({
+          content: errorMessage,
+          ephemeral: true,
+        });
       }
-      await commandInteraction.followUp({
-        content: errorMessage,
-        ephemeral: true,
-      });
     });
   }
 
-  protected async onEvent(commandInteraction: CommandInteraction) {
+  protected async onEvent(commandInteraction: CommandInteraction | Message) {
     await Promise.reject(commandInteraction);
   }
 

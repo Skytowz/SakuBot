@@ -1,4 +1,4 @@
-import { CommandInteraction } from 'discord.js';
+import { CommandInteraction, Message } from 'discord.js';
 import AbstractEvent, { EVENT_BEAN_TYPE } from './AbstractEvent.js';
 import injector from 'wire-dependency-injection';
 import AbstractCommand, {

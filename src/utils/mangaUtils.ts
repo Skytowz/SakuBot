@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   ActionRowBuilder,
+  BaseMessageOptions,
   ButtonBuilder,
   ButtonStyle,
   CommandInteraction,
   InteractionReplyOptions,
+  Message,
+  MessagePayload,
 } from 'discord.js';
 import Chapitre from '../entity/Chapitre.js';
 import PageChapitreList from './pageChapitreList.js';
@@ -25,8 +28,7 @@ export const generateMagaViewerEmbeds = async (
 export const generateMangaViewerButtonBar = async (
   pageChapitreList: PageChapitreList
 ) => {
-  const content =
-    (await pageChapitreList.getContent()) as InteractionReplyOptions;
+  const content = (await pageChapitreList.getContent()) as BaseMessageOptions;
 
   if (pageChapitreList.length > 1) {
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -54,12 +56,23 @@ export const initializeMangaViewerInterractions = async (
   pageChapitreList: PageChapitreList
 ) => {
   const msg = await commandInteraction.fetchReply();
+  initializeMangaViewerInterractionsWithMessage(
+    msg,
+    pageChapitreList,
+    commandInteraction.user.id
+  );
+};
 
+export const initializeMangaViewerInterractionsWithMessage = async (
+  msg: Message,
+  pageChapitreList: PageChapitreList,
+  userId: String
+) => {
   if (pageChapitreList.length > 1) {
     const interact = msg.createMessageComponentCollector({ time: 180000 });
 
     interact.on('collect', async (i) => {
-      if (i.user.id != commandInteraction.user.id) {
+      if (i.user.id != userId) {
         await i.reply({
           content: 'Tu ne peux pas utiliser cette commande',
           ephemeral: true,
