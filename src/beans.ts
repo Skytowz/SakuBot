@@ -7,6 +7,9 @@ import ImplementableDanroobuCommand from './commandes/implementable/Implementabl
 import AbstractCommand, {
   COMMAND_BEAN_TYPE,
 } from './commandes/AbstractCommand.js';
+import AbstractMessageHandler, {
+  MESSAGE_HANDLER_BEAN_TYPE,
+} from './commandesMessageHandler/AbstractMessageHandler.js';
 import injector from 'wire-dependency-injection';
 
 // Services
@@ -22,6 +25,7 @@ import './services/SaucenaoService.js';
 // Events
 import './events/InteractionCreateEvent.js';
 import './events/ReadyEvent.js';
+import './events/messageCreateEvent.js';
 
 // Commands
 import './commandes/ChadCommand.js';
@@ -38,6 +42,9 @@ import './commandes/TagVoc.js';
 import './commandes/SauceCommand.js';
 import './commandes/ShowMember.js';
 import './commandes/VocalquitCommand.js';
+
+// MessageHandlers
+import './commandesMessageHandler/MangadexChapterLinkHandler.js';
 
 ([] as Array<AbstractCommand>)
   .concat(
@@ -58,3 +65,11 @@ import './commandes/VocalquitCommand.js';
       COMMAND_BEAN_TYPE
     );
   });
+
+([] as Array<AbstractMessageHandler>).forEach((message) => {
+  injector.declare(
+    message.getDetails().id + 'ImplCommand',
+    message,
+    MESSAGE_HANDLER_BEAN_TYPE
+  );
+});
