@@ -9,7 +9,7 @@ import AbstractCommand, {
 } from './commandes/AbstractCommand.js';
 import AbstractMessageHandler, {
   MESSAGE_HANDLER_BEAN_TYPE,
-} from './commandesMessageHandler/AbstractMessageHandler.js';
+} from './handlers/commandesMessageHandler/AbstractMessageHandler.js';
 import injector from 'wire-dependency-injection';
 
 // Services
@@ -44,7 +44,8 @@ import './commandes/ShowMember.js';
 import './commandes/VocalquitCommand.js';
 
 // MessageHandlers
-import './commandesMessageHandler/MangadexChapterLinkHandler.js';
+import './handlers/commandesMessageHandler/DiscordBotSpamHandler.js';
+import './handlers/commandesMessageHandler/MangadexChapterLinkHandler.js';
 
 ([] as Array<AbstractCommand>)
   .concat(

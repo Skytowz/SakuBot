@@ -1,7 +1,7 @@
 import { Client } from 'undici';
-import LogChild from '../LogChild.js';
+import LogChild from '../../LogChild.js';
 import injector from 'wire-dependency-injection';
-import { MessageHandlerDetails } from '../types/MessageHandler.js';
+import { MessageHandlerDetails } from '../../types/MessageHandler.js';
 import { Message } from 'discord.js';
 
 export default class AbstractMessageHandler<
