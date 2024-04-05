@@ -3,7 +3,7 @@ import AbstractEvent, { EVENT_BEAN_TYPE } from './AbstractEvent.js';
 import injector from 'wire-dependency-injection';
 import AbstractMessageHandler, {
   MESSAGE_HANDLER_BEAN_TYPE,
-} from '../commandesMessageHandler/AbstractMessageHandler.js';
+} from '../handlers/commandesMessageHandler/AbstractMessageHandler.js';
 
 export default class MessageCreateEvent extends AbstractEvent {
   static {

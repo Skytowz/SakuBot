@@ -4,14 +4,14 @@ import AbstractMessageHandler, {
 } from './AbstractMessageHandler.js';
 import injector from 'wire-dependency-injection';
 import { link } from 'fs';
-import MangaService from '../services/MangaService.js';
+import MangaService from '../../services/MangaService.js';
 import {
   generateMagaViewerEmbeds,
   generateMangaViewerButtonBar,
   initializeMangaViewerInterractionsWithMessage,
-} from '../utils/mangaUtils.js';
-import EventError from '../errors/EventError.js';
-import PageChapitreList from '../utils/pageChapitreList.js';
+} from '../../utils/mangaUtils.js';
+import EventError from '../../errors/EventError.js';
+import PageChapitreList from '../../utils/pageChapitreList.js';
 
 export default class MangadexChapterLinkHandler extends AbstractMessageHandler {
   static {
