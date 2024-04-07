@@ -44,8 +44,9 @@ export default class DiscordBotSpamHandler extends AbstractMessageHandler {
       );
       setTimeout(
         () =>
-          this.premierAvertissement.slice(
-            this.premierAvertissement.indexOf(authorId)
+          this.premierAvertissement.splice(
+            this.premierAvertissement.indexOf(authorId),
+            1
           ),
         DiscordBotSpamHandler.temps
       );
@@ -55,8 +56,9 @@ export default class DiscordBotSpamHandler extends AbstractMessageHandler {
       member?.timeout(DiscordBotSpamHandler.uneMinute, 'Suspicion de bot/hack');
       setTimeout(
         () =>
-          this.secondAvertissement.slice(
-            this.secondAvertissement.indexOf(authorId)
+          this.secondAvertissement.splice(
+            this.secondAvertissement.indexOf(authorId),
+            1
           ),
         DiscordBotSpamHandler.temps
       );

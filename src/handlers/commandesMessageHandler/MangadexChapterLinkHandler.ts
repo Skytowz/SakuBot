@@ -45,7 +45,7 @@ export default class MangadexChapterLinkHandler extends AbstractMessageHandler {
       return;
     this.lastTrigger = timeTrigger;
     const linkInformation: RegExpMatchArray | null = message.content.match(
-      /https:\/\/mangadex\.org\/chapter\/([0-9a-zA-Z\-]+)\/?([0-9]+)?/m
+      /https:\/\/mangadex\.org\/chapter\/([0-9a-zA-Z\-]+)\/?([0-9]+)?(?<!\?)$/m
     );
     if (!linkInformation) {
       this.getLogger().error(message.content, 'Problème au niveau du match');
