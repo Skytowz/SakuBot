@@ -38,9 +38,11 @@ export default class MangadexChapterLinkHandler extends AbstractMessageHandler {
     if (
       message.channel instanceof BaseGuildTextChannel &&
       message.channel.parentId &&
-      ['714212170828742710', '805926040856952883'].includes(
-        message.channel.parentId
-      )
+      [
+        '714212170828742710',
+        '805926040856952883',
+        '1227683490678702102',
+      ].includes(message.channel.parentId)
     )
       return;
     this.lastTrigger = timeTrigger;
