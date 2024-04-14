@@ -166,6 +166,16 @@ const details: Array<ImplementableMangaCommandDetails> = [
       research: '643561e6-5c27-4382-95d3-8e84894a3fb6',
     },
   },
+  {
+    id: 'medakac',
+    name: ['mc'],
+    description:
+      "Affiche une page d'un chapitre de Medaka Machin Truc (anglais)",
+    options: {
+      research: '87ffa375-bd2c-49ba-ba0c-6d78ea07c342',
+      languages: ['en'],
+    },
+  },
 ];
 
 export default details;
