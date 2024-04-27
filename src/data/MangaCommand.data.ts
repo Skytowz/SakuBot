@@ -11,6 +11,15 @@ const details: Array<ImplementableMangaCommandDetails> = [
     },
   },
   {
+    id: 'aishiteruc',
+    name: ['agc'],
+    description: "Affiche une page d'un chapitre de Aishiteru Game",
+    options: {
+      bannedTeams: [new TeamBan('14dc9264-bf6e-4ef2-bd0b-fa7b0dbef229', 50)],
+      research: 'acdbf57f-bf54-41b4-8d92-b3f3d14c852e',
+    },
+  },
+  {
     id: 'amagamichap',
     name: ['asc'],
     description:
@@ -164,16 +173,6 @@ const details: Array<ImplementableMangaCommandDetails> = [
       "Affiche une page d'un chapitre de Yamada-kun to Lv999 no Koi wo Suru",
     options: {
       research: '643561e6-5c27-4382-95d3-8e84894a3fb6',
-    },
-  },
-  {
-    id: 'medakac',
-    name: ['mc'],
-    description:
-      "Affiche une page d'un chapitre de Medaka Machin Truc (anglais)",
-    options: {
-      research: '87ffa375-bd2c-49ba-ba0c-6d78ea07c342',
-      languages: ['en'],
     },
   },
 ];
