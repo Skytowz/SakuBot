@@ -219,6 +219,14 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     },
   },
   {
+    id: 'typer',
+    name: ['typer'],
+    description: 'Envoie le lien de typer',
+    options: {
+      messages: ['https://github.com/SeanR-ScanR/TypeR'],
+    },
+  },
+  {
     id: 'umasortie',
     name: ['umasortie'],
     description: 'Envoie un rappel',
