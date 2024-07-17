@@ -25,7 +25,8 @@ const details: Array<ImplementableAnswerCommandDetails> = [
               color: 15277667,
               fields: [],
               image: {
-                url: 'https://media.discordapp.net/attachments/991007027067232257/991007040791007262/shit_edit-1.jpg?width=1202&height=676',
+                url:
+                  'https://media.discordapp.net/attachments/991007027067232257/991007040791007262/shit_edit-1.jpg?width=1202&height=676',
                 height: 100,
                 width: 100,
               },
@@ -216,6 +217,20 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     description: 'Envoie le lien de la tierlist',
     options: {
       messages: ['https://tiermaker.com/create/scanr-v4-ultimate--569332'],
+    },
+  },
+  {
+    id: 'traduit',
+    name: ['traduit'],
+    description: 'Traduit là',
+    options: {
+      messages: [
+        'https://media.discordapp.net/attachments/1144046301823127563/1263125350024478751/FAOR0gqWEAAWOmF.png',
+        'https://media.discordapp.net/attachments/1144046301823127563/1263125465313316965/FvM38WKWwAAc8KV.png',
+        'https://media.discordapp.net/attachments/1144046301823127563/1263125616081764452/FvM38diXgAAhO8t.png',
+        'https://media.discordapp.net/attachments/1144046301823127563/1263125651653656627/FvM4cbfWAAAYDb4.png',
+        'https://media.discordapp.net/attachments/1144046301823127563/1263125690568544326/FvM37-QWAAATM_9.png',
+      ],
     },
   },
   {
