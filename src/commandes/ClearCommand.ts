@@ -35,7 +35,7 @@ export default class ClearCommand extends AbstractCommand {
 
   public async run(commandInteraction: CommandInteraction) {
     await commandInteraction.deferReply({ ephemeral: true });
-    if (WHITELIST.includes(String(commandInteraction.member?.user.id))) {
+    if (!WHITELIST.includes(String(commandInteraction.member?.user.id))) {
       throw new EventError('Tu ne peux pas utiliser cette commande');
     }
     if (!commandInteraction.isChatInputCommand()) {
