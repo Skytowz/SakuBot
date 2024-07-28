@@ -3,52 +3,35 @@ import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 import AbstractCommand, { COMMAND_BEAN_TYPE } from './AbstractCommand.js';
 import TypeHelp from '../entity/typeHelp.js';
 import SlashOption from '../utils/slashOption.js';
+import EventError from '../errors/EventError.js';
+import MangaService from '../services/MangaService.js';
+import injector from 'wire-dependency-injection';
 import {
   generateMagaViewerEmbeds,
   generateMangaViewerButtonBar,
   initializeMangaViewerInterractions,
 } from '../utils/mangaUtils.js';
-import { parseUrlPath, stringToURL } from '../utils/urlUtils.js';
-import EventError from '../errors/EventError.js';
-import MangaService from '../services/MangaService.js';
-import injector from 'wire-dependency-injection';
 
-const LANGUAGES = [
+const MANGAS = [
   {
-    name: 'anglais',
-    value: 'en',
+    name: 'Frieren',
+    value: 'Sousou-no-Frieren',
   },
   {
-    name: 'français',
-    value: 'fr',
+    name: 'HDWR',
+    value: 'How-Do-We-Relationship',
   },
   {
-    name: 'espagnol',
-    value: 'es',
+    name: 'Kaoru Hana',
+    value: 'Kaoru-Hana-wa-Rin-to-Saku',
   },
   {
-    name: 'brésilien',
-    value: 'pt-br',
-  },
-  {
-    name: 'italien',
-    value: 'it',
-  },
-  {
-    name: 'chinois',
-    value: 'cn',
-  },
-  {
-    name: 'russe',
-    value: 'ru',
-  },
-  {
-    name: 'japonais',
-    value: 'jp',
+    name: 'Mayonaka Heart Tunes',
+    value: 'Tune-In-to-the-Midnight-Heart',
   },
 ];
 
-export default class MangaLinkCommand extends AbstractCommand {
+export default class MangaseeCommand extends AbstractCommand {
   static {
     injector.instance(this.name, this, {
       category: COMMAND_BEAN_TYPE,
@@ -58,16 +41,18 @@ export default class MangaLinkCommand extends AbstractCommand {
 
   public constructor(private mangaService: MangaService) {
     super({
-      id: 'mangadex',
-      name: ['manga'],
-      description: "Affiche n'importe quel manga de mangadex",
+      id: 'mangasee',
+      name: ['mangasee'],
+      description:
+        "Affiche un des mangas de mangasee (@skytowz pour en demander d'autre)",
       type: TypeHelp.ViewManga,
       args: [
         new SlashOption(
-          'url',
-          'Lien mangadex',
+          'manga',
+          'Nom du manga',
           ApplicationCommandOptionType.String,
-          true
+          true,
+          MANGAS
         ),
         new SlashOption(
           'chapitre',
@@ -78,13 +63,6 @@ export default class MangaLinkCommand extends AbstractCommand {
           'page',
           'Numéro de la page',
           ApplicationCommandOptionType.Integer
-        ),
-        new SlashOption(
-          'langue',
-          'Langue',
-          ApplicationCommandOptionType.String,
-          false,
-          LANGUAGES
         ),
       ],
       slashInteraction: true,
@@ -100,27 +78,17 @@ export default class MangaLinkCommand extends AbstractCommand {
       );
     }
 
-    const url = stringToURL(
-      commandInteraction.options.getString('url') as string
-    );
-    const language = commandInteraction.options.getString('langue');
-    const languages = language
-      ? [language]
-      : Object.values(LANGUAGES).map((lang) => lang.value);
+    const manga = commandInteraction.options.getString('manga') as string;
+
     const chapterNumber = commandInteraction.options.getNumber('chapitre') ?? 1;
     const pageNumber = commandInteraction.options.getInteger('page') ?? 1;
-
-    let id;
-    if (!url || url.host !== 'mangadex.org' || !(id = parseUrlPath(url)[1])) {
-      throw new EventError('lien invalide');
-    }
 
     let embeds;
     try {
       const chapter = await this.mangaService.fetchChapter({
+        research: manga,
         chapterNumber: chapterNumber,
-        research: id,
-        languages: languages,
+        mangasee: true,
       });
       embeds = await generateMagaViewerEmbeds(chapter, pageNumber);
     } catch (e) {
