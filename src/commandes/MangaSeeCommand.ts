@@ -26,7 +26,7 @@ const MANGAS = [
     value: 'Kaoru-Hana-wa-Rin-to-Saku',
   },
   {
-    name: 'Mayonaka Heart Tunes',
+    name: 'Mayonaka Heart Tune',
     value: 'Tune-In-to-the-Midnight-Heart',
   },
 ];

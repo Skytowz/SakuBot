@@ -25,8 +25,7 @@ const details: Array<ImplementableAnswerCommandDetails> = [
               color: 15277667,
               fields: [],
               image: {
-                url:
-                  'https://media.discordapp.net/attachments/991007027067232257/991007040791007262/shit_edit-1.jpg?width=1202&height=676',
+                url: 'https://media.discordapp.net/attachments/991007027067232257/991007040791007262/shit_edit-1.jpg?width=1202&height=676',
                 height: 100,
                 width: 100,
               },
