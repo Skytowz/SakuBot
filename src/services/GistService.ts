@@ -40,7 +40,7 @@ export default class GistService extends AbstractService {
       chapitre.title,
       (pages as Array<unknown>).length,
       (page) => page,
-      `https://cubari.moe/read/gist/${cubariId}/${number}`,
+      (index) => `https://cubari.moe/read/gist/${cubariId}/${number}/${index}`,
       []
     );
   }

@@ -9,7 +9,7 @@ export default class Chapitre {
     public titre: string,
     public nbPages: number,
     public baseImage: (num: string) => string,
-    public url: string,
+    public url: (num: number) => string,
     public files: Array<Promise<AttachmentBuilder>>
   ) {}
 
@@ -19,7 +19,7 @@ export default class Chapitre {
         .setImage(this.baseImage(element))
         .setTitle(this.titre)
         .setDescription(
-          `[Lien](${this.url}/${index + 1}) |${
+          `[Lien](${this.url(index + 1)}) |${
             this.numero ? ` Ch: ${this.numero} |` : ''
           } ${index + 1}/${this.nbPages}`
         )

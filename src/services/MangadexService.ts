@@ -99,7 +99,7 @@ export default class MangadexService extends AbstractService {
       chapitre.attributes.title,
       chapitre.attributes.pages,
       (page) => `attachment://${page}.jpg`,
-      `https://mangadex.org/chapter/${chapitre.id}`,
+      (index) => `https://mangadex.org/chapter/${chapitre.id}/${index}`,
       files
     );
   }
