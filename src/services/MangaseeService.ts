@@ -27,7 +27,7 @@ export default class MangaseeService extends AbstractService {
     }
     const allChapter = JSON.parse(data[1]);
 
-    const matchUrl = result.text.match(/vm\.CurPathName = "([\"])";/);
+    const matchUrl = result.text.match(/vm\.CurPathName = "([^"]*)";/);
     if (matchUrl === undefined || matchUrl === null) {
       throw new Error('invalid chapter');
     }
