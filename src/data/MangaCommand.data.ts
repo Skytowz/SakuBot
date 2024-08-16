@@ -105,6 +105,14 @@ const details: Array<ImplementableMangaCommandDetails> = [
     },
   },
   {
+    id: 'mayonaisechap',
+    name: ['mhtc'],
+    description: "Affiche une page d'un chapitre de Mayonaka Heart Tunes",
+    options: {
+      research: '0a4bdf95-dc11-4011-937e-7bdc4dd6e786',
+    },
+  },
+  {
     id: 'onkchap',
     name: ['onkc'],
     description: "Affiche une page d'un chapitre d'Oshi no Ko",
