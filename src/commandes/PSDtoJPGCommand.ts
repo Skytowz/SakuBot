@@ -23,7 +23,7 @@ export default class PSDtoJPGCommand extends AbstractCommand {
       description: 'Converti un PSD en JPG',
       type: TypeHelp.Utils,
       slashInteraction: false,
-      messageInteraction: true,
+      messageInteraction: false,
     });
   }
 
