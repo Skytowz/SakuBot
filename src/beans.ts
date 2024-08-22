@@ -39,6 +39,7 @@ import './commandes/HelpCommand.js';
 import './commandes/MangaLinkCommand.js';
 import './commandes/MangaSeeCommand.js';
 import './commandes/PinCommand.js';
+import './commandes/PSDtoJPGCommand.js';
 import './commandes/QuoteCommand.js';
 import './commandes/TagVoc.js';
 import './commandes/SauceCommand.js';

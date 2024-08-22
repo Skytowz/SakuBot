@@ -20,6 +20,13 @@ export const extractUrlFromDiscordMessage = (message: Message) => {
   return stringToURL(rawUrl);
 };
 
+export const extractUrlsFromDiscordMessage = (message: Message) =>
+  message.attachments
+    .filter((value) => value.contentType?.includes('image'))
+    .map((value) => value.url)
+    .filter(isValidUrl)
+    .map(stringToURL);
+
 export const isValidUrl = (rawUrl: string) => {
   let url;
   try {
