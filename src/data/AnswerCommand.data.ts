@@ -119,6 +119,16 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     },
   },
   {
+    id: 'lotte',
+    name: ['lotte'],
+    description: 'Envoie une image random de Lotte',
+    options: {
+      messages: [
+        'https://media.discordapp.net/attachments/780816765994532886/1306581183706173440/rn_image_picker_lib_temp_2b298995-190a-48f5-a08f-ebd158a8606a.jpg?ex=6737300d&is=6735de8d&hm=da9b59dc8ce86a023a0822d19ff564cae7d61d71400b0307c854b03761a4fb8d&=&format=webp',
+      ],
+    },
+  },
+  {
     id: 'marwane',
     name: ['marwane'],
     description: 'Commande speciale pour Marwane',
