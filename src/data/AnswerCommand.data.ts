@@ -89,6 +89,16 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     },
   },
   {
+    id: 'gogospeech',
+    name: ['gogospeech'],
+    description: 'Commande speciale pour Gogo 3',
+    options: {
+      messages: [
+        'Je suis sur discord pour parler avec mes potes, pas pour lire des msg d’un collégien qui nous partage ses fantasmes car il regarde trop de porno, ou qu’il se fasse passer pour un adulte alors que t’as puberté commence à peine. Mais cela ne tient qu’à moi bien sûr, si les autres t’apprécie tant mieux pour toi. Mais moi personnellement je n’ai pas envie de te lire ni te parler. Au moins comme ça t’es au courant et je suis honnête avec toi',
+      ],
+    },
+  },
+  {
     id: 'kanasimp',
     name: ['kanasimp'],
     description: 'Louange à Kana',
