@@ -194,6 +194,14 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     },
   },
   {
+    id: 'renlow',
+    name: ['renlow'],
+    description: 'Commande speciale pour Renlow',
+    options: {
+      messages: ['https://i.imgur.com/IwGJwh1.png'],
+    },
+  },
+  {
     id: 'sakushi',
     name: ['sakushi'],
     description: 'Commande speciale pour Saku',
