@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
+import {
+  ActionRowBuilder,
+  ApplicationCommandOptionType,
+  ButtonBuilder,
+  ButtonStyle,
+  CommandInteraction,
+} from 'discord.js';
 import SlashOption from '../../utils/slashOption.js';
 import { ImplementableDanroobuCommandDetails } from '../../types/Command.js';
 import AbstractCommand from '../AbstractCommand.js';
@@ -46,19 +52,33 @@ export default class ImplementableDanroobuCommand extends AbstractCommand<Implem
     const solo = !!commandInteraction.options.getBoolean('solo');
     const sensitive = !!commandInteraction.options.getBoolean('sensitive');
     const allResult = !!this.getDetails().options?.allResult;
-    const url = await this.danroobuService.getGeneralImageByTag(
+    const imageFound = await this.danroobuService.getGeneralImageByTag(
       this.getDetails().options?.research as string,
       solo,
       sensitive,
       allResult
     );
-    if (url && sensitive && !allResult) {
-      await commandInteraction.deferReply();
-      await commandInteraction.editReply({
-        files: [{ attachment: url, name: 'SPOILER_image.jpg', spoiler: true }],
-      });
-    } else if (url) {
-      await commandInteraction.reply({ content: url });
+
+    if (imageFound) {
+      const url = imageFound.file_url;
+      const id = imageFound.id;
+      const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder()
+          .setLabel('Voir')
+          .setURL(`https://gelbooru.com/index.php?page=post&s=view&id=${id}`)
+          .setStyle(ButtonStyle.Link)
+      );
+      if (sensitive && !allResult) {
+        await commandInteraction.deferReply();
+        await commandInteraction.editReply({
+          files: [
+            { attachment: url, name: 'SPOILER_image.jpg', spoiler: true },
+          ],
+          components: [row],
+        });
+      } else {
+        await commandInteraction.reply({ content: url, components: [row] });
+      }
     } else {
       await commandInteraction.reply({
         content: 'Aucune image trouvé',

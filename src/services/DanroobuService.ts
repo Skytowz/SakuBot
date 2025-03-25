@@ -32,6 +32,6 @@ export default class DanroobuService extends AbstractService {
         }+-video&page=dapi&json=1&s=post&q=index&limit=1`
       )
       .set('User-Agent', 'Discord Bot Hayasaku')
-      .then((res) => res?.body?.post?.pop()?.file_url);
+      .then((res) => res?.body?.post?.pop());
   }
 }
