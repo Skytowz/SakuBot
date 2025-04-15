@@ -1,4 +1,12 @@
-import { DMChannel, Message } from 'discord.js';
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  DMChannel,
+  GuildMember,
+  Message,
+  PermissionsBitField,
+} from 'discord.js';
 import AbstractMessageHandler, {
   MESSAGE_HANDLER_BEAN_TYPE,
 } from './AbstractMessageHandler.js';
@@ -66,11 +74,53 @@ export default class DiscordBotSpamHandler extends AbstractMessageHandler {
       author.send(
         `Tu as été mute de ${guild?.name} une semaine pour suspicion de bot/hack.`
       );
-      channel.send(`<@${authorId}> a été mute pour suspicion de bot.`);
+      const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder()
+          .setLabel('Unmute')
+          .setCustomId('unmute')
+          .setEmoji('🔓')
+          .setStyle(ButtonStyle.Secondary)
+      );
       member?.timeout(
         DiscordBotSpamHandler.uneSemaine,
         'Suspicion de bot/hack'
       );
+      const message = await channel.send({
+        content: `<@${authorId}> a été mute pour suspicion de bot.`,
+        components: [row],
+      });
+
+      const replyInteraction = message.createMessageComponentCollector({
+        time: 3600000,
+      });
+
+      replyInteraction.on('collect', async (interaction) => {
+        // when the user click on show, we remove the button row and the previous message content, then post the result publicly
+        if (interaction.customId === 'unmute') {
+          if (
+            interaction.memberPermissions?.has([
+              PermissionsBitField.Flags.KickMembers,
+              PermissionsBitField.Flags.ModerateMembers,
+              PermissionsBitField.Flags.Administrator,
+            ]) ||
+            ['273756946308530176', '435504914035376158'].includes(
+              interaction.user.id
+            )
+          ) {
+            member?.timeout(null);
+            await interaction.reply({
+              content: `<@${authorId}> a été unmute par <@${interaction.user.id}>`,
+            });
+            message.components = [];
+            message.edit({ content: message.content, components: [] });
+          } else {
+            interaction.reply({
+              content: `Vous n'avez pas la permission de faire ça`,
+              ephemeral: true,
+            });
+          }
+        }
+      });
     }
   }
 
