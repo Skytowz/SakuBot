@@ -31,7 +31,7 @@ export default class DiscordBotSpamHandler extends AbstractMessageHandler {
   public constructor() {
     super({
       id: 'DiscordBotSpam',
-      regex: /(?=.*http)(?=.*@everyone)/is,
+      regex: /(?=.*((http)|(discord)))(?=.*@everyone)/is,
     });
   }
 
