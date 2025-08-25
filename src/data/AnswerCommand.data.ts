@@ -194,6 +194,17 @@ const details: Array<ImplementableAnswerCommandDetails> = [
     },
   },
   {
+    id: 'puissant',
+    name: ['puissant'],
+    description: 'Envoie un "banger" musical',
+    type: TypeHelp.ScanR,
+    options: {
+      messages: [
+        'https://music.youtube.com/watch?v=8YezlELaTpI',
+      ],
+    },
+  },
+  {
     id: 'renlow',
     name: ['renlow'],
     description: 'Commande speciale pour Renlow',
